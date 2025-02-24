@@ -89,7 +89,7 @@ const Productimage = ({ products }) => {
       <Container>
         <Row>
           <Col lg={6}>
-            <ProductPreviews products={products.product_images} />
+            <ProductPreviews products={products?.product_images} />
           </Col>
         </Row>
       </Container>

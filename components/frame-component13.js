@@ -2,17 +2,101 @@ import { memo, useState } from "react";
 import Image from "next/image";
 import PropTypes from "prop-types";
 import ContactLensImage from "../components/ContactLensImage";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-const FrameComponent13 = memo(({ className = "", products }) => {
+const FrameComponent13 = memo(({ className = "", product }) => {
+  const router = useRouter();
   const [selectedPack, setSelectedPack] = useState(null);
+  const [selectedEye, setSelectedEye] = useState(null);
   const [rightEyePower, setRightEyePower] = useState("");
   const [leftEyePower, setLeftEyePower] = useState("");
   const [rightEyeBoxes, setRightEyeBoxes] = useState(0);
   const [leftEyeBoxes, setLeftEyeBoxes] = useState(0);
   const [differentPowers, setDifferentPowers] = useState(false);
 
+  const [cart, setCart] = useState([]);
+
+  console.log("selectedPack", selectedPack);
+
   const handleRadioChange = (event) => {
     setSelectedPack(event.target.value);
+  };
+
+  const handleEyeChange = (event) => {
+    setSelectedEye(event.target.value);
+  };
+
+  const addItem = async (product, itemType) => {
+    const token = localStorage.getItem("token"); // Retrieve the token
+
+    if (!token) {
+      alert("User is not authenticated!");
+      return;
+    }
+
+    const newCartItem = {
+      product: product?._id,
+      quantity: selectedPack,
+      data: "pack",
+      shipping_info: itemType,
+      additional_info: [
+        {
+          selectEye: selectedEye,
+          selectLeftPower: leftEyePower,
+          selectRightPower: rightEyePower,
+          selectRightBox: rightEyeBoxes,
+          selectLeftBox: leftEyeBoxes,
+        },
+      ],
+    };
+
+    try {
+      const response = await axios.post(
+        "https://apitrivsion.prismcloudhosting.com/api/order/add",
+        {
+          user: localStorage.getItem("userId"), // Replace with actual user ID
+          cart: [...cart, newCartItem],
+          subTotal: calculateSubTotal(cart, newCartItem),
+          shippingCost: 0, // Replace with actual shipping cost
+          discount: 0, // Replace with actual discount
+          total: calculateTotal(cart, newCartItem),
+          paymentMethod: "YOUR_PAYMENT_METHOD", // Replace with actual payment method
+          shipping_info: itemType,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Set the Bearer token in headers
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      alert(`Product added to ${itemType === "cart" ? "cart" : "whishlist"}!`);
+      setCart([...cart, newCartItem]); // Update local cart state
+    } catch (error) {
+      console.error(
+        `There was an error adding the product to the ${
+          itemType === "cart" ? "cart" : "whishlist"
+        }`,
+        error
+      );
+    }
+  };
+
+  const calculateSubTotal = (cart, newCartItem) => {
+    const currentSubTotal = cart.reduce(
+      (total, item) => total + item.quantity * product.retail_price,
+      0
+    );
+    return currentSubTotal + newCartItem.quantity * product.retail_price;
+  };
+
+  const calculateTotal = (cart, newCartItem) => {
+    const subTotal = calculateSubTotal(cart, newCartItem);
+    const shippingCost = 0; // Replace with actual shipping cost
+    const discount = 0;
+    return subTotal + shippingCost - discount;
   };
 
   return (
@@ -20,7 +104,7 @@ const FrameComponent13 = memo(({ className = "", products }) => {
       className={`self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border gap-6 max-w-full text-left text-xs text-gray-400 font-h4-32 mq480:pt-5 mq480:pb-5 mq480:box-border mq825:py-[25px] mq825:px-10 mq825:box-border mq1410:pt-[39px] mq1410:pb-[39px] mq1410:box-border ${className}`}
     >
       <div className="flex-1 flex flex-col items-start justify-start gap-20 max-w-full">
-        <div className="relative leading-[150%] font-medium">{`Home > ${products.category.name} > ${products.brand.name} > ${products.product_name_short}`}</div>
+        <div className="relative leading-[150%] font-medium">{`Home > ${product.category.name} > ${product.brand.name} > ${product.product_name_short}`}</div>
         <div className="self-stretch flex flex-row items-start justify-start gap-10 max-w-full text-base text-black mq750:gap-5 mq1250:flex-wrap">
           {/* <Image
             className="h-[813px] flex-1 relative max-w-full overflow-hidden min-w-[481px] mq750:min-w-full"
@@ -30,7 +114,7 @@ const FrameComponent13 = memo(({ className = "", products }) => {
             alt=""
             src="/left.svg"
           /> */}
-          <ContactLensImage products={products} />
+          <ContactLensImage products={product} />
           <div className="w-[500px] hidden flex-row items-start justify-start gap-4 max-w-full text-center mq750:flex-wrap">
             <div className="flex-1 border-gray-800 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px]">
               <div className="relative leading-[150%] font-medium">
@@ -49,19 +133,19 @@ const FrameComponent13 = memo(({ className = "", products }) => {
                 <div className="self-stretch flex flex-col items-start justify-start gap-2">
                   <div className="self-stretch flex flex-row items-center justify-start gap-2 mq750:flex-wrap">
                     <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[161px]">
-                      {products.brand.name}
+                      {product.brand.name}
                     </div>
                     <div className="flex-1 relative leading-[150%] font-medium font-h4-32 text-tomato text-right inline-block min-w-[161px]">
                       Out of Stock
                     </div>
                   </div>
                   <h1 className="m-0 self-stretch relative text-13xl leading-[130%] font-medium font-h4-32 text-black mq480:text-lgi mq480:leading-[25px] mq750:text-7xl mq750:leading-[33px]">
-                    {products.product_name_short}
+                    {product.product_name_short}
                   </h1>
                 </div>
                 <div className="self-stretch flex flex-row items-center justify-center gap-2.5 max-w-full text-5xl text-black font-h4-32 mq750:flex-wrap">
                   <div className="flex-1 relative leading-[140%] font-medium inline-block min-w-[75px] max-w-full mq480:text-lgi mq480:leading-[27px]">
-                    Aed {products.retail_price}
+                    Aed {product.retail_price}
                   </div>
                   <Image
                     className="h-4 w-24 relative"
@@ -132,7 +216,10 @@ const FrameComponent13 = memo(({ className = "", products }) => {
                         type="radio"
                         name="eye"
                         value="right"
+                        checked={selectedEye === "right"}
+                        onChange={handleEyeChange}
                         className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
+                        id="righteye"
                       />
                       <div className="relative leading-[150%] font-medium inline-block min-w-[41px]">
                         Right
@@ -143,7 +230,10 @@ const FrameComponent13 = memo(({ className = "", products }) => {
                         type="radio"
                         name="eye"
                         value="left"
+                        checked={selectedEye === "left"}
+                        onChange={handleEyeChange}
                         className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
+                        id="lefteye"
                       />
                       <div className="relative leading-[150%] font-medium">
                         Left
@@ -174,7 +264,7 @@ const FrameComponent13 = memo(({ className = "", products }) => {
                     <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
                       <select
                         value={leftEyePower}
-                        onChange={(e) => setRightEyePower(e.target.value)}
+                        onChange={(e) => setLeftEyePower(e.target.value)}
                         className="flex-1 border-none text-center bg-transparent"
                       >
                         <option value="" disabled>
@@ -358,12 +448,18 @@ const FrameComponent13 = memo(({ className = "", products }) => {
                 />
               </div>
               <div className="self-stretch flex flex-row items-start justify-center gap-4 mq750:flex-wrap">
-                <div className="flex-[0.7133] border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 pl-[68px] pr-[65px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300">
+                <div
+                  className="flex-[0.7133] border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 pl-[68px] pr-[65px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+                  onClick={() => addItem(product, "cart")}
+                >
                   <div className="flex-1 relative leading-[150%] font-medium">
                     ADD TO BAG
                   </div>
                 </div>
-                <div className="flex-1 border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300">
+                <div
+                  className="flex-1 border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+                  onClick={() => addItem(product, "whishlist")}
+                >
                   <div className="flex-1 relative leading-[150%] font-medium">
                     ADD TO WISHLIST
                   </div>
