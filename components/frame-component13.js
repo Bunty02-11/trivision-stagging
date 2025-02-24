@@ -161,11 +161,11 @@ const FrameComponent13 = memo(({ className = "", product }) => {
               </div>
             </div>
             <div className="self-stretch flex flex-col items-start justify-start gap-4 max-w-full text-sm">
-              <div className="self-stretch h-[53px] border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border overflow-x-auto shrink-0 flex flex-row items-center justify-start py-3.5 px-0 gap-6">
-                <div className="w-[101px] relative leading-[150%] font-medium inline-block">
+              <div className="self-stretch h-[53px] border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border overflow-x-auto shrink-0 flex flex-row items-center justify-start py-3.5 px-0 gap-6 mq480:gap-2">
+                <div className="w-[101px] mq480:w-[60px] relative leading-[150%] font-medium inline-block">
                   Pack
                 </div>
-                <div className="flex flex-row items-center justify-start py-0 pl-0 pr-[77px] gap-2">
+                <div className="flex flex-row items-center justify-start py-0 pl-0 pr-[77px] mq480:pr-0 gap-2">
                   <div className="flex flex-row items-center">
                     <input
                       type="radio"
@@ -449,9 +449,9 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                   src="/icon--youtube3.svg"
                 />
               </div>
-              <div className="self-stretch flex flex-row items-start justify-center gap-4 mq750:flex-wrap">
+              <div className="self-stretch flex flex-row items-start justify-center gap-4 mq750:flex-wrap mq480:flex-col">
                 <div
-                  className="flex-[0.7133] border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 pl-[68px] pr-[65px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+                  className="flex-[0.7133] mq480:w-full border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 pl-[68px] pr-[65px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
                   onClick={() => addItem(product, "cart")}
                 >
                   <div className="flex-1 relative leading-[150%] font-medium">
@@ -459,7 +459,7 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                   </div>
                 </div>
                 <div
-                  className="flex-1 border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+                  className="flex-1 border-black mq480:w-full border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
                   onClick={() => addItem(product, "whishlist")}
                 >
                   <div className="flex-1 relative leading-[150%] font-medium">
@@ -467,7 +467,7 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black overflow-hidden flex flex-row items-start justify-start py-2 pl-[199px] pr-[198px] text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq750:pl-[99px] mq750:pr-[99px] mq750:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300">
+              <div className="bg-black overflow-hidden mq480:w-full flex flex-row items-center justify-center py-2 pl-[199px] pr-[198px] text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq750:pl-[99px] mq750:pr-[99px] mq750:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300">
                 <div className="relative leading-[150%] font-medium">
                   BUY IT NOW
                 </div>
