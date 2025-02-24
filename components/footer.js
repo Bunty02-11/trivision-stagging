@@ -276,7 +276,7 @@ const Footer = memo(
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter your name"
-                    className="w-full bg-transparent border-none outline-none leading-[250%] font-medium placeholder-white text-white"
+                    className="w-full bg-transparent border-none outline-none leading-[250%] font-medium placeholder-white text-white px-2"
                   />
                 </div>
                 <div className="w-full border-background-color-primary border-[1px] border-solid flex flex-row items-center justify-start p-0">
@@ -286,7 +286,7 @@ const Footer = memo(
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email"
-                    className="w-full bg-transparent border-none outline-none leading-[250%] font-medium placeholder-white text-white"
+                    className="w-full bg-transparent border-none outline-none leading-[250%] font-medium placeholder-white text-white px-2"
                   />
                 </div>
                 <button
