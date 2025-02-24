@@ -634,7 +634,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
         <div className="flex justify-between items-center pb-2 border-gray-300 border-b-[1px] border-solid box-border">
           <h2 className="text-black text-base mq480:text-sm font-medium">
             {orders?.filter((x) => x?.cart)?.length == 0
-              ? "Empty"
+              ? "EMPTY"
               : `${orders?.filter((x) => x?.cart)?.length} ITEM`}
           </h2>
           <button
