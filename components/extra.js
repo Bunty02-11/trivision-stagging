@@ -7,7 +7,7 @@ const Extra = memo(({ className = "" }) => {
     <div
       className={`self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-2 min-h-[88px] max-w-full text-left text-sm text-black font-h4-32 ${className}`}
     >
-      <div className="overflow-hidden flex flex-row items-center justify-start py-0 pl-0 pr-[277px] gap-2 mq480:pr-5 mq480:box-border mq825:pr-[138px] mq825:box-border">
+      <div className="self-stretch overflow-hidden flex flex-row items-center justify-start py-0 pl-0 pr-[277px] gap-2 mq480:pr-5 mq480:box-border mq825:pr-[138px] mq825:box-border">
         <Image
           className="h-6 w-6 relative overflow-hidden shrink-0 object-cover"
           width={24}
@@ -15,20 +15,8 @@ const Extra = memo(({ className = "" }) => {
           alt=""
           src="/img-11@2x.png"
         />
-        <div className="relative leading-[150%] font-medium">
-          Free shipping on all orders
-        </div>
-      </div>
-      <div className="self-stretch overflow-hidden hidden flex-row items-center justify-start gap-2">
-        <Image
-          className="h-6 w-6 relative overflow-hidden shrink-0 object-cover"
-          width={24}
-          height={24}
-          alt=""
-          src="/img2@2x.png"
-        />
-        <div className="relative leading-[150%] font-medium">
-          Gift wrapping and customization
+        <div className="flex-1 relative leading-[150%] font-medium inline-block max-w-[calc(100%-32px)] whitespace-nowrap">
+          Free shipping on all orders in Dubai
         </div>
       </div>
       <div className="self-stretch overflow-hidden flex flex-row items-center justify-start gap-2 max-w-full">
@@ -39,7 +27,7 @@ const Extra = memo(({ className = "" }) => {
           alt=""
           src="/img-21@2x.png"
         />
-        <div className="flex-1 relative leading-[150%] font-medium inline-block max-w-[calc(100%_-_32px)]">
+        <div className="flex-1 relative leading-[150%] font-medium inline-block max-w-[calc(100%-32px)] whitespace-nowrap">
           Guaranteed delivery within 48 hours in Dubai.
         </div>
       </div>
