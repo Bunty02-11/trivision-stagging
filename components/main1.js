@@ -7,12 +7,20 @@ import R from "./r";
 import PropTypes from "prop-types";
 import ProductImage from "./ProductImage";
 import axios from "axios";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 const Main1 = memo(({ className = "", product, category }) => {
   const [quantity, setQuantity] = useState(1);
   const [cart, setCart] = useState([]);
   const router = useRouter();
+  let token = null;
+  let userId = null;
+
+  // Ensure localStorage is accessed only on the client side
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+    userId = localStorage.getItem("userId");
+  }
 
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -23,8 +31,6 @@ const Main1 = memo(({ className = "", product, category }) => {
   };
 
   const addItem = async (product, itemType) => {
-    const token = localStorage.getItem("token"); // Retrieve the token
-
     if (!token) {
       alert("User is not authenticated!");
       return;
@@ -40,7 +46,7 @@ const Main1 = memo(({ className = "", product, category }) => {
       const response = await axios.post(
         "https://apitrivsion.prismcloudhosting.com/api/order/add",
         {
-          user: localStorage.getItem("userId"), // Replace with actual user ID
+          user: userId, // Replace with actual user ID
           cart: [...cart, newCartItem],
           subTotal: calculateSubTotal(cart, newCartItem),
           shippingCost: 0, // Replace with actual shipping cost
@@ -61,7 +67,8 @@ const Main1 = memo(({ className = "", product, category }) => {
       setCart([...cart, newCartItem]); // Update local cart state
     } catch (error) {
       console.error(
-        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "whishlist"
+        `There was an error adding the product to the ${
+          itemType === "cart" ? "cart" : "whishlist"
         }`,
         error
       );
@@ -122,13 +129,12 @@ const Main1 = memo(({ className = "", product, category }) => {
     product_id: product.product._id,
     product_slug: product.product.slug,
     additional_info: [{}],
-    user_info: { user_id: localStorage.getItem("userId") },
+    user_info: { user_id: userId },
     subTotal: product.product.retail_price,
     prescription: [],
     total: calculateTotal(cart, { product: product.product._id, quantity }), // Call the function properly
     lens_info: "1",
   };
-
 
   // console.log(product.product.slug, "slug");
 
@@ -275,7 +281,8 @@ const Main1 = memo(({ className = "", product, category }) => {
               {category == "EYEGLASSES" ? (
                 <>
                   <div className="self-stretch h-10 border-black border-[1px] border-solid box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-1.5 px-[167px] text-base mq825:pl-[83px] mq825:pr-[83px] mq825:box-border cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300">
-                    <div className="flex-1 relative leading-[150%] font-medium"
+                    <div
+                      className="flex-1 relative leading-[150%] font-medium"
                       onClick={() => addSelectLens(requestData)}
                     >
                       SELECT YOUR LENS
@@ -290,12 +297,18 @@ const Main1 = memo(({ className = "", product, category }) => {
               ) : (
                 <>
                   <div className="self-stretch flex flex-row items-start justify-center gap-4 text-center mq825:flex-wrap">
-                    <div className="flex-[0.72] border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-[66px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300">
+                    <div
+                      className="flex-[0.72] border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-[66px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+                      onClick={() => addItem(product, "cart")}
+                    >
                       <div className="flex-1 relative leading-[150%] font-medium">
                         ADD TO BAG
                       </div>
                     </div>
-                    <div className="flex-1 border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300">
+                    <div
+                      className="flex-1 border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+                      onClick={() => addItem(product, "whishlist")}
+                    >
                       <div className="flex-1 relative leading-[150%] font-medium">
                         ADD TO WISHLIST
                       </div>
