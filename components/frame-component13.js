@@ -103,9 +103,11 @@ const FrameComponent13 = memo(({ className = "", product }) => {
     <section
       className={`self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border gap-6 max-w-full text-left text-xs text-gray-400 font-h4-32 mq480:pt-5 mq480:pb-5 mq480:box-border mq825:py-[25px] mq825:px-10 mq825:box-border mq1410:pt-[39px] mq1410:pb-[39px] mq1410:box-border ${className}`}
     >
-      <div className="flex-1 flex flex-col items-start justify-start gap-20 max-w-full">
-        <div className="relative leading-[150%] font-medium">{`Home > ${product.category.name} > ${product.brand.name} > ${product.product_name_short}`}</div>
-        <div className="self-stretch flex flex-row items-start justify-start gap-10 max-w-full text-base text-black mq750:gap-5 mq1250:flex-wrap">
+      <div className="self-stretch flex flex-row items-center justify-start">
+        <div className="relative leading-[150%] font-medium">{`Home > ${product?.category?.name} > ${product?.brand?.name} > ${product.product_name_short}`}</div>
+      </div>
+      <div className="self-stretch flex flex-col items-start justify-start gap-10 max-w-full text-sm text-black mq825:gap-5">
+        <div className="self-stretch flex flex-row items-start justify-between max-w-full gap-5 mq1410:flex-wrap">
           {/* <Image
             className="h-[813px] flex-1 relative max-w-full overflow-hidden min-w-[481px] mq750:min-w-full"
             loading="lazy"
@@ -114,7 +116,7 @@ const FrameComponent13 = memo(({ className = "", product }) => {
             alt=""
             src="/left.svg"
           /> */}
-          <ContactLensImage products={product} />
+          <ContactLensImage product={product} />
           <div className="w-[500px] hidden flex-row items-start justify-start gap-4 max-w-full text-center mq750:flex-wrap">
             <div className="flex-1 border-gray-800 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px]">
               <div className="relative leading-[150%] font-medium">
