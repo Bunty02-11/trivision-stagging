@@ -219,25 +219,27 @@ const Main1 = memo(({ className = "", product, category }) => {
                       />
                     </button>
                   </div>
-                  <div className="flex flex-row items-center justify-start gap-3">
-                    <Image
-                      className="h-6 w-6 relative overflow-hidden shrink-0"
-                      width={24}
-                      height={24}
-                      alt=""
-                      src="/iconamoonheartlight2.svg"
-                      onClick={() => addItem(product, "whishlist")}
-                    />
-                    <div className="h-[25px] w-px relative border-gray-500 border-r-[1px] border-solid box-border cursor-pointer" />
-                    <Image
-                      className="h-6 w-6 relative cursor-pointer"
-                      width={24}
-                      height={24}
-                      alt=""
-                      src="/svg-12.svg"
-                      onClick={() => addItem(product, "cart")}
-                    />
-                  </div>
+                  {category == "EYEGLASSES" && (
+                    <div className="flex flex-row items-center justify-start gap-3">
+                      <Image
+                        className="h-6 w-6 relative overflow-hidden shrink-0"
+                        width={24}
+                        height={24}
+                        alt=""
+                        src="/iconamoonheartlight2.svg"
+                        onClick={() => addItem(product, "whishlist")}
+                      />
+                      <div className="h-[25px] w-px relative border-gray-500 border-r-[1px] border-solid box-border cursor-pointer" />
+                      <Image
+                        className="h-6 w-6 relative cursor-pointer"
+                        width={24}
+                        height={24}
+                        alt=""
+                        src="/svg-12.svg"
+                        onClick={() => addItem(product, "cart")}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-row items-start justify-start gap-3">
                   <Image
