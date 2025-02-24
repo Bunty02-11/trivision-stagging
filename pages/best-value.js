@@ -1,6 +1,8 @@
 import FrameComponent1 from "../components/frame-component1";
 import FiltersAndProducts from "../components/eyeglasses/filter&product";
-import FrameComponent4 from "../components/frame-component4";
+import JoinWrapper from "../components/join-wrapper";
+import InstaPosts from "../components/insta-posts";
+import ProductFaqs from "../components/product-faqs";
 import Footer from "../components/footer";
 
 export const getServerSideProps = async ({ params }) => {
@@ -43,8 +45,19 @@ const BestValueListing = ({ products }) => {
           <FiltersAndProducts product={products} />
         </section>
 
-        {/* Additional Component */}
-        <FrameComponent4 product={products} />
+        <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
+          <JoinWrapper
+            joinWrapperPadding="0px 20px 0px 0px"
+            joinWrapperFlex="unset"
+            joinWrapperAlignSelf="unset"
+            emptyPlaceholders="/8@2x.png"
+            emptyPlaceholders1="/7@2x.png"
+            emptyPlaceholders2="/6@2x.png"
+            emptyPlaceholders3="/5@2x.png"
+          />
+          <ProductFaqs faqs={products?.[0]?.brand?.faqs} />
+          <InstaPosts />
+        </section>
 
         {/* Footer */}
         <Footer
