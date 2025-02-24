@@ -352,7 +352,7 @@ const Cart = () => {
                           <div className="relative leading-[150%] inline-block max-w-full">
                             <span className="font-semibold">{`Fit: `}</span>
                             <span className="font-medium">
-                              {item && item.product.frame_shape}
+                              {item && item?.product?.frame_shape}
                             </span>
                           </div>
                         </div>
