@@ -111,7 +111,7 @@ const Cart = () => {
       }
 
       await axios.delete(
-        `https://apitrivsion.prismcloudhosting.com/api/deleteOrder/${orderId}`,
+        `https://apitrivsion.prismcloudhosting.com/api/orders/${orderId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -201,7 +201,8 @@ const Cart = () => {
                           </p>
                           {item?.data == "pack" && (
                             <p className="text-black text-sm text-start mt-0">
-                              Pack of: {item && item?.quantity}
+                              Pack of:{" "}
+                              {item && item?.additional_info?.[0]?.pack_of}
                             </p>
                           )}
                           {item?.data == "pack" && (

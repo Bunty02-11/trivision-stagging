@@ -37,11 +37,12 @@ const FrameComponent13 = memo(({ className = "", product }) => {
 
     const newCartItem = {
       product: product?._id,
-      quantity: selectedPack,
+      quantity: "",
       data: "pack",
       shipping_info: itemType,
       additional_info: [
         {
+          pack_of: selectedPack,
           selectEye: selectedEye,
           selectLeftPower: leftEyePower,
           selectRightPower: rightEyePower,
