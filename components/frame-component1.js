@@ -151,25 +151,25 @@ const FrameComponent1 = memo(({ className = "" }) => {
         order.cart.reduce((orderTotal, item) => {
           if (!item?.product?.retail_price) return orderTotal; // Ensure product exists
 
+          let quantityTotal = 0;
+
           if (item.quantity) {
-            return orderTotal + item.product.retail_price * item.quantity;
+            quantityTotal += item.product.retail_price * item.quantity;
           }
 
-          if (item?.additional_info?.[0]?.selectRightBox) {
-            return (
-              orderTotal +
-              item.product.retail_price * item.additional_info[0].selectRightBox
-            );
+          if (item?.additional_info?.[0]) {
+            const { selectRightBox, selectLeftBox } = item.additional_info[0];
+
+            if (selectRightBox) {
+              quantityTotal += item.product.retail_price * selectRightBox;
+            }
+
+            if (selectLeftBox) {
+              quantityTotal += item.product.retail_price * selectLeftBox;
+            }
           }
 
-          if (item?.additional_info?.[0]?.selectLeftBox) {
-            return (
-              orderTotal +
-              item.product.retail_price * item.additional_info[0].selectLeftBox
-            );
-          }
-
-          return orderTotal; // Ensure it always returns a value
+          return orderTotal + quantityTotal;
         }, 0)
       );
     }, 0);
@@ -936,7 +936,13 @@ const FrameComponent1 = memo(({ className = "" }) => {
                             {/* Price */}
                             {item?.data == "pack" ? (
                               <p className="text-sm font-semibold text-black p-0">
-                                AED {item && item?.product?.retail_price}
+                                AED{" "}
+                                {item &&
+                                  item?.product?.retail_price *
+                                    ((item?.additional_info?.[0]
+                                      ?.selectRightBox || 0) +
+                                      (item?.additional_info?.[0]
+                                        ?.selectLeftBox || 0) || 1)}
                               </p>
                             ) : (
                               <p className="text-sm font-semibold text-black p-0">

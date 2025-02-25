@@ -128,25 +128,25 @@ const Cart = () => {
         order.cart.reduce((orderTotal, item) => {
           if (!item?.product?.retail_price) return orderTotal; // Ensure product exists
 
+          let quantityTotal = 0;
+
           if (item.quantity) {
-            return orderTotal + item.product.retail_price * item.quantity;
+            quantityTotal += item.product.retail_price * item.quantity;
           }
 
-          if (item?.additional_info?.[0]?.selectRightBox) {
-            return (
-              orderTotal +
-              item.product.retail_price * item.additional_info[0].selectRightBox
-            );
+          if (item?.additional_info?.[0]) {
+            const { selectRightBox, selectLeftBox } = item.additional_info[0];
+
+            if (selectRightBox) {
+              quantityTotal += item.product.retail_price * selectRightBox;
+            }
+
+            if (selectLeftBox) {
+              quantityTotal += item.product.retail_price * selectLeftBox;
+            }
           }
 
-          if (item?.additional_info?.[0]?.selectLeftBox) {
-            return (
-              orderTotal +
-              item.product.retail_price * item.additional_info[0].selectLeftBox
-            );
-          }
-
-          return orderTotal; // Ensure it always returns a value
+          return orderTotal + quantityTotal;
         }, 0)
       );
     }, 0);
@@ -418,13 +418,12 @@ const Cart = () => {
                       {item?.data == "pack" ? (
                         <p className="text-sm font-semibold text-black p-0">
                           AED{" "}
-                          {item && item?.additional_info?.[0]?.selectRightBox
-                            ? item?.product?.retail_price *
-                              item?.additional_info?.[0]?.selectRightBox
-                            : item?.additional_info?.[0]?.selectLeftBox
-                            ? item?.product?.retail_price *
-                              item?.additional_info?.[0]?.selectLeftBox
-                            : item?.product?.retail_price}
+                          {item &&
+                            item?.product?.retail_price *
+                              ((item?.additional_info?.[0]?.selectRightBox ||
+                                0) +
+                                (item?.additional_info?.[0]?.selectLeftBox ||
+                                  0) || 1)}
                         </p>
                       ) : (
                         <p className="text-sm font-semibold text-black p-0">
@@ -437,252 +436,6 @@ const Cart = () => {
                 ))
               )}
           </div>
-          {/* <div className="flex flex-col items-start justify-start w-2/3">
-          {orders &&
-            orders.map((order) =>
-              order.cart.map((item) => (
-                <div
-                  key={item?.product?._id}
-                  className="w-full bg-background-color-primary flex flex-row items-center justify-left flex-wrap content-center py-6 px-4 box-border gap-6 mb-4 rounded-lg"
-                >
-                  <Image
-                    className="h-[226px] w-[226px] relative overflow-hidden shrink-0 object-contain rounded-lg"
-                    loading="lazy"
-                    width={200}
-                    height={200}
-                    alt={item && item?.product?.product_name_short}
-                    src={item && item?.product?.product_images?.[3]}
-                  />
-                  <div className="flex-1 flex flex-col items-start justify-start gap-4">
-                    <div className="flex flex-col items-start justify-start gap-2">
-                      <div className="flex flex-row items-start justify-between gap-5 text-gray-200 font-oswald w-full">
-                        <div className="relative leading-[150%] font-medium">
-                          {item && item?.product?.product_name_short}
-                        </div>
-                        <div
-                          className="relative leading-[150%] font-medium font-h4-32 text-right text-red-500 cursor-pointer"
-                          onClick={() => handleRemoveOrder(order?._id)}
-                        >
-                          Remove
-                        </div>
-                      </div>
-                      {item?.data == "pack" ? (
-                        <div className="relative leading-[150%] font-medium">
-                          No. of Boxes:
-                          <div className="flex flex-row items-center gap-5">
-                            <div className="flex flex-row items-center gap-3 mt-2">
-                              <button
-                                onClick={() =>
-                                  handleQuantityChange(
-                                    order?._id,
-                                    item.product?._id,
-                                    -1
-                                  )
-                                }
-                                className="cursor-pointer bg-gray-200 p-2 rounded-square"
-                                disabled={
-                                  item?.additional_info?.[0]?.selectRightBox <=
-                                  1
-                                }
-                              >
-                                <Image
-                                  className="h-5 w-5"
-                                  loading="lazy"
-                                  width={20}
-                                  height={20}
-                                  alt="Decrease"
-                                  src="/icroundminus@2x.png"
-                                />
-                              </button>
-                              <div className="relative leading-[150%] font-medium">
-                                {item &&
-                                  item?.additional_info?.[0]?.selectRightBox}
-                              </div>
-                              <button
-                                onClick={() =>
-                                  handleQuantityChange(
-                                    order._id,
-                                    item.product._id,
-                                    1
-                                  )
-                                }
-                                className="cursor-pointer bg-gray-200 p-2 rounded-square"
-                              >
-                                <Image
-                                  className="h-5 w-5"
-                                  loading="lazy"
-                                  width={20}
-                                  height={20}
-                                  alt="Increase"
-                                  src="/icroundplus@2x.png"
-                                />
-                              </button>
-                            </div>
-                            <div className="flex flex-row items-center gap-3 mt-2">
-                              <button
-                                onClick={() =>
-                                  handleQuantityChange(
-                                    order?._id,
-                                    item.product?._id,
-                                    -1
-                                  )
-                                }
-                                className="cursor-pointer bg-gray-200 p-2 rounded-square"
-                                disabled={
-                                  item?.additional_info?.[0]?.selectLeftBox <= 1
-                                }
-                              >
-                                <Image
-                                  className="h-5 w-5"
-                                  loading="lazy"
-                                  width={20}
-                                  height={20}
-                                  alt="Decrease"
-                                  src="/icroundminus@2x.png"
-                                />
-                              </button>
-                              <div className="relative leading-[150%] font-medium">
-                                {item &&
-                                  item?.additional_info?.[0]?.selectLeftBox}
-                              </div>
-                              <button
-                                onClick={() =>
-                                  handleQuantityChange(
-                                    order._id,
-                                    item.product._id,
-                                    1
-                                  )
-                                }
-                                className="cursor-pointer bg-gray-200 p-2 rounded-square"
-                              >
-                                <Image
-                                  className="h-5 w-5"
-                                  loading="lazy"
-                                  width={20}
-                                  height={20}
-                                  alt="Increase"
-                                  src="/icroundplus@2x.png"
-                                />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="relative leading-[150%] font-medium">
-                          Quantity:
-                          <div className="flex flex-row items-center gap-3 mt-2">
-                            <button
-                              onClick={() =>
-                                handleQuantityChange(
-                                  order?._id,
-                                  item.product?._id,
-                                  -1
-                                )
-                              }
-                              className="cursor-pointer bg-gray-200 p-2 rounded-square"
-                              disabled={item.quantity <= 1}
-                            >
-                              <Image
-                                className="h-5 w-5"
-                                loading="lazy"
-                                width={20}
-                                height={20}
-                                alt="Decrease"
-                                src="/icroundminus@2x.png"
-                              />
-                            </button>
-                            <div className="relative leading-[150%] font-medium">
-                              {item && item.quantity}
-                            </div>
-                            <button
-                              onClick={() =>
-                                handleQuantityChange(
-                                  order._id,
-                                  item.product._id,
-                                  1
-                                )
-                              }
-                              className="cursor-pointer bg-gray-200 p-2 rounded-square"
-                            >
-                              <Image
-                                className="h-5 w-5"
-                                loading="lazy"
-                                width={20}
-                                height={20}
-                                alt="Increase"
-                                src="/icroundplus@2x.png"
-                              />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                      {item?.data == "pack" && (
-                        <div className="flex flex-row items-center">
-                          <div className="relative leading-[150%] inline-block max-w-full">
-                            <span className="font-semibold">{`Pack Of: `}</span>
-                            <span className="font-medium">
-                              {item && item?.quantity}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                      {item?.data == "pack" && (
-                        <div className="flex flex-row items-center">
-                          <div className="relative leading-[150%] inline-block max-w-full">
-                            <span className="font-semibold">{`Power/Sphere: `}</span>
-                            <span className="font-medium">
-                              {"R:"}{" "}
-                              {item &&
-                                item?.additional_info?.[0]
-                                  ?.selectRightPower}{" "}
-                              {"L:"}{" "}
-                              {item &&
-                                item?.additional_info?.[0]?.selectLeftPower}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                      {item?.product?.frame_color && (
-                        <div className="flex flex-row items-center">
-                          <div className="relative leading-[150%] inline-block max-w-full">
-                            <span className="font-semibold">{`Color: `}</span>
-                            <span className="font-medium">
-                              {item && item?.product?.frame_color}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                      {item?.product?.gender && (
-                        <div className="flex flex-row items-center">
-                          <div className="relative leading-[150%] inline-block max-w-full">
-                            <span className="font-semibold">{`Gender: `}</span>
-                            <span className="font-medium">
-                              {item && item.product.gender}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                      {item?.product?.frame_shape && (
-                        <div className="flex flex-row items-center">
-                          <div className="relative leading-[150%] inline-block max-w-full">
-                            <span className="font-semibold">{`Fit: `}</span>
-                            <span className="font-medium">
-                              {item && item?.product?.frame_shape}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="border-t-[1px] border-gray-800 w-full flex flex-row items-center justify-between pt-3.5">
-                      <div className="relative leading-[150%] font-semibold inline-block min-w-[66px]">
-                        AED {item && item?.product?.retail_price}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-        </div> */}
           <Right className="w-1/3 ml-6" subTotalAmount={calculateTotal()} />
         </section>
       )}
