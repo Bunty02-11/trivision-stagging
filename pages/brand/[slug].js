@@ -29,6 +29,7 @@ export const getServerSideProps = async ({ params }) => {
     return {
       props: {
         products: data.products,
+        slug: params?.slug,
       },
     };
   } catch (error) {
@@ -37,18 +38,21 @@ export const getServerSideProps = async ({ params }) => {
   }
 };
 
-const BrandsListing = ({ products }) => {
+const BrandsListing = ({ products, slug }) => {
   return (
     <>
       <FrameComponent1 />
       <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-center justify-center px-0 pb-0 box-border gap-[60px] mq480:gap-[40px] text-center text-base text-background-color-primary font-h4-32 mq750:gap-[40px]">
         {/* Banner Section */}
-        <div className="w-full h-[475px] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5"
+        <div
+          className="w-full h-[475px] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5"
           style={{
-            backgroundImage: `url(${products[0]?.brand?.brand_logo || '/brandBanner.jpg'})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundImage: `url(${
+              products[0]?.brand?.brand_logo || "/brandBanner.jpg"
+            })`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         />
         {/* Info Section */}
@@ -72,7 +76,7 @@ const BrandsListing = ({ products }) => {
         </section>
         {/* Products & Filters */}
         <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10">
-          <FiltersAndProducts product={products} />
+          <FiltersAndProducts product={products} slug={slug} />
         </section>
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper
