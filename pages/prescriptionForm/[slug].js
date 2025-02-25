@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SelectYourLens = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const SelectYourLens = () => {
     leftEye: { sphere: "", cylinder: "", axis: "" },
     pd: "",
     pdLeft: "",
-    pdRight: ""
+    pdRight: "",
   });
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -25,7 +25,7 @@ const SelectYourLens = () => {
     const fetchData = async (slug, token) => {
       try {
         const response = await axios.get(
-          `http://localhost:5055/api/selectlens/by-product-slug/${slug}`,
+          `https://apitrivsion.prismcloudhosting.com/api/selectlens/by-product-slug/${slug}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Send token in headers
@@ -36,11 +36,14 @@ const SelectYourLens = () => {
         console.log("Product data fetched:", response);
         setProduct(response.data);
       } catch (error) {
-        console.error("Error fetching product data:", error.response?.data?.message || error.message);
+        console.error(
+          "Error fetching product data:",
+          error.response?.data?.message || error.message
+        );
       }
     };
 
-    const token = localStorage.getItem('token'); // Get token from localStorage
+    const token = localStorage.getItem("token"); // Get token from localStorage
 
     if (!token) {
       console.error("Unauthorized: No token found!");
@@ -85,7 +88,7 @@ const SelectYourLens = () => {
       setPrescription((prev) => ({
         ...prev,
         pdLeft: "",
-        pdRight: ""
+        pdRight: "",
       }));
     }
   };
@@ -155,8 +158,11 @@ const SelectYourLens = () => {
       }
 
       const id = product._id;
-      const lensPrice = lensType === "Single Vision Lenses" ? 610
-        : lensType === "Computer Lenses" ? 750
+      const lensPrice =
+        lensType === "Single Vision Lenses"
+          ? 610
+          : lensType === "Computer Lenses"
+          ? 750
           : 0;
 
       // Creating lens data
@@ -193,7 +199,9 @@ const SelectYourLens = () => {
             axis: prescription.leftEye.axis,
           },
           {
-            pd: hasTwoPD ? `${prescription.pdLeft}/${prescription.pdRight}` : prescription.pd,
+            pd: hasTwoPD
+              ? `${prescription.pdLeft}/${prescription.pdRight}`
+              : prescription.pd,
           },
         ],
         total: newTotal, // Updated total
@@ -202,7 +210,7 @@ const SelectYourLens = () => {
 
       // Send update request to backend
       const response = await axios.put(
-        `http://localhost:5055/api/selectlens/${id}`,
+        `https://apitrivsion.prismcloudhosting.com/api/selectlens/${id}`,
         data,
         {
           headers: {
@@ -216,8 +224,8 @@ const SelectYourLens = () => {
       const slug = product.product_id.slug;
       router.push({
         pathname: `/review/${slug}`,
-        query: { slug }
-      })
+        query: { slug },
+      });
 
       console.log("Updated Total:", newTotal);
     } catch (error) {
@@ -237,21 +245,38 @@ const SelectYourLens = () => {
           {/* <Image className="w-11 relative h-11 overflow-hidden shrink-0" width={44} height={44} alt="" src="/basil:cross-outline.svg" /> */}
         </div>
         <div className="absolute top-[calc(50%-_12px)] left-[calc(50%+_107.5px)] flex flex-row items-center justify-start gap-6">
-          <div className="relative leading-[150%] font-semibold">Don’t know your prescription?</div>
+          <div className="relative leading-[150%] font-semibold">
+            Don’t know your prescription?
+          </div>
           <div className="flex flex-row items-center justify-center gap-3 text-right">
-            <Image className="w-6 relative h-6 overflow-hidden shrink-0 opacity-[0.6]" width={24} height={24} alt="" src="/iconoir_eye-solid.png" />
-            <div className="relative [text-decoration:underline] leading-[150%] font-medium opacity-[0.6]">Book an Eye Test</div>
+            <Image
+              className="w-6 relative h-6 overflow-hidden shrink-0 opacity-[0.6]"
+              width={24}
+              height={24}
+              alt=""
+              src="/iconoir_eye-solid.png"
+            />
+            <div className="relative [text-decoration:underline] leading-[150%] font-medium opacity-[0.6]">
+              Book an Eye Test
+            </div>
           </div>
         </div>
-        <Image className="absolute top-[calc(50%-_18px)] left-[calc(50%-_640px)] w-[185.6px] h-9 object-cover" width={186} height={36} alt="" src="/logo@2x.png"
-        onClick={() => handleNavigation("/")}
+        <Image
+          className="absolute top-[calc(50%-_18px)] left-[calc(50%-_640px)] w-[185.6px] h-9 object-cover"
+          width={186}
+          height={36}
+          alt=""
+          src="/logo@2x.png"
+          onClick={() => handleNavigation("/")}
         />
       </div>
       <div className="self-stretch bg-gray-100 overflow-hidden flex flex-col items-center justify-start pt-10 px-[60px] pb-[60px] gap-6 text-center text-xs text-gray-300">
         <div className="self-stretch flex flex-row items-center justify-center gap-4">
           <div className="relative leading-[150%] font-medium ">Lens Type</div>
           <div className="w-[401px] relative border-black border-t-[1px] border-solid box-border h-px" />
-          <div className="relative leading-[150%] font-medium text-black">Lens</div>
+          <div className="relative leading-[150%] font-medium text-black">
+            Lens
+          </div>
           <div className="w-[401px] relative border-black border-t-[1px] border-solid box-border h-px" />
           <div className="relative leading-[150%] font-medium">Review</div>
         </div>
@@ -312,17 +337,25 @@ const SelectYourLens = () => {
               )}
             </div>
             <div className="self-stretch overflow-y-auto flex flex-col items-center justify-start gap-6 text-xl">
-              <div className="self-stretch relative leading-[140%] font-medium">Enter your prescription</div>
+              <div className="self-stretch relative leading-[140%] font-medium">
+                Enter your prescription
+              </div>
               <div className="flex-1 flex flex-row items-center justify-start gap-6 text-sm">
                 <div>
                   <div className="grid grid-cols-4 gap-4 text-sm font-medium text-gray-500">
                     <div></div>
                     <div className="font-semibold text-black">Sphere (SPH)</div>
-                    <div className="font-semibold text-black">Cylinder (CYL)</div>
+                    <div className="font-semibold text-black">
+                      Cylinder (CYL)
+                    </div>
                     <div className="font-semibold text-black">Axis</div>
-                    <div className="font-semibold text-black">OD (Right eye)</div>
+                    <div className="font-semibold text-black">
+                      OD (Right eye)
+                    </div>
                     <select
-                      className={`border p-2 w-full ${errors["sphere.rightEye"] ? "border-red" : ""}`}
+                      className={`border p-2 w-full ${
+                        errors["sphere.rightEye"] ? "border-red" : ""
+                      }`}
                       name="sphere.rightEye"
                       onChange={handlePrescriptionChange}
                       value={prescription.rightEye.sphere}
@@ -335,7 +368,9 @@ const SelectYourLens = () => {
                       ))}
                     </select>
                     <select
-                      className={`border p-2 w-full ${errors["cylinder.rightEye"] ? "border-red" : ""}`}
+                      className={`border p-2 w-full ${
+                        errors["cylinder.rightEye"] ? "border-red" : ""
+                      }`}
                       name="cylinder.rightEye"
                       onChange={handlePrescriptionChange}
                       value={prescription.rightEye.cylinder}
@@ -348,7 +383,9 @@ const SelectYourLens = () => {
                       ))}
                     </select>
                     <select
-                      className={`border p-2 w-full ${errors["axis.rightEye"] ? "border-red" : ""}`}
+                      className={`border p-2 w-full ${
+                        errors["axis.rightEye"] ? "border-red" : ""
+                      }`}
                       name="axis.rightEye"
                       onChange={handlePrescriptionChange}
                       value={prescription.rightEye.axis}
@@ -360,9 +397,13 @@ const SelectYourLens = () => {
                         </option>
                       ))}
                     </select>
-                    <div className="font-semibold text-black">OS (Left eye)</div>
+                    <div className="font-semibold text-black">
+                      OS (Left eye)
+                    </div>
                     <select
-                      className={`border p-2 w-full ${errors["sphere.leftEye"] ? "border-red" : ""}`}
+                      className={`border p-2 w-full ${
+                        errors["sphere.leftEye"] ? "border-red" : ""
+                      }`}
                       name="sphere.leftEye"
                       onChange={handlePrescriptionChange}
                       value={prescription.leftEye.sphere}
@@ -375,7 +416,9 @@ const SelectYourLens = () => {
                       ))}
                     </select>
                     <select
-                      className={`border p-2 w-full ${errors["cylinder.leftEye"] ? "border-red" : ""}`}
+                      className={`border p-2 w-full ${
+                        errors["cylinder.leftEye"] ? "border-red" : ""
+                      }`}
                       name="cylinder.leftEye"
                       onChange={handlePrescriptionChange}
                       value={prescription.leftEye.cylinder}
@@ -388,7 +431,9 @@ const SelectYourLens = () => {
                       ))}
                     </select>
                     <select
-                      className={`border p-2 w-full ${errors["axis.leftEye"] ? "border-red" : ""}`}
+                      className={`border p-2 w-full ${
+                        errors["axis.leftEye"] ? "border-red" : ""
+                      }`}
                       name="axis.leftEye"
                       onChange={handlePrescriptionChange}
                       value={prescription.leftEye.axis}
@@ -403,50 +448,64 @@ const SelectYourLens = () => {
                   </div>
 
                   <div className="mt-4">
-                    <label className="font-semibold">PD (Pupillary distance)</label>
+                    <label className="font-semibold">
+                      PD (Pupillary distance)
+                    </label>
                     <div className="flex items-center gap-4 mt-2">
                       {hasTwoPD ? (
                         <>
                           <select
-                            className={`border p-2 w-[140px] ${errors.pdLeft ? "border-red" : ""}`}
+                            className={`border p-2 w-[140px] ${
+                              errors.pdLeft ? "border-red" : ""
+                            }`}
                             name="pdLeft"
                             value={prescription.pdLeft}
                             onChange={handlePrescriptionChange}
                           >
                             <option value="">Left</option>
-                            {Array.from({ length: 100 }, (_, i) => i + 1).map((value) => (
-                              <option key={value} value={value}>
-                                {value} mm
-                              </option>
-                            ))}
+                            {Array.from({ length: 100 }, (_, i) => i + 1).map(
+                              (value) => (
+                                <option key={value} value={value}>
+                                  {value} mm
+                                </option>
+                              )
+                            )}
                           </select>
                           <select
-                            className={`border p-2 w-[140px] ${errors.pdRight ? "border-red" : ""}`}
+                            className={`border p-2 w-[140px] ${
+                              errors.pdRight ? "border-red" : ""
+                            }`}
                             name="pdRight"
                             value={prescription.pdRight}
                             onChange={handlePrescriptionChange}
                           >
                             <option value="">Right</option>
-                            {Array.from({ length: 100 }, (_, i) => i + 1).map((value) => (
-                              <option key={value} value={value}>
-                                {value} mm
-                              </option>
-                            ))}
+                            {Array.from({ length: 100 }, (_, i) => i + 1).map(
+                              (value) => (
+                                <option key={value} value={value}>
+                                  {value} mm
+                                </option>
+                              )
+                            )}
                           </select>
                         </>
                       ) : (
                         <select
-                          className={`border p-2 w-[300px] ${errors.pd ? "border-red" : ""}`}
+                          className={`border p-2 w-[300px] ${
+                            errors.pd ? "border-red" : ""
+                          }`}
                           name="pd"
                           value={prescription.pd}
                           onChange={handlePrescriptionChange}
                         >
                           <option value="">Select</option>
-                          {Array.from({ length: 100 }, (_, i) => i + 1).map((value) => (
-                            <option key={value} value={value}>
-                              {value} mm
-                            </option>
-                          ))}
+                          {Array.from({ length: 100 }, (_, i) => i + 1).map(
+                            (value) => (
+                              <option key={value} value={value}>
+                                {value} mm
+                              </option>
+                            )
+                          )}
                         </select>
                       )}
                       <label className="flex items-center gap-2">
@@ -470,7 +529,10 @@ const SelectYourLens = () => {
                   <div className="mt-4 flex items-center gap-2 text-sm text-black-600">
                     <input type="checkbox" className="w-4 h-4 mt-1" required />
                     <p>
-                      By clicking this box, I confirm that the prescription values entered above are taken from a valid (not expired) prescription issued to me, signed by a licensed optometrist or ophthalmologist.
+                      By clicking this box, I confirm that the prescription
+                      values entered above are taken from a valid (not expired)
+                      prescription issued to me, signed by a licensed
+                      optometrist or ophthalmologist.
                     </p>
                   </div>
 
