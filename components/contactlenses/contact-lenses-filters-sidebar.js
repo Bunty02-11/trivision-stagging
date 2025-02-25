@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
+const ContactLensesFiltersSidebar = ({ isOpen, onClose, slug }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -192,4 +192,4 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
   );
 };
 
-export default BrandsFiltersSidebar;
+export default ContactLensesFiltersSidebar;

@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import ProductCards from "../product-cards";
-import FiltersSidebar from "../filters-sidebar";
+import FiltersSidebar from "./contact-lenses-filters-sidebar";
 import PropTypes from "prop-types";
 
 const FiltersAndProducts = memo(({ className = "", product = [] }) => {

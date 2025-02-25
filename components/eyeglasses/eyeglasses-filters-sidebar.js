@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
+const EyeglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -21,7 +21,7 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
     const fetchVariations = async () => {
       try {
         const response = await fetch(
-          `https://apitrivsion.prismcloudhosting.com/api/filter/brand/${slug}`
+          `https://apitrivsion.prismcloudhosting.com/api/filter/category/EYEGLASSES`
         );
         const data = await response.json();
         setVariants(data.variants || {});
@@ -164,18 +164,7 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
               )}
             </div>
           ))}
-        {/* {variants.price_range && (
-          <div className="border-b py-2">
-            <div className="flex justify-between items-center text-base font-medium text-black">
-              <span>Price Range</span>
-            </div>
-            <div className="pl-4 mt-2 flex flex-col gap-2">
-              <span>
-                ${variants.price_range.min} - ${variants.price_range.max}
-              </span>
-            </div>
-          </div>
-        )} */}
+
         <div className="mt-auto flex gap-4 pt-10">
           <button
             className="w-1/2 border border-gray-400 text-gray-200 py-3 rounded-md cursor-pointer hover:bg-black hover:text-white transition-all duration-300"
@@ -192,4 +181,4 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
   );
 };
 
-export default BrandsFiltersSidebar;
+export default EyeglassesFiltersSidebar;

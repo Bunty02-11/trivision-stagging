@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
+const AccessoriesFiltersSidebar = ({ isOpen, onClose, slug }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -21,7 +21,7 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
     const fetchVariations = async () => {
       try {
         const response = await fetch(
-          `https://apitrivsion.prismcloudhosting.com/api/filter/brand/${slug}`
+          "https://apitrivsion.prismcloudhosting.com/api/filter/accessories"
         );
         const data = await response.json();
         setVariants(data.variants || {});
@@ -192,4 +192,4 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug }) => {
   );
 };
 
-export default BrandsFiltersSidebar;
+export default AccessoriesFiltersSidebar;
