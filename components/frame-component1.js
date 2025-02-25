@@ -145,11 +145,31 @@ const FrameComponent1 = memo(({ className = "" }) => {
   };
 
   const calculateTotal = () => {
-    return orders?.reduce((total, order) => {
+    return orders.reduce((total, order) => {
       return (
         total +
-        order?.cart?.reduce((orderTotal, item) => {
-          return orderTotal + item?.product?.retail_price * item?.quantity;
+        order.cart.reduce((orderTotal, item) => {
+          if (!item?.product?.retail_price) return orderTotal; // Ensure product exists
+
+          if (item.quantity) {
+            return orderTotal + item.product.retail_price * item.quantity;
+          }
+
+          if (item?.additional_info?.[0]?.selectRightBox) {
+            return (
+              orderTotal +
+              item.product.retail_price * item.additional_info[0].selectRightBox
+            );
+          }
+
+          if (item?.additional_info?.[0]?.selectLeftBox) {
+            return (
+              orderTotal +
+              item.product.retail_price * item.additional_info[0].selectLeftBox
+            );
+          }
+
+          return orderTotal; // Ensure it always returns a value
         }, 0)
       );
     }, 0);

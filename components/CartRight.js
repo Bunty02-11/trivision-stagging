@@ -34,7 +34,7 @@ const Right = memo(({ className = "", subTotalAmount }) => {
           {tax?.toFixed(2)} AED
         </div>
       </div>
-      <div className="self-stretch  flex flex-row items-center justify-between gap-3">
+      <div className="self-stretch  flex flex-row items-center justify-between gap-3 pb-5 border-b-[1px] border-gray-800 border-solid border-box">
         <div className="flex-1 relative leading-[150%] font-medium text-lg">
           Order Total
         </div>

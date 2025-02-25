@@ -103,7 +103,8 @@ const Cart = () => {
               quantity: quantity,
               additional_info: [
                 {
-                  ...updatedAdditionalInfo, // Send updated data while keeping previous info
+                  selectRightBox: boxType === "right" ? boxValue : undefined, // Update only right box when right button is clicked
+                  selectLeftBox: boxType === "left" ? boxValue : undefined, // Update only left box when left button is clicked
                 },
               ],
             },
@@ -125,11 +126,27 @@ const Cart = () => {
       return (
         total +
         order.cart.reduce((orderTotal, item) => {
+          if (!item?.product?.retail_price) return orderTotal; // Ensure product exists
+
           if (item.quantity) {
             return orderTotal + item.product.retail_price * item.quantity;
-          } else {
-            return orderTotal + item.product.retail_price * item.quantity;
           }
+
+          if (item?.additional_info?.[0]?.selectRightBox) {
+            return (
+              orderTotal +
+              item.product.retail_price * item.additional_info[0].selectRightBox
+            );
+          }
+
+          if (item?.additional_info?.[0]?.selectLeftBox) {
+            return (
+              orderTotal +
+              item.product.retail_price * item.additional_info[0].selectLeftBox
+            );
+          }
+
+          return orderTotal; // Ensure it always returns a value
         }, 0)
       );
     }, 0);
@@ -400,7 +417,14 @@ const Cart = () => {
                       {/* Price */}
                       {item?.data == "pack" ? (
                         <p className="text-sm font-semibold text-black p-0">
-                          AED {item && item?.product?.retail_price}
+                          AED{" "}
+                          {item && item?.additional_info?.[0]?.selectRightBox
+                            ? item?.product?.retail_price *
+                              item?.additional_info?.[0]?.selectRightBox
+                            : item?.additional_info?.[0]?.selectLeftBox
+                            ? item?.product?.retail_price *
+                              item?.additional_info?.[0]?.selectLeftBox
+                            : item?.product?.retail_price}
                         </p>
                       ) : (
                         <p className="text-sm font-semibold text-black p-0">
