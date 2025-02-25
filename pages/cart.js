@@ -5,8 +5,10 @@ import FrameComponent1 from "../components/frame-component1";
 import axios from "axios";
 import Right from "../components/CartRight";
 import Loader from "../components/Loader/Loader";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
+  const router = useRouter();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,7 +44,13 @@ const Cart = () => {
     fetchOrders();
   }, []);
 
-  const handleQuantityChange = async (orderId, productId, quantity) => {
+  const handleQuantityChange = async (
+    orderId,
+    productId,
+    quantity,
+    boxValue,
+    boxType // "right" or "left"
+  ) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -50,23 +58,7 @@ const Cart = () => {
         return;
       }
 
-      const response = await axios.patch(
-        `https://apitrivsion.prismcloudhosting.com/api/orders/quantity/${orderId}`,
-        {
-          cart: [
-            {
-              product: productId,
-              quantity: quantity,
-            },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      // Find the current order and product details
       setOrders((prevOrders) => {
         return prevOrders.map((order) => {
           if (order._id === orderId) {
@@ -74,9 +66,23 @@ const Cart = () => {
               ...order,
               cart: order.cart.map((item) => {
                 if (item.product._id === productId) {
+                  const existingAdditionalInfo =
+                    item.additional_info && item.additional_info.length > 0
+                      ? item.additional_info[0]
+                      : { selectRightBox: 0, selectLeftBox: 0 };
+
+                  const updatedAdditionalInfo = {
+                    ...existingAdditionalInfo, // Preserve other fields
+                    [boxType === "right" ? "selectRightBox" : "selectLeftBox"]:
+                      (existingAdditionalInfo[
+                        boxType === "right" ? "selectRightBox" : "selectLeftBox"
+                      ] || 0) + boxValue, // Ensure update happens
+                  };
+
                   return {
                     ...item,
                     quantity: item.quantity + quantity,
+                    additional_info: [updatedAdditionalInfo], // Maintain structure
                   };
                 }
                 return item;
@@ -86,6 +92,29 @@ const Cart = () => {
           return order;
         });
       });
+
+      // API call with updated additional_info but keeping all other properties
+      await axios.patch(
+        `https://apitrivsion.prismcloudhosting.com/api/orders/quantity/${orderId}`,
+        {
+          cart: [
+            {
+              product: productId,
+              quantity: quantity,
+              additional_info: [
+                {
+                  ...updatedAdditionalInfo, // Send updated data while keeping previous info
+                },
+              ],
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     } catch (error) {
       console.error("Error updating quantity:", error);
     }
@@ -96,7 +125,11 @@ const Cart = () => {
       return (
         total +
         order.cart.reduce((orderTotal, item) => {
-          return orderTotal + item.product.retail_price * item.quantity;
+          if (item.quantity) {
+            return orderTotal + item.product.retail_price * item.quantity;
+          } else {
+            return orderTotal + item.product.retail_price * item.quantity;
+          }
         }, 0)
       );
     }, 0);
@@ -150,167 +183,88 @@ const Cart = () => {
           </div>
         </div>
       </section>
-      <section className="self-stretch flex flex-row justify-between px-20 py-[60px] box-border max-w-full text-left text-base text-black font-h4-32 mq450:pt-[39px] mq450:pb-[39px] mq450:box-border mq750:pl-10 mq750:pr-10 mq750:box-border">
-        <div
-          className="w-100 custom-scrollbar"
-          style={{
-            maxHeight: "55vh",
-            overflowY: "auto", // Show scrollbar only when needed
-            overflowX: "hidden",
-          }}
-        >
-          {orders?.filter((x) => x?.cart)?.length == 0 ? (
-            <div
-              className="flex flex-col justify-center items-center"
-              style={{ margin: "8rem 0" }}
-            >
-              <p className="text-base text-black">
-                Your shopping bag is empty!
-              </p>
-              <button
-                className="bg-black p-3 text-white text-sm cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
-                onClick={() => router.push("/sunglasses/sunglasses")}
-              >
-                START SHOPPING
-              </button>
-            </div>
-          ) : (
-            <>
-              {/* Cart Item */}
-              {orders &&
-                orders?.map((order) =>
-                  order?.cart?.map((item) => (
-                    <div className="p-4" key={item?.product?._id}>
-                      <div className="flex items-start gap-x-6 mq480:flex-wrap">
-                        {/* Product Image */}
-                        <img
-                          className="w-[180px] h-[180px] object-contain border-gray-500 border-[1px] border-solid"
-                          alt={item && item?.product?.product_name_short}
-                          src={item && item?.product?.product_images?.[3]}
-                        />
+      {orders?.filter((x) => x?.cart)?.length == 0 ? (
+        <section className="flex flex-col justify-center items-center w-full h-[50vh]">
+          <p className="text-xl text-black">Your shopping bag is empty!</p>
+          <button
+            className="bg-black p-4 text-white text-base cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+            onClick={() => router.push("/sunglasses/sunglasses")}
+          >
+            START SHOPPING
+          </button>
+        </section>
+      ) : (
+        <section className="self-stretch flex flex-row justify-between px-20 py-[60px] box-border max-w-full text-left text-base text-black font-h4-32 mq450:pt-[39px] mq450:pb-[39px] mq450:box-border mq750:pl-10 mq750:pr-10 mq750:box-border">
+          <div
+            className="w-100 custom-scrollbar"
+            style={{
+              maxHeight: "55vh",
+              overflowY: "auto", // Show scrollbar only when needed
+              overflowX: "hidden",
+            }}
+          >
+            {/* Cart Item */}
+            {orders &&
+              orders?.map((order) =>
+                order?.cart?.map((item) => (
+                  <div className="p-4" key={item?.product?._id}>
+                    <div className="flex items-start gap-x-6 mq480:flex-wrap">
+                      {/* Product Image */}
+                      <img
+                        className="w-[180px] h-[180px] object-contain border-gray-500 border-[1px] border-solid"
+                        alt={item && item?.product?.product_name_short}
+                        src={item && item?.product?.product_images?.[3]}
+                      />
 
-                        {/* Product Info */}
-                        <div className="flex-1">
-                          {item?.product?.brand?.name && (
-                            <p className="text-gray-200 text-start text-sm font-bold m-0">
-                              {item && item?.product?.brand?.name}
-                            </p>
-                          )}
-                          <p className="text-lg text-black text-base text-start font-medium">
-                            {item && item?.product?.product_name_short}
+                      {/* Product Info */}
+                      <div className="flex-1">
+                        {item?.product?.brand?.name && (
+                          <p className="text-gray-200 text-start text-sm font-bold m-0">
+                            {item && item?.product?.brand?.name}
                           </p>
-                          {item?.data == "pack" && (
-                            <p className="text-black text-sm text-start mt-0">
-                              Pack of:{" "}
-                              {item && item?.additional_info?.[0]?.pack_of}
-                            </p>
-                          )}
-                          {item?.data == "pack" && (
-                            <p className="text-black text-sm text-start mt-0">
-                              Power/Sphere: {"R:"}{" "}
-                              {item &&
-                                item?.additional_info?.[0]
-                                  ?.selectRightPower}{" "}
-                              {"L:"}{" "}
-                              {item &&
-                                item?.additional_info?.[0]?.selectLeftPower}
-                            </p>
-                          )}
-                          {item?.product?.frame_color && (
-                            <p className="text-black text-sm text-start mt-0">
-                              Color: {item && item?.product?.frame_color}
-                            </p>
-                          )}
-                          {item?.product?.gender && (
-                            <p className="text-black text-sm text-start mt-0">
-                              Gender: {item && item?.product?.gender}
-                            </p>
-                          )}
-                          {item?.product?.frame_shape && (
-                            <p className="text-black text-sm text-start mt-0">
-                              Fit: {item && item?.product?.frame_shape}
-                            </p>
-                          )}
+                        )}
+                        <p className="text-lg text-black text-base text-start font-medium">
+                          {item && item?.product?.product_name_short}
+                        </p>
+                        {item?.data == "pack" && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Pack of:{" "}
+                            {item && item?.additional_info?.[0]?.pack_of}
+                          </p>
+                        )}
+                        {item?.data == "pack" && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Power/Sphere: {"R:"}{" "}
+                            {item &&
+                              item?.additional_info?.[0]?.selectRightPower}{" "}
+                            {"L:"}{" "}
+                            {item &&
+                              item?.additional_info?.[0]?.selectLeftPower}
+                          </p>
+                        )}
+                        {item?.product?.frame_color && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Color: {item && item?.product?.frame_color}
+                          </p>
+                        )}
+                        {item?.product?.gender && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Gender: {item && item?.product?.gender}
+                          </p>
+                        )}
+                        {item?.product?.frame_shape && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Fit: {item && item?.product?.frame_shape}
+                          </p>
+                        )}
 
-                          {/* Quantity Controls */}
-                          <div className="flex items-center gap-x-4 mt-4">
-                            {item?.data == "pack" && (
-                              <div className="flex items-center gap-x-4">
-                                <p className="text-black text-sm text-start mt-0">
-                                  No. of Boxes:
-                                </p>
-                                <div className="flex items-center gap-x-3 border-gray-200 border-[1px] border-solid p-1">
-                                  <button
-                                    className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
-                                    onClick={() =>
-                                      handleQuantityChange(
-                                        order?._id,
-                                        item.product?._id,
-                                        -1
-                                      )
-                                    }
-                                    disabled={
-                                      item?.additional_info?.[0]
-                                        ?.selectRightBox <= 1
-                                    }
-                                  >
-                                    {"-"}
-                                  </button>
-                                  <span className="px-2 text-black text-sm">
-                                    {item &&
-                                      item?.additional_info?.[0]
-                                        ?.selectRightBox}
-                                  </span>
-                                  <button
-                                    className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
-                                    onClick={() =>
-                                      handleQuantityChange(
-                                        order?._id,
-                                        item?.product._id,
-                                        1
-                                      )
-                                    }
-                                  >
-                                    {"+"}
-                                  </button>
-                                </div>
-                                <div className="flex items-center gap-x-3 border-gray-200 border-[1px] border-solid p-1">
-                                  <button
-                                    className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
-                                    onClick={() =>
-                                      handleQuantityChange(
-                                        order?._id,
-                                        item.product?._id,
-                                        -1
-                                      )
-                                    }
-                                    disabled={
-                                      item?.additional_info?.[0]
-                                        ?.selectLeftBox <= 1
-                                    }
-                                  >
-                                    {"-"}
-                                  </button>
-                                  <span className="px-2 text-black text-sm">
-                                    {item &&
-                                      item?.additional_info?.[0]?.selectLeftBox}
-                                  </span>
-                                  <button
-                                    className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
-                                    onClick={() =>
-                                      handleQuantityChange(
-                                        order?._id,
-                                        item?.product._id,
-                                        1
-                                      )
-                                    }
-                                  >
-                                    {"+"}
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                            {item?.data != "pack" && (
+                        {/* Quantity Controls */}
+                        <div className="flex items-center gap-x-4 mt-4">
+                          {item?.data == "pack" && (
+                            <div className="flex items-center gap-x-4">
+                              <p className="text-black text-sm text-start mt-0">
+                                No. of Boxes:
+                              </p>
                               <div className="flex items-center gap-x-3 border-gray-200 border-[1px] border-solid p-1">
                                 <button
                                   className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
@@ -318,15 +272,21 @@ const Cart = () => {
                                     handleQuantityChange(
                                       order?._id,
                                       item.product?._id,
-                                      -1
+                                      item?.quantity,
+                                      -1,
+                                      "right"
                                     )
                                   }
-                                  disabled={item?.quantity <= 1}
+                                  disabled={
+                                    item?.additional_info?.[0]
+                                      ?.selectRightBox <= 1
+                                  }
                                 >
                                   {"-"}
                                 </button>
                                 <span className="px-2 text-black text-sm">
-                                  {item && item?.quantity}
+                                  {item &&
+                                    item?.additional_info?.[0]?.selectRightBox}
                                 </span>
                                 <button
                                   className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
@@ -334,16 +294,89 @@ const Cart = () => {
                                     handleQuantityChange(
                                       order?._id,
                                       item?.product._id,
-                                      1
+                                      item?.quantity,
+                                      1,
+                                      "right"
                                     )
                                   }
                                 >
                                   {"+"}
                                 </button>
                               </div>
-                            )}
-                            {/* Favorite Button */}
-                            {/* <button className="text-gray-200 bg-transparent border-gray-200 border-[1px] border-solid p-1 cursor-pointer">
+                              <div className="flex items-center gap-x-3 border-gray-200 border-[1px] border-solid p-1">
+                                <button
+                                  className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
+                                  onClick={() =>
+                                    handleQuantityChange(
+                                      order?._id,
+                                      item.product?._id,
+                                      item?.quantity,
+                                      -1,
+                                      "left"
+                                    )
+                                  }
+                                  disabled={
+                                    item?.additional_info?.[0]?.selectLeftBox <=
+                                    1
+                                  }
+                                >
+                                  {"-"}
+                                </button>
+                                <span className="px-2 text-black text-sm">
+                                  {item &&
+                                    item?.additional_info?.[0]?.selectLeftBox}
+                                </span>
+                                <button
+                                  className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
+                                  onClick={() =>
+                                    handleQuantityChange(
+                                      order?._id,
+                                      item?.product._id,
+                                      item?.quantity,
+                                      1,
+                                      "left"
+                                    )
+                                  }
+                                >
+                                  {"+"}
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                          {item?.data != "pack" && (
+                            <div className="flex items-center gap-x-3 border-gray-200 border-[1px] border-solid p-1">
+                              <button
+                                className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    order?._id,
+                                    item.product?._id,
+                                    -1
+                                  )
+                                }
+                                disabled={item?.quantity <= 1}
+                              >
+                                {"-"}
+                              </button>
+                              <span className="px-2 text-black text-sm">
+                                {item && item?.quantity}
+                              </span>
+                              <button
+                                className="border-none px-2 py-1 text-lg cursor-pointer bg-transparent"
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    order?._id,
+                                    item?.product._id,
+                                    1
+                                  )
+                                }
+                              >
+                                {"+"}
+                              </button>
+                            </div>
+                          )}
+                          {/* Favorite Button */}
+                          {/* <button className="text-gray-200 bg-transparent border-gray-200 border-[1px] border-solid p-1 cursor-pointer">
                               <Image
                                 className="h-7 w-7"
                                 loading="lazy"
@@ -354,36 +387,33 @@ const Cart = () => {
                               />
                             </button> */}
 
-                            {/* Remove Button */}
-                            <button
-                              className="text-gray-200 bg-transparent border-gray-200 border-b-[1px] border-solid p-0 cursor-pointer"
-                              onClick={() => handleRemoveOrder(order?._id)}
-                            >
-                              Remove
-                            </button>
-                          </div>
+                          {/* Remove Button */}
+                          <button
+                            className="text-gray-200 bg-transparent border-gray-200 border-b-[1px] border-solid p-0 cursor-pointer"
+                            onClick={() => handleRemoveOrder(order?._id)}
+                          >
+                            Remove
+                          </button>
                         </div>
-
-                        {/* Price */}
-                        {item?.data == "pack" ? (
-                          <p className="text-sm font-semibold text-black p-0">
-                            AED {item && item?.product?.retail_price}
-                          </p>
-                        ) : (
-                          <p className="text-sm font-semibold text-black p-0">
-                            AED{" "}
-                            {item &&
-                              item?.product?.retail_price * item?.quantity}
-                          </p>
-                        )}
                       </div>
+
+                      {/* Price */}
+                      {item?.data == "pack" ? (
+                        <p className="text-sm font-semibold text-black p-0">
+                          AED {item && item?.product?.retail_price}
+                        </p>
+                      ) : (
+                        <p className="text-sm font-semibold text-black p-0">
+                          AED{" "}
+                          {item && item?.product?.retail_price * item?.quantity}
+                        </p>
+                      )}
                     </div>
-                  ))
-                )}
-            </>
-          )}
-        </div>
-        {/* <div className="flex flex-col items-start justify-start w-2/3">
+                  </div>
+                ))
+              )}
+          </div>
+          {/* <div className="flex flex-col items-start justify-start w-2/3">
           {orders &&
             orders.map((order) =>
               order.cart.map((item) => (
@@ -629,8 +659,9 @@ const Cart = () => {
               ))
             )}
         </div> */}
-        <Right className="w-1/3 ml-6" totalAmount={calculateTotal()} />
-      </section>
+          <Right className="w-1/3 ml-6" subTotalAmount={calculateTotal()} />
+        </section>
+      )}
       <Footer
         maskGroup="/mask-group@2x.png"
         formMargin="0"

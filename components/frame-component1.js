@@ -68,7 +68,13 @@ const FrameComponent1 = memo(({ className = "" }) => {
     fetchCartList();
   }, []);
 
-  const handleQuantityChange = async (orderId, productId, quantity) => {
+  const handleQuantityChange = async (
+    orderId,
+    productId,
+    quantity,
+    boxValue,
+    boxType // "right" or "left"
+  ) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -76,23 +82,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
         return;
       }
 
-      const response = await axios.patch(
-        `https://apitrivsion.prismcloudhosting.com/api/orders/quantity/${orderId}`,
-        {
-          cart: [
-            {
-              product: productId,
-              quantity: quantity,
-            },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      // Find the current order and product details
       setOrders((prevOrders) => {
         return prevOrders.map((order) => {
           if (order._id === orderId) {
@@ -100,9 +90,23 @@ const FrameComponent1 = memo(({ className = "" }) => {
               ...order,
               cart: order.cart.map((item) => {
                 if (item.product._id === productId) {
+                  const existingAdditionalInfo =
+                    item.additional_info && item.additional_info.length > 0
+                      ? item.additional_info[0]
+                      : { selectRightBox: 0, selectLeftBox: 0 };
+
+                  const updatedAdditionalInfo = {
+                    ...existingAdditionalInfo, // Preserve other fields
+                    [boxType === "right" ? "selectRightBox" : "selectLeftBox"]:
+                      (existingAdditionalInfo[
+                        boxType === "right" ? "selectRightBox" : "selectLeftBox"
+                      ] || 0) + boxValue, // Ensure update happens
+                  };
+
                   return {
                     ...item,
                     quantity: item.quantity + quantity,
+                    additional_info: [updatedAdditionalInfo], // Maintain structure
                   };
                 }
                 return item;
@@ -112,6 +116,29 @@ const FrameComponent1 = memo(({ className = "" }) => {
           return order;
         });
       });
+
+      // API call with updated additional_info but keeping all other properties
+      await axios.patch(
+        `https://apitrivsion.prismcloudhosting.com/api/orders/quantity/${orderId}`,
+        {
+          cart: [
+            {
+              product: productId,
+              quantity: quantity,
+              additional_info: [
+                {
+                  ...updatedAdditionalInfo, // Send updated data while keeping previous info
+                },
+              ],
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     } catch (error) {
       console.error("Error updating quantity:", error);
     }
@@ -762,7 +789,9 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                     handleQuantityChange(
                                       order?._id,
                                       item.product?._id,
-                                      -1
+                                      item?.quantity,
+                                      -1,
+                                      "right"
                                     )
                                   }
                                   disabled={
@@ -782,7 +811,9 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                     handleQuantityChange(
                                       order?._id,
                                       item?.product._id,
-                                      1
+                                      item?.quantity,
+                                      1,
+                                      "right"
                                     )
                                   }
                                 >
@@ -796,7 +827,9 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                     handleQuantityChange(
                                       order?._id,
                                       item.product?._id,
-                                      -1
+                                      item?.quantity,
+                                      -1,
+                                      "left"
                                     )
                                   }
                                   disabled={
@@ -815,8 +848,10 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                   onClick={() =>
                                     handleQuantityChange(
                                       order?._id,
-                                      item?.product._id,
-                                      1
+                                      item.product?._id,
+                                      item?.quantity,
+                                      1,
+                                      "left"
                                     )
                                   }
                                 >
