@@ -674,7 +674,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
           className="custom-scrollbar"
           style={{
             maxHeight: "70vh",
-            overflowY: "scroll",
+            overflowY: "auto", // Show scrollbar only when needed
             overflowX: "hidden",
           }}
         >

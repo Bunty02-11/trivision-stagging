@@ -155,7 +155,7 @@ const Cart = () => {
           className="w-100 custom-scrollbar"
           style={{
             maxHeight: "55vh",
-            overflowY: "scroll",
+            overflowY: "auto", // Show scrollbar only when needed
             overflowX: "hidden",
           }}
         >
