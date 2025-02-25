@@ -29,7 +29,7 @@ const Main1 = memo(({ className = "", product }) => {
     }
 
     const newCartItem = {
-      product: product.product._id,
+      product: product.data._id,
       quantity: quantity,
       shipping_info: itemType,
     };
@@ -68,11 +68,11 @@ const Main1 = memo(({ className = "", product }) => {
 
   const calculateSubTotal = (cart, newCartItem) => {
     const currentSubTotal = cart.reduce(
-      (total, item) => total + item.quantity * product.product.retail_price,
+      (total, item) => total + item.quantity * product.data.retail_price,
       0
     );
     return (
-      currentSubTotal + newCartItem.quantity * product.product.retail_price
+      currentSubTotal + newCartItem.quantity * product.data.retail_price
     );
   };
 
@@ -220,16 +220,6 @@ const Main1 = memo(({ className = "", product }) => {
                     alt=""
                     src="/icon--youtube3.svg"
                   />
-                </div>
-              </div>
-              <div className="self-stretch h-10 border-black border-[1px] border-solid box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-1.5 px-[167px] text-base mq825:pl-[83px] mq825:pr-[83px] mq825:box-border cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300">
-                <div className="flex-1 relative leading-[150%] font-medium">
-                  SELECT YOUR LENS
-                </div>
-              </div>
-              <div className="self-stretch bg-black overflow-hidden flex flex-row items-center justify-center py-2 px-[140px] text-base text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq825:pl-[70px] mq825:pr-[70px] mq825:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300">
-                <div className="flex-1 relative leading-[150%] font-medium">
-                  FRAME ONLY, BUY IT NOW
                 </div>
               </div>
             </div>

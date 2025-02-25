@@ -85,7 +85,9 @@ const Footer = memo(
         >
           <div className="w-full flex flex-row items-start justify-center gap-10 mq480:flex-col">
             <div className="flex-1 flex flex-row items-start justify-start gap-10 mq480:flex-col">
-              <div className="overflow-hidden flex flex-col items-start justify-start">
+              <div className="overflow-hidden flex flex-col items-start justify-start"
+              onClick={() => handleNavigation("/")}
+              >
                 <Image
                   className="w-[136px] h-10 relative object-cover"
                   loading="lazy"

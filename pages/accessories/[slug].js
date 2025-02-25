@@ -25,6 +25,7 @@ const SunglassesProductDetails = () => {
 
   useEffect(() => {
     if (!slug) return;
+    console.log(slug, "slug");
 
     const fetchProduct = async () => {
       try {

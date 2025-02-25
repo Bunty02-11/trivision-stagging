@@ -43,7 +43,14 @@ const BrandsListing = ({ products }) => {
       <FrameComponent1 />
       <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-center justify-center px-0 pb-0 box-border gap-[60px] mq480:gap-[40px] text-center text-base text-background-color-primary font-h4-32 mq750:gap-[40px]">
         {/* Banner Section */}
-        <div className="w-full bg-[url('/brandBanner.jpg')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
+        <div className="w-full h-[475px] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5"
+          style={{
+            backgroundImage: `url(${products[0]?.brand?.brand_logo || '/brandBanner.jpg'})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        />
         {/* Info Section */}
         <section className="w-[1440px] flex flex-col items-center justify-center px-20 box-border max-w-full mq750:px-10">
           <div
@@ -51,7 +58,7 @@ const BrandsListing = ({ products }) => {
             style={{ color: "black" }}
           >
             <h1 className="mq480:text-base mq480:text-center p-0 m-0">
-              {products[0]?.brand?.name || "Special Title"}
+              {products[0]?.brand?.title || "Special Title"}
             </h1>
           </div>
           <div

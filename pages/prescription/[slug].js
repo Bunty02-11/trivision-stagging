@@ -50,6 +50,10 @@ const Prescription = () => {
     });
   };
 
+  const handleNavigationToHome = (path) => {
+    router.push(path);
+  };
+
   return (
     <div className="w-full relative flex flex-col items-start justify-start text-left text-base text-black font-p5-12">
       <div className="self-stretch relative bg-whitesmoke-100 border-gray-200 border-b-[1px] border-solid box-border h-20 overflow-hidden shrink-0">
@@ -79,6 +83,7 @@ const Prescription = () => {
           height={36}
           alt=""
           src="/logo@2x.png"
+          onClick={() => handleNavigationToHome("/")}
         />
       </div>
       <div className="self-stretch bg-gray-100 overflow-hidden flex flex-col items-center justify-start pt-10 px-[60px] pb-[60px] gap-6 text-center text-xs text-gray-300">
@@ -108,12 +113,22 @@ const Prescription = () => {
                       <div className="flex-1 relative leading-[150%] font-semibold">
                         Model
                       </div>
-                      <div className="relative leading-[150%] font-semibold">
+                    </div>
+                    <div className="self-stretch flex flex-row items-start justify-start gap-2">
+                      <div className="flex-1 relative leading-[150%] font-medium">
+                      {product.product_id.product_name_short}
+                      </div>
+                      <div className="relative leading-[150%] font-medium">
                         AED {product.product_id.retail_price}
                       </div>
                     </div>
-                    <div className="relative text-sm leading-[150%] font-medium">
-                      {product.product_id.product_name_short}
+                    <div className="self-stretch flex flex-row items-start justify-start gap-2">
+                      <div className="flex-1 relative leading-[150%] font-medium">
+                        {product.additional_info[0].lensType}
+                      </div>
+                      <div className="relative leading-[150%] font-medium">
+                        AED {product.additional_info[0].price}
+                      </div>
                     </div>
                   </div>
                   <div className="self-stretch border-gray-400 border-t-[1px] border-solid flex flex-col items-start justify-center pt-4 px-0 pb-0 gap-2">
@@ -125,14 +140,14 @@ const Prescription = () => {
                         AED {product.total}
                       </div>
                     </div>
-                    <div className="self-stretch flex flex-row items-start justify-start gap-2.5 text-sm">
+                    {/* <div className="self-stretch flex flex-row items-start justify-start gap-2.5 text-sm">
                       <div className="flex-1 relative leading-[150%] font-medium">
                         Include VAT
                       </div>
                       <div className="relative leading-[150%] font-medium text-right">
                         AED {product.total * 0.05}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </>
               )}
