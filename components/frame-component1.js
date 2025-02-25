@@ -128,6 +128,32 @@ const FrameComponent1 = memo(({ className = "" }) => {
     }, 0);
   };
 
+  const handleRemoveOrder = async (orderId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      await axios.delete(
+        `https://apitrivsion.prismcloudhosting.com/api/deleteOrder/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Update state after successful deletion
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order._id !== orderId)
+      );
+    } catch (error) {
+      console.error("Error removing order:", error);
+    }
+  };
+
   // search func. start
   // Debounce function to limit the API calls
   const debounce = (func, delay) => {
@@ -645,6 +671,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
           </button>
         </div>
         <div
+          className="custom-scrollbar"
           style={{
             maxHeight: "70vh",
             overflowY: "scroll",
@@ -832,7 +859,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
                               </div>
                             )}
                             {/* Favorite Button */}
-                            <button className="text-gray-200 bg-transparent border-gray-200 border-[1px] border-solid p-1 cursor-pointer">
+                            {/* <button className="text-gray-200 bg-transparent border-gray-200 border-[1px] border-solid p-1 cursor-pointer">
                               <Image
                                 className="h-7 w-7"
                                 loading="lazy"
@@ -841,17 +868,27 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                 alt=""
                                 src="/wish.svg"
                               />
-                            </button>
+                            </button> */}
 
                             {/* Remove Button */}
-                            <button className="text-gray-200 bg-transparent border-gray-200 border-b-[1px] border-solid p-0 cursor-pointer">
+                            <button
+                              className="text-gray-200 bg-transparent border-gray-200 border-b-[1px] border-solid p-0 cursor-pointer"
+                              onClick={() => handleRemoveOrder(order?._id)}
+                            >
                               Remove
                             </button>
                             {/* Price */}
-                            <p className="text-sm font-semibold text-black p-0">
-                              AED{" "}
-                              {item && item?.product?.retail_price * quantity}
-                            </p>
+                            {item?.data == "pack" ? (
+                              <p className="text-sm font-semibold text-black p-0">
+                                AED {item && item?.product?.retail_price}
+                              </p>
+                            ) : (
+                              <p className="text-sm font-semibold text-black p-0">
+                                AED{" "}
+                                {item &&
+                                  item?.product?.retail_price * item?.quantity}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
