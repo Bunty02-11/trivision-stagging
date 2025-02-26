@@ -4,6 +4,7 @@ import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
 import ProductFaqs from "../../components/product-faqs";
 import Footer from "../../components/footer";
+import { useState } from "react";
 
 export const getServerSideProps = async ({ params }) => {
   try {
@@ -41,7 +42,6 @@ const EyeglassesListing = ({ initialProducts }) => {
   const [products, setProducts] = useState(initialProducts);
 
   const handleFilter = async (filters) => {
-    console.log("filters::", filters);
     try {
       const response = await fetch(
         "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
@@ -71,9 +71,18 @@ const EyeglassesListing = ({ initialProducts }) => {
         {/* Banner Section */}
         <div className="w-full bg-[url('/eyeglassbanner.jpg')] bg-cover bg-no-repeat bg-center h-[60vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
         {/* Products & Filters */}
-        <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10">
-          <FiltersAndProducts product={products} handleFilter={handleFilter} />
-        </section>
+        {products?.length == 0 ? (
+          <p className="text-gray-200 text-center font-medium text-lg mq480:text-sm">
+            No Product Found!
+          </p>
+        ) : (
+          <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10">
+            <FiltersAndProducts
+              product={products}
+              handleFilter={handleFilter}
+            />
+          </section>
+        )}
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper
             joinWrapperPadding="0px 20px 0px 0px"

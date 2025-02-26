@@ -89,13 +89,19 @@ const ProductListing = () => {
       <FrameComponent1 />
       <div className="w-full bg-gray-100 flex flex-col items-center">
         <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
-        <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
-          <FiltersAndProducts
-            product={products}
-            slug={slug}
-            handleFilter={handleFilter}
-          />
-        </section>
+        {products?.length == 0 ? (
+          <p className="text-gray-200 text-center font-medium text-lg mq480:text-sm pt-[60px]">
+            No Product Found!
+          </p>
+        ) : (
+          <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
+            <FiltersAndProducts
+              product={products}
+              slug={slug}
+              handleFilter={handleFilter}
+            />
+          </section>
+        )}
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-5 pb-[60px] gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper
             joinWrapperPadding="0px 20px 0px 0px"

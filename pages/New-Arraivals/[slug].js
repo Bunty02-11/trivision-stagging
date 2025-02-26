@@ -86,14 +86,16 @@ const ProductListing = () => {
       <FrameComponent1 />
       <div className="w-full bg-gray-100 flex flex-col items-center">
         <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
-          {products.length > 0 ? (
+          {products?.length == 0 ? (
+            <p className="text-gray-200 text-center font-medium text-lg mq480:text-sm pt-[60px]">
+              No Product Found!
+            </p>
+          ) : (
             <FiltersAndProducts
               product={products}
               slug={slug}
               handleFilter={handleFilter}
             />
-          ) : (
-            <p className="text-center text-gray-600">No products available</p>
           )}
         </section>
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-5 pb-[60px] gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
