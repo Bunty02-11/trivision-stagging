@@ -2,8 +2,8 @@ import FrameComponent1 from "../../components/frame-component1";
 import FiltersAndProducts from "../../components/eyeglasses/filter&product";
 import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
-import Footer from "../../components/footer";
 import ProductFaqs from "../../components/product-faqs";
+import Footer from "../../components/footer";
 
 export const getServerSideProps = async ({ params }) => {
   try {

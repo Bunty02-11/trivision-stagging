@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import FrameComponent1 from "../../components/frame-component1";
 import FiltersAndProducts from "../../components/CommonSections/common-filter-product";
-import FrameComponent4 from "../../components/frame-component4";
 import Loader from "../../components/Loader/Loader";
 import Footer from "../../components/footer";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import JoinWrapper from "../../components/join-wrapper";
+import InstaPosts from "../../components/insta-posts";
+import ProductFaqs from "../../components/product-faqs";
 
 const ProductListing = () => {
   const [products, setProducts] = useState([]);
@@ -64,8 +66,18 @@ const ProductListing = () => {
         <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
           <FiltersAndProducts product={products} slug={slug} />
         </section>
-        <section className="pb-[60px]">
-          <FrameComponent4 product={products} />
+        <section className="self-stretch flex flex-col items-center justify-center pt-0 px-5 pb-[60px] gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
+          <JoinWrapper
+            joinWrapperPadding="0px 20px 0px 0px"
+            joinWrapperFlex="unset"
+            joinWrapperAlignSelf="unset"
+            emptyPlaceholders="/8@2x.png"
+            emptyPlaceholders1="/7@2x.png"
+            emptyPlaceholders2="/6@2x.png"
+            emptyPlaceholders3="/5@2x.png"
+          />
+          <ProductFaqs faqs={products?.[0]?.brand?.faqs} />
+          <InstaPosts />
         </section>
         <Footer maskGroup="/mask-group@2x.png" />
       </div>
