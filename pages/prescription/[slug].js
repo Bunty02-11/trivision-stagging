@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Prescription = () => {
   const router = useRouter();
@@ -22,7 +22,6 @@ const Prescription = () => {
             },
           }
         );
-        console.log("Product data fetched:", response);
         setProduct(response.data);
       } catch (error) {
         console.error(
@@ -40,7 +39,6 @@ const Prescription = () => {
     }
 
     if (slug) {
-      console.log("Fetching data for slug:", slug); // Log the slug
       fetchData(slug, token);
     }
   }, [slug]);
@@ -58,7 +56,7 @@ const Prescription = () => {
 
   const handleNavigationToProduct = (slug) => {
     router.push(`/select-your-lens/${slug}`);
-  }
+  };
 
   return (
     <div className="w-full relative flex flex-col items-start justify-start text-left text-base text-black font-p5-12">
@@ -83,12 +81,14 @@ const Prescription = () => {
         </div>
         <div className="absolute top-[calc(50%-_18px)] left-[calc(50%-_740px)] flex flex-row items-center justify-start gap-4">
           {product && (
-            console.log(product.product_id.slug,),
             <FontAwesomeIcon
               icon={faArrowLeft}
               className="w-6 h-6 cursor-pointer"
               onClick={() =>
-                handleNavigationToProduct(product.product_id.slug, product.product_id.category)
+                handleNavigationToProduct(
+                  product.product_id.slug,
+                  product.product_id.category
+                )
               }
             />
           )}

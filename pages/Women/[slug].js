@@ -51,6 +51,31 @@ const ProductListing = () => {
     fetchData();
   }, [slug, gender]); // Run the effect when slug or gender changes
 
+  const handleFilter = async (filters) => {
+    console.log("filters::", filters);
+    try {
+      const response = await fetch(
+        "https://apitrivsion.prismcloudhosting.com/api/data/products/filter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filters),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered products");
+      }
+
+      const filteredData = await response.json();
+      setProducts(filteredData.products || []);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -65,7 +90,11 @@ const ProductListing = () => {
       <div className="w-full bg-gray-100 flex flex-col items-center">
         <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
         <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
-          <FiltersAndProducts product={products} slug={slug} />
+          <FiltersAndProducts
+            product={products}
+            slug={slug}
+            handleFilter={handleFilter}
+          />
         </section>
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-5 pb-[60px] gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper

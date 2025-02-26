@@ -3,12 +3,22 @@ import Image from "next/image";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-const AccessoriesFiltersSidebar = ({ isOpen, onClose }) => {
+const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
   const [priceRange, setPriceRange] = useState([1, 10000]);
   const [isPriceExpanded, setIsPriceExpanded] = useState(true);
+
+  const applyFilters = () => {
+    onFilter({
+      ...selectedFilters,
+      price_min: priceRange[0],
+      price_max: priceRange[1],
+      // brand: slug,
+    });
+    onClose(); // Close sidebar after applying filters
+  };
 
   const togglePriceExpand = () => {
     setIsPriceExpanded((prev) => !prev);
@@ -269,7 +279,10 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose }) => {
           >
             CLEAR
           </button>
-          <button className="w-1/2 bg-black text-white py-3 rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300">
+          <button
+            className="w-1/2 bg-black text-white py-3 rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+            onClick={applyFilters}
+          >
             APPLY FILTERS
           </button>
         </div>

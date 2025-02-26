@@ -63,8 +63,6 @@ const Wishlist = () => {
           },
         }
       );
-
-      console.log(response, "Order updated");
     } catch (error) {
       console.error("Error updating order:", error);
     }

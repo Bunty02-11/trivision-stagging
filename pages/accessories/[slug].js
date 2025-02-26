@@ -25,7 +25,6 @@ const SunglassesProductDetails = () => {
 
   useEffect(() => {
     if (!slug) return;
-    console.log(slug, "slug");
 
     const fetchProduct = async () => {
       try {
@@ -33,7 +32,6 @@ const SunglassesProductDetails = () => {
           `https://apitrivsion.prismcloudhosting.com/api/accesories/slug/${slug}`
         );
         const data = await res.json();
-        // console.log(data.data.product_name_long, "hi")
         if (!data.data) {
           setError("Product not found");
         } else {
@@ -52,8 +50,6 @@ const SunglassesProductDetails = () => {
   if (loading) return <Loader />;
   if (error) return <p>{error}</p>;
   if (!product) return null;
-
-  //   console.log(product.data.category.name, "for")
 
   return (
     <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-center justify-center">

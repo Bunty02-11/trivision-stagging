@@ -8,8 +8,8 @@ import PropTypes from "prop-types";
 import ProductImage from "./ProductImage";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Main1 = memo(({ className = "", product, category }) => {
   const [quantity, setQuantity] = useState(1);
@@ -65,14 +65,20 @@ const Main1 = memo(({ className = "", product, category }) => {
         }
       );
 
-      toast.success(`Product added to ${itemType === "cart" ? "cart" : "wishlist"}!`);
+      toast.success(
+        `Product added to ${itemType === "cart" ? "cart" : "wishlist"}!`
+      );
       setCart([...cart, newCartItem]); // Update local cart state
     } catch (error) {
       console.error(
-        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "wishlist"}`,
+        `There was an error adding the product to the ${
+          itemType === "cart" ? "cart" : "wishlist"
+        }`,
         error
       );
-      toast.error(`Error adding product to ${itemType === "cart" ? "cart" : "wishlist"}`);
+      toast.error(
+        `Error adding product to ${itemType === "cart" ? "cart" : "wishlist"}`
+      );
     }
   };
 
@@ -118,8 +124,6 @@ const Main1 = memo(({ className = "", product, category }) => {
         pathname: `/select-your-lens/${slug}`,
         query: { slug },
       });
-
-      // console.log("Response:", response.data);
     } catch (error) {
       console.error("Error:", error.response?.data?.message || error.message);
     }
@@ -140,8 +144,6 @@ const Main1 = memo(({ className = "", product, category }) => {
   const handleSocialIcons = (path) => {
     window.open(path, "_blank", "noopener,noreferrer");
   };
-
-  // console.log(product.product.slug, "slug");
 
   return (
     <section
@@ -276,7 +278,9 @@ const Main1 = memo(({ className = "", product, category }) => {
                     alt=""
                     src="/pint.png"
                     onClick={() =>
-                      handleSocialIcons("https://www.pinterest.com/trivisionoptical/")
+                      handleSocialIcons(
+                        "https://www.pinterest.com/trivisionoptical/"
+                      )
                     }
                   />
                   <Image

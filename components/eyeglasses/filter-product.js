@@ -2,10 +2,10 @@ import { memo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import ProductCards from "../product-cards";
-import FiltersSidebar from "./contact-lenses-filters-sidebar";
+import FiltersSidebar from "./eyeglasses-filters-sidebar";
 import PropTypes from "prop-types";
 
-const FiltersAndProducts = memo(({ className = "", product = [] }) => {
+const FiltersAndProducts = memo(({ className = "", product = [] ,handleFilter}) => {
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [visibleProducts, setVisibleProducts] = useState(24);
@@ -24,7 +24,7 @@ const FiltersAndProducts = memo(({ className = "", product = [] }) => {
   };
 
   const handleNavigation = (slug) => {
-    router.push(`/ContactLensesDetails/${slug}`);
+    router.push(`/product/${slug}`);
   };
 
   // Sorting logic
@@ -72,6 +72,7 @@ const FiltersAndProducts = memo(({ className = "", product = [] }) => {
           <FiltersSidebar
             isOpen={isSidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            onFilter={handleFilter}
           />
           <div className="flex flex-col pt-2">
             <div className="flex flex-row items-center gap-3">
@@ -95,25 +96,30 @@ const FiltersAndProducts = memo(({ className = "", product = [] }) => {
         </div>
         <div className="self-stretch flex flex-row items-center justify-center flex-wrap content-start gap-x-2 gap-y-6">
           {sortedProducts?.slice(0, visibleProducts).map((productItem) => {
-            const firstImageUrl = productItem?.product_images[0] || "52@2x.png";
+            const firstImageUrl =
+              productItem?.product_images[0] || "/bestseller1.jpg";
             return (
               <div
                 key={productItem._id}
-                onClick={() => handleNavigation(productItem?.slug)}
+                onClick={() =>
+                  handleNavigation(productItem?.slug, productItem?.category)
+                }
                 className="cursor-pointer"
               >
                 <ProductCards
                   {...productItem}
-                  id={productItem._id}
+                  product_id={productItem?._id}
                   brand_name={productItem?.brand?.name}
-                  name={productItem.product_name_short}
-                  price={productItem.retail_price}
-                  imgBackgroundImage={firstImageUrl}
+                  name={productItem?.product_name_short}
+                  price={productItem?.retail_price}
+                  imgBackgroundImage={firstImageUrl} // ✅ Dynamically passed image URL
                   colorOptionJustifyContent="center"
                   priceContainerJustifyContent="center"
                   iconamoonheartLight="/iconamoonheartlight-2.svg"
                   sVG="/svg-3.svg"
-                  slug={productItem.slug}
+                  slug={productItem?.slug}
+                  onAddToCart={(e) => e.stopPropagation()} // Stop navigation for Add to Cart
+                  onAddToWishlist={(e) => e.stopPropagation()} // Stop navigation for Wishlist
                 />
               </div>
             );
@@ -154,11 +160,11 @@ const FiltersAndProducts = memo(({ className = "", product = [] }) => {
 
 FiltersAndProducts.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.array.isRequired,
+  product: PropTypes.array.isRequired, // Ensuring `product` is an array
 };
 
 FiltersAndProducts.defaultProps = {
-  product: [],
+  product: [], // Default to an empty array if no products are provided
 };
 
 export default FiltersAndProducts;

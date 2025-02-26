@@ -59,7 +59,8 @@ const Main1 = memo(({ className = "", product }) => {
       setCart([...cart, newCartItem]); // Update local cart state
     } catch (error) {
       console.error(
-        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "whishlist"
+        `There was an error adding the product to the ${
+          itemType === "cart" ? "cart" : "whishlist"
         }`,
         error
       );
@@ -71,9 +72,7 @@ const Main1 = memo(({ className = "", product }) => {
       (total, item) => total + item.quantity * product.data.retail_price,
       0
     );
-    return (
-      currentSubTotal + newCartItem.quantity * product.data.retail_price
-    );
+    return currentSubTotal + newCartItem.quantity * product.data.retail_price;
   };
 
   const calculateTotal = (cart, newCartItem) => {
@@ -82,7 +81,6 @@ const Main1 = memo(({ className = "", product }) => {
     const discount = 0;
     return subTotal + shippingCost - discount;
   };
-// console.log(product.data.category, "min")
   return (
     <section
       className={`self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border gap-6 max-w-full text-left text-xs text-gray-400 font-h4-32 mq480:pt-5 mq480:pb-5 mq480:box-border mq825:py-[25px] mq825:px-10 mq825:box-border mq1410:pt-[39px] mq1410:pb-[39px] mq1410:box-border ${className}`}

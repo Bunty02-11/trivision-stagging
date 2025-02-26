@@ -1,3 +1,4 @@
+import { useState } from "react";
 import FrameComponent1 from "../../components/frame-component1";
 import FiltersAndProducts from "../../components/brand/filters-and-products";
 import JoinWrapper from "../../components/join-wrapper";
@@ -28,7 +29,7 @@ export const getServerSideProps = async ({ params }) => {
 
     return {
       props: {
-        products: data.products,
+        initialProducts: data.products,
         slug: params?.slug,
       },
     };
@@ -38,7 +39,34 @@ export const getServerSideProps = async ({ params }) => {
   }
 };
 
-const BrandsListing = ({ products, slug }) => {
+const BrandsListing = ({ initialProducts, slug }) => {
+  const [products, setProducts] = useState(initialProducts);
+
+  const handleFilter = async (filters) => {
+    console.log("filters::",filters)
+    try {
+      const response = await fetch(
+        "https://apitrivsion.prismcloudhosting.com/api/data/products/filter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filters),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered products");
+      }
+
+      const filteredData = await response.json();
+      setProducts(filteredData.products || []);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
+
   return (
     <>
       <FrameComponent1 />
@@ -76,7 +104,11 @@ const BrandsListing = ({ products, slug }) => {
         </section>
         {/* Products & Filters */}
         <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10">
-          <FiltersAndProducts product={products} slug={slug} />
+          <FiltersAndProducts
+            product={products}
+            slug={slug}
+            handleFilter={handleFilter}
+          />
         </section>
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper

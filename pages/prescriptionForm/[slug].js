@@ -35,7 +35,6 @@ const SelectYourLens = () => {
             },
           }
         );
-        console.log("Product data fetched:", response);
         setProduct(response.data);
       } catch (error) {
         console.error(
@@ -53,7 +52,6 @@ const SelectYourLens = () => {
     }
 
     if (slug) {
-      console.log("Fetching data for slug:", slug); // Log the slug
       fetchData(slug, token);
     }
   }, [slug]);
@@ -228,8 +226,6 @@ const SelectYourLens = () => {
         pathname: `/review/${slug}`,
         query: { slug },
       });
-
-      console.log("Updated Total:", newTotal);
     } catch (error) {
       console.error("Error:", error.response?.data?.message || error.message);
     }
@@ -266,20 +262,18 @@ const SelectYourLens = () => {
           </div>
         </div>
         <div className="absolute top-[calc(50%-_18px)] left-[calc(50%-_740px)] flex flex-row items-center justify-start gap-4">
-          {product &&
-            (console.log(product.product_id.slug),
-            (
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                className="w-6 h-6 cursor-pointer"
-                onClick={() =>
-                  handleNavigationToProduct(
-                    product.product_id.slug,
-                    product.product_id.category
-                  )
-                }
-              />
-            ))}
+          {product && (
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="w-6 h-6 cursor-pointer"
+              onClick={() =>
+                handleNavigationToProduct(
+                  product.product_id.slug,
+                  product.product_id.category
+                )
+              }
+            />
+          )}
           <Image
             className="w-[185.6px] h-9 object-cover cursor-pointer"
             width={186}

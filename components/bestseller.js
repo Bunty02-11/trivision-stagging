@@ -36,8 +36,6 @@ const Bestseller = memo(({ className = "" }) => {
     router.push(`/product/${slug}`);
   };
 
-  // console.log("bestSellers", bestSellers.slug);
-
   return (
     <div
       className={`w-[1320px] flex flex-col items-end justify-start mq750:items-center gap-10 max-w-full text-center text-21xl text-black font-h4-32 mq750:gap-5 ${className}`}
@@ -87,11 +85,10 @@ const Bestseller = memo(({ className = "" }) => {
             </div>
           </SwiperSlide>
           {bestSellers?.map((product) => (
-            console.log("product", product.slug),
-            <SwiperSlide key={product._id}
-              onClick={() =>
-                handleNavigation(product?.slug, product?.category)
-              }>
+            <SwiperSlide
+              key={product._id}
+              onClick={() => handleNavigation(product?.slug, product?.category)}
+            >
               <ProductCards
                 imgBackgroundImage={product.product_images[0] || "default.jpg"}
                 price={product.retail_price}

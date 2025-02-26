@@ -22,8 +22,6 @@ const Menu = memo(({ className = "", category }) => {
     router.push(`/${gender}/${slug}`);
   };
 
-  console.log(category, "category");
-
   return (
     <div
       className={`w-[1000px] bg-background-color-primary max-w-full overflow-hidden flex flex-col items-center justify-start p-6 box-border gap-4 leading-[normal] tracking-[normal] ${className}`}

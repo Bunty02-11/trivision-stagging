@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ProductCards from "./product-cards";
-import FiltersSidebar from "./filters-sidebar";
+import ProductCards from "../product-cards";
+import FiltersSidebar from "./sunglasses-filters-sidebar";
 import PropTypes from "prop-types";
 
 const FiltersAndProducts = memo(
@@ -97,8 +97,7 @@ const FiltersAndProducts = memo(
           </div>
           <div className="self-stretch flex flex-row items-center justify-center flex-wrap content-start gap-x-2 gap-y-6">
             {sortedProducts?.slice(0, visibleProducts).map((productItem) => {
-              const firstImageUrl =
-                productItem?.product_images[0] || "/bestseller1.jpg";
+              const firstImageUrl = productItem?.product_images[0] || "";
               return (
                 <div
                   key={productItem._id}

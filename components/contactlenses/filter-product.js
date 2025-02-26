@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ProductCards from "./product-cards";
-import FiltersSidebar from "./filters-sidebar";
+import ProductCards from "../product-cards";
+import FiltersSidebar from "./contact-lenses-filters-sidebar";
 import PropTypes from "prop-types";
 
 const FiltersAndProducts = memo(
@@ -25,7 +25,7 @@ const FiltersAndProducts = memo(
     };
 
     const handleNavigation = (slug) => {
-      router.push(`/product/${slug}`);
+      router.push(`/ContactLensesDetails/${slug}`);
     };
 
     // Sorting logic
@@ -98,29 +98,25 @@ const FiltersAndProducts = memo(
           <div className="self-stretch flex flex-row items-center justify-center flex-wrap content-start gap-x-2 gap-y-6">
             {sortedProducts?.slice(0, visibleProducts).map((productItem) => {
               const firstImageUrl =
-                productItem?.product_images[0] || "/bestseller1.jpg";
+                productItem?.product_images[0] || "52@2x.png";
               return (
                 <div
                   key={productItem._id}
-                  onClick={() =>
-                    handleNavigation(productItem?.slug, productItem?.category)
-                  }
+                  onClick={() => handleNavigation(productItem?.slug)}
                   className="cursor-pointer"
                 >
                   <ProductCards
                     {...productItem}
-                    product_id={productItem._id}
+                    id={productItem._id}
                     brand_name={productItem?.brand?.name}
                     name={productItem.product_name_short}
                     price={productItem.retail_price}
-                    imgBackgroundImage={firstImageUrl} // ✅ Dynamically passed image URL
+                    imgBackgroundImage={firstImageUrl}
                     colorOptionJustifyContent="center"
                     priceContainerJustifyContent="center"
                     iconamoonheartLight="/iconamoonheartlight-2.svg"
                     sVG="/svg-3.svg"
                     slug={productItem.slug}
-                    onAddToCart={(e) => e.stopPropagation()} // Stop navigation for Add to Cart
-                    onAddToWishlist={(e) => e.stopPropagation()} // Stop navigation for Wishlist
                   />
                 </div>
               );
@@ -162,11 +158,11 @@ const FiltersAndProducts = memo(
 
 FiltersAndProducts.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.array.isRequired, // Ensuring `product` is an array
+  product: PropTypes.array.isRequired,
 };
 
 FiltersAndProducts.defaultProps = {
-  product: [], // Default to an empty array if no products are provided
+  product: [],
 };
 
 export default FiltersAndProducts;
