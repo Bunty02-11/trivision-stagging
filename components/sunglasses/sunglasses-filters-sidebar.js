@@ -24,7 +24,44 @@ const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
           `https://apitrivsion.prismcloudhosting.com/api/filter/category/Sunglasses`
         );
         const data = await response.json();
-        setVariants(data.variants || {});
+
+        const sortedVariants = Object.fromEntries(
+          Object.entries(data.variants || {}).map(
+            ([category, subCategories]) => {
+              if (Array.isArray(subCategories)) {
+                return [
+                  category,
+                  [...subCategories].sort((a, b) =>
+                    isNaN(a) || isNaN(b) ? a.localeCompare(b) : a - b
+                  ),
+                ];
+              } else if (
+                typeof subCategories === "object" &&
+                subCategories !== null
+              ) {
+                return [
+                  category,
+                  Object.fromEntries(
+                    Object.entries(subCategories).map(
+                      ([subCategory, items]) => [
+                        subCategory,
+                        Array.isArray(items)
+                          ? [...items].sort((a, b) =>
+                              isNaN(a) || isNaN(b) ? a.localeCompare(b) : a - b
+                            )
+                          : items,
+                      ]
+                    )
+                  ),
+                ];
+              }
+              return [category, subCategories];
+            }
+          )
+        );
+        setVariants(sortedVariants);
+        // const data = await response.json();
+        // setVariants(data.variants || {});
       } catch (error) {
         console.error("Error fetching variants:", error);
       }
@@ -126,7 +163,7 @@ const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
                             {items.map((item, idx) => (
                               <label
                                 key={idx}
-                                className="flex items-center gap-2 mb-2"
+                                className="flex items-center gap-2 mb-2 capitalize"
                               >
                                 <input
                                   type="checkbox"
@@ -147,7 +184,10 @@ const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
                     : Array.isArray(subCategories) &&
                       subCategories.length > 0 && // ✅ Skip empty arrays
                       subCategories.map((item, idx) => (
-                        <label key={idx} className="flex items-center gap-2">
+                        <label
+                          key={idx}
+                          className="flex items-center gap-2 capitalize"
+                        >
                           <input
                             type="checkbox"
                             checked={
