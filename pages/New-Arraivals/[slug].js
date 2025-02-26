@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import FrameComponent1 from "../../components/frame-component1";
-import FiltersAndProducts from "../../components/eyeglasses/filter&product";
+import FiltersAndProducts from "../../components/CommonSections/common-filter-product";
 import FrameComponent4 from "../../components/frame-component4";
 import Loader from "../../components/Loader/Loader";
 import Footer from "../../components/footer";
@@ -60,10 +60,10 @@ const ProductListing = () => {
     <>
       <FrameComponent1 />
       <div className="w-full bg-gray-100 flex flex-col items-center">
-      <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
+        <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
         <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
           {products.length > 0 ? (
-            <FiltersAndProducts product={products} />
+            <FiltersAndProducts product={products} slug={slug} />
           ) : (
             <p className="text-center text-gray-600">No products available</p>
           )}

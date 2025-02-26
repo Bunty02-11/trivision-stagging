@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
+const CommonFiltersSidebar = ({ isOpen, onClose, slug }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -21,7 +21,7 @@ const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
     const fetchVariations = async () => {
       try {
         const response = await fetch(
-          `https://apitrivsion.prismcloudhosting.com/api/filter/category/Sunglasses`
+          `https://apitrivsion.prismcloudhosting.com/api/filter/category/${slug}`
         );
         const data = await response.json();
         setVariants(data.variants || {});
@@ -31,7 +31,7 @@ const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
     };
 
     fetchVariations();
-  }, []);
+  }, [slug]);
 
   const toggleExpand = (category) => {
     setExpandedCategories((prev) => ({
@@ -181,4 +181,4 @@ const SunglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
   );
 };
 
-export default SunglassesFiltersSidebar;
+export default CommonFiltersSidebar;

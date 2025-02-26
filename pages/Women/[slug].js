@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import FrameComponent1 from "../../components/frame-component1";
-import FiltersAndProducts from "../../components/eyeglasses/filter&product";
+import FiltersAndProducts from "../../components/CommonSections/common-filter-product";
 import FrameComponent4 from "../../components/frame-component4";
 import Loader from "../../components/Loader/Loader";
 import Footer from "../../components/footer";
@@ -62,7 +62,7 @@ const ProductListing = () => {
       <FrameComponent1 />
       <div className="w-full bg-gray-100 flex flex-col items-center">
         <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
-          <FiltersAndProducts product={products} />
+          <FiltersAndProducts product={products} slug={slug} />
         </section>
         <section className="pb-[60px]">
           <FrameComponent4 product={products} />
