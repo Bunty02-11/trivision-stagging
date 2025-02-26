@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { usePathname } from "next/navigation";
 
 const FiltersSidebar = ({ isOpen, onClose, onFilter }) => {
+  const pathname = usePathname();
+  const route = pathname?.split("/")?.[1];
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});

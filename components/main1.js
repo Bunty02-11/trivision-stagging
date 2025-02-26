@@ -109,7 +109,7 @@ const Main1 = memo(({ className = "", product, category }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5055/api/selectlens",
+        "https://apitrivsion.prismcloudhosting.com/api/selectlens",
         data,
         {
           headers: {
