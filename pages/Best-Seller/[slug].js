@@ -52,7 +52,7 @@ const ProductListing = () => {
     console.log("filters::", filters);
     try {
       const response = await fetch(
-        "https://apitrivsion.prismcloudhosting.com/api/data/products/filter",
+        "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
         {
           method: "POST",
           headers: {
@@ -87,7 +87,11 @@ const ProductListing = () => {
       <div className="w-full bg-gray-100 flex flex-col items-center">
         <section className="w-full max-w-7xl px-5 pb-[60px] pt-[60px]">
           {products.length > 0 ? (
-            <FiltersAndProducts product={products} slug={slug} handleFilter={handleFilter}/>
+            <FiltersAndProducts
+              product={products}
+              slug={slug}
+              handleFilter={handleFilter}
+            />
           ) : (
             <p className="text-center text-gray-600">No products available</p>
           )}

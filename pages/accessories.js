@@ -41,7 +41,7 @@ const AccessoriesListing = ({ initialProducts }) => {
     console.log("filters::", filters);
     try {
       const response = await fetch(
-        "https://apitrivsion.prismcloudhosting.com/api/data/products/filter",
+        "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
         {
           method: "POST",
           headers: {
