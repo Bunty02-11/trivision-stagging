@@ -9,6 +9,7 @@ const ProductDetails = memo(({ className = "", weuiarrowFilled1, product }) => {
     setIsProductDetailsOpen(!isProductDetailsOpen);
   };
 
+  console.log(product.product, "product")
   return (
     <div
       className={`self-stretch flex flex-col items-center justify-start max-w-full text-left text-base text-black font-h4-32 ${className}`}
@@ -22,9 +23,8 @@ const ProductDetails = memo(({ className = "", weuiarrowFilled1, product }) => {
             Product Details
           </div>
           <Image
-            className={`h-6 w-6 relative overflow-hidden shrink-0 object-contain transition-transform ${
-              isProductDetailsOpen ? "rotate-180" : ""
-            }`}
+            className={`h-6 w-6 relative overflow-hidden shrink-0 object-contain transition-transform ${isProductDetailsOpen ? "rotate-180" : ""
+              }`}
             width={24}
             height={24}
             alt=""

@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import ProductImage from "./ProductImage";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 const Main1 = memo(({ className = "", product, category }) => {
   const [quantity, setQuantity] = useState(1);
@@ -32,7 +34,7 @@ const Main1 = memo(({ className = "", product, category }) => {
 
   const addItem = async (product, itemType) => {
     if (!token) {
-      alert("User is not authenticated!");
+      toast.error("User is not authenticated!");
       return;
     }
 
@@ -63,15 +65,14 @@ const Main1 = memo(({ className = "", product, category }) => {
         }
       );
 
-      alert(`Product added to ${itemType === "cart" ? "cart" : "whishlist"}!`);
+      toast.success(`Product added to ${itemType === "cart" ? "cart" : "wishlist"}!`);
       setCart([...cart, newCartItem]); // Update local cart state
     } catch (error) {
       console.error(
-        `There was an error adding the product to the ${
-          itemType === "cart" ? "cart" : "whishlist"
-        }`,
+        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "wishlist"}`,
         error
       );
+      toast.error(`Error adding product to ${itemType === "cart" ? "cart" : "wishlist"}`);
     }
   };
 
@@ -97,12 +98,12 @@ const Main1 = memo(({ className = "", product, category }) => {
       const token = localStorage.getItem("token"); // Get token from localStorage
 
       if (!token) {
-        alert("Unauthorized: No token found.");
+        toast.error("Unauthorized: User needs to log in.");
         return;
       }
 
       const response = await axios.post(
-        "http://localhost:5055/api/selectlens",
+        "https://apitrivsion.prismcloudhosting.com/api/selectlens",
         data,
         {
           headers: {
@@ -136,12 +137,17 @@ const Main1 = memo(({ className = "", product, category }) => {
     lens_info: "1",
   };
 
+  const handleSocialIcons = (path) => {
+    window.open(path, "_blank", "noopener,noreferrer");
+  };
+
   // console.log(product.product.slug, "slug");
 
   return (
     <section
       className={`self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border gap-6 max-w-full text-left text-xs text-gray-400 font-h4-32 mq480:pt-5 mq480:pb-5 mq480:box-border mq825:py-[25px] mq825:px-10 mq825:box-border mq1410:pt-[39px] mq1410:pb-[39px] mq1410:box-border ${className}`}
     >
+      <ToastContainer />
       <div className="self-stretch flex flex-row items-center justify-start">
         <div className="relative leading-[150%] font-medium">{`Home > ${product.product?.category?.name} > ${product.product?.brand?.name} > ${product.product.product_name_short}`}</div>
       </div>
@@ -158,13 +164,10 @@ const Main1 = memo(({ className = "", product, category }) => {
                 </div>
                 <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[97px] min-h-[29px] text-gray-400">
                   <select className="w-full h-full border-none bg-transparent outline-none">
-                    <option value="select" disabled selected>
+                    <option valu disabled selected>
                       Select
                     </option>
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
+                    <option>{product.product?.lens_size}</option>
                   </select>
                 </div>
               </div>
@@ -248,6 +251,11 @@ const Main1 = memo(({ className = "", product, category }) => {
                     height={24}
                     alt=""
                     src="/icon--facebook1.svg"
+                    onClick={() =>
+                      handleSocialIcons(
+                        "https://www.facebook.com/trivisionoptical1/"
+                      )
+                    }
                   />
                   <Image
                     className="h-6 w-6 relative overflow-hidden shrink-0 cursor-pointer"
@@ -255,20 +263,21 @@ const Main1 = memo(({ className = "", product, category }) => {
                     height={24}
                     alt=""
                     src="/icon--instagram1.svg"
+                    onClick={() =>
+                      handleSocialIcons(
+                        "https://www.instagram.com/trivisionoptical/"
+                      )
+                    }
                   />
                   <Image
-                    className="h-6 w-6 relative overflow-hidden shrink-0 cursor-pointer"
+                    className="h-5 w-5 relative overflow-hidden shrink-0 cursor-pointer filter invert-0"
                     width={24}
                     height={24}
                     alt=""
-                    src="/icon--x1.svg"
-                  />
-                  <Image
-                    className="h-6 w-6 relative overflow-hidden shrink-0 cursor-pointer"
-                    width={24}
-                    height={24}
-                    alt=""
-                    src="/icon--linkedin1.svg"
+                    src="/pint.png"
+                    onClick={() =>
+                      handleSocialIcons("https://www.pinterest.com/trivisionoptical/")
+                    }
                   />
                   <Image
                     className="h-6 w-6 relative overflow-hidden shrink-0 cursor-pointer"
@@ -276,6 +285,11 @@ const Main1 = memo(({ className = "", product, category }) => {
                     height={24}
                     alt=""
                     src="/icon--youtube3.svg"
+                    onClick={() =>
+                      handleSocialIcons(
+                        "https://www.youtube.com/@trivisionopticals"
+                      )
+                    }
                   />
                 </div>
               </div>

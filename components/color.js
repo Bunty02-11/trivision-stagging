@@ -19,7 +19,7 @@ const Color = memo(({ className = "", product }) => {
     >
       <div className="self-stretch flex flex-row items-center justify-center max-w-full">
         <div className="flex-1 relative leading-[150%] font-medium inline-block max-w-full">
-          Color: {product.product.lens_color}
+          Color: {product.product.frame_color}
         </div>
       </div>
       <Swiper
@@ -46,7 +46,7 @@ const Color = memo(({ className = "", product }) => {
                 alt={relatedProduct.frame_color}
                 src={relatedProduct.product_images[0]}
               />
-              <div className="mt-2">{relatedProduct.lens_color}</div>
+              <div className="mt-2">{relatedProduct.frame_color}</div>
             </div>
           </SwiperSlide>
         ))}

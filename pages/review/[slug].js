@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const SelectYourLens = () => {
     const router = useRouter();
@@ -13,7 +15,7 @@ const SelectYourLens = () => {
         const fetchData = async (slug, token) => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5055/api/selectlens/by-product-slug/${slug}`,
+                    `https://apitrivsion.prismcloudhosting.com/api/selectlens/by-product-slug/${slug}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`, // Send token in headers
@@ -117,20 +119,54 @@ const SelectYourLens = () => {
         router.push(path);
     };
 
+    const handleNavigationToProduct = (slug) => {
+        router.push(`/prescriptionForm/${slug}`);
+    }
+
     return (
         <div className="w-full relative flex flex-col items-center justify-center text-left text-base text-black font-p3-16">
-            <div className="self-stretch relative bg-whitesmoke border-gray-200 border-b-[1px] border-solid box-border h-20 overflow-hidden shrink-0">
-                <div className="absolute top-[18px] left-[1316px] flex flex-row items-center justify-center">
-                    {/* <Image className="w-11 relative h-11 overflow-hidden shrink-0" width={44} height={44} alt="" src="basil:cross-outline.svg" /> */}
-                </div>
+            <div className="self-stretch relative bg-whitesmoke-100 border-gray-200 border-b-[1px] border-solid box-border h-20 overflow-hidden shrink-0">
+                <div className="absolute top-[18px] left-[1316px] flex flex-row items-end justify-center"></div>
                 <div className="absolute top-[calc(50%-_12px)] left-[calc(50%+_107.5px)] flex flex-row items-center justify-start gap-6">
-                    <div className="relative leading-[150%] font-semibold">Don’t know your prescription?</div>
+                    <div className="relative leading-[150%] font-semibold">
+                        Don’t know your prescription?
+                    </div>
                     <div className="flex flex-row items-center justify-center gap-3 text-right">
-                        <Image className="w-6 relative h-6 overflow-hidden shrink-0 opacity-[0.6]" width={24} height={24} alt="" src="/iconoir_eye-solid.png" />
-                        <div className="relative [text-decoration:underline] leading-[150%] font-medium opacity-[0.6]">Book an Eye Test</div>
+                        <Image
+                            className="w-6 relative h-6 overflow-hidden shrink-0 opacity-[0.6]"
+                            width={24}
+                            height={24}
+                            alt=""
+                            src="/iconoir_eye-solid.png"
+                        />
+                        <div className="relative [text-decoration:underline] leading-[150%] font-medium opacity-[0.6]">
+                            Book an Eye Test
+                        </div>
                     </div>
                 </div>
-                <Image className="absolute top-[calc(50%-_18px)] left-[calc(50%-_640px)] w-[185.6px] h-9 object-cover" width={186} height={36} alt="" src="/logo@2x.png"
+                <div className="absolute top-[calc(50%-_18px)] left-[calc(50%-_740px)] flex flex-row items-center justify-start gap-4">
+                    {product && (
+                        console.log(product.product_id.slug,),
+                        <FontAwesomeIcon
+                            icon={faArrowLeft}
+                            className="w-6 h-6 cursor-pointer"
+                            onClick={() =>
+                                handleNavigationToProduct(product.product_id.slug, product.product_id.category)
+                            }
+                        />
+                    )}
+                    <Image
+                        className="w-[185.6px] h-9 object-cover cursor-pointer"
+                        width={186}
+                        height={36}
+                        alt=""
+                        src="/logo@2x.png"
+                        onClick={() => handleNavigation("/")}
+                    />
+                </div>
+                <FontAwesomeIcon
+                    icon={faTimes}
+                    className="absolute top-[calc(50%-_18px)] right-[20px] w-6 h-6 cursor-pointer"
                     onClick={() => handleNavigation("/")}
                 />
             </div>

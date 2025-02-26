@@ -61,6 +61,7 @@ const ProductListing = () => {
     <>
       <FrameComponent1 />
       <div className="w-full bg-gray-100 flex flex-col items-center">
+        <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
         {/* <div
           className="w-full bg-cover bg-no-repeat bg-[top] py-10"
           style={{ backgroundImage: "url('/banner1@3x.png')" }}
