@@ -131,7 +131,11 @@ const ProductDetails = ({ product, error }) => {
       </section>
       <Footer
         maskGroup="/mask-group@2x.png"
-        iconYoutube="/icon--youtube-1.svg"
+        formMargin="0"
+        iconYoutube="/icon--youtube21.svg"
+        itemImg="/item--img3.svg"
+        itemImg1="/item--img-13.svg"
+        itemImg2="/item--img-14.svg"
       />
     </div>
   );

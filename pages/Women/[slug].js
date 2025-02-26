@@ -9,7 +9,7 @@ import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
 import ProductFaqs from "../../components/product-faqs";
 
-const ProductListing = () => {
+const ProductListing = ({ className = "" }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -83,6 +83,15 @@ const ProductListing = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+
+  console.log(slug, "slug");
+
+  const bannerImage = slug === "Sunglasses"
+    ? "/woman.webp"
+    : slug === "EYEGLASSES"
+      ? "/womangalsses.webp"
+      : "/defaultBanner.jpg";
 
   return (
     <>

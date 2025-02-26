@@ -32,7 +32,7 @@ function BrandItems() {
           </button>
           <Swiper
             modules={[Navigation]}
-            spaceBetween={10}
+            spaceBetween={40}
             slidesPerView={1}
             navigation={{
               prevEl: prevButtonRef.current,

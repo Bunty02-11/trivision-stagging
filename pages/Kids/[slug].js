@@ -9,7 +9,7 @@ import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
 import ProductFaqs from "../../components/product-faqs";
 
-const ProductListing = () => {
+const ProductListing = ({ className = "" }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -84,6 +84,12 @@ const ProductListing = () => {
     return <div>Error: {error}</div>;
   }
 
+  const bannerImage = slug === "Sunglasses"
+    ? "/kidssunglasses.webp"
+    : slug === "EYEGLASSES"
+      ? "/kidseyeglasses.webp"
+      : "/defaultBanner.jpg";
+
   return (
     <>
       <FrameComponent1 />
@@ -115,8 +121,41 @@ const ProductListing = () => {
           <ProductFaqs faqs={products?.[0]?.brand?.faqs} />
           <InstaPosts />
         </section>
-        <Footer maskGroup="/mask-group@2x.png" />
+        <Footer
+          maskGroup="/mask-group@2x.png"
+          formMargin="0"
+          iconYoutube="/icon--youtube21.svg"
+          itemImg="/item--img3.svg"
+          itemImg1="/item--img-13.svg"
+          itemImg2="/item--img-14.svg"
+        />
       </div>
+      <style jsx>{`
+        .responsive-banner {
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          width: 100%;
+          padding-top: 30%; /* 16:9 Aspect Ratio */
+        }
+        @media (max-width: 1050px) {
+          .responsive-banner {
+            padding-top: 25%;
+          }
+        }
+
+        @media (max-width: 750px) {
+          .responsive-banner {
+            padding-top: 20%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .responsive-banner {
+            padding-top: 30%;
+          }
+        }
+      `}</style>
     </>
   );
 };
