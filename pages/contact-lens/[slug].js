@@ -30,7 +30,7 @@ export const getServerSideProps = async ({ params }) => {
   }
 };
 
-const ContactLensListing = ({ products }) => {
+const ContactLensListing = ({ products, slug }) => {
   return (
     <>
       <FrameComponent1 />

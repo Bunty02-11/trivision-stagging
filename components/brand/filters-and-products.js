@@ -1,11 +1,11 @@
 import { memo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ProductCards from "./product-cards";
-import FiltersSidebar from "./filters-sidebar";
+import ProductCards from "../product-cards";
+import FiltersSidebar from "./brands-filters-sidebar";
 import PropTypes from "prop-types";
 
-const FiltersAndProducts = memo(({ className = "", product = [] }) => {
+const FiltersAndProducts = memo(({ className = "", product = [], slug }) => {
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [visibleProducts, setVisibleProducts] = useState(24);
@@ -72,6 +72,7 @@ const FiltersAndProducts = memo(({ className = "", product = [] }) => {
           <FiltersSidebar
             isOpen={isSidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            slug={slug}
           />
           <div className="flex flex-col pt-2">
             <div className="flex flex-row items-center gap-3">

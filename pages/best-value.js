@@ -1,5 +1,5 @@
 import FrameComponent1 from "../components/frame-component1";
-import FiltersAndProducts from "../components/eyeglasses/filter&product";
+import FiltersAndProducts from "../components/filters-and-products";
 import JoinWrapper from "../components/join-wrapper";
 import InstaPosts from "../components/insta-posts";
 import ProductFaqs from "../components/product-faqs";
