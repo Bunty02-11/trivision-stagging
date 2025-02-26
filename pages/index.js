@@ -100,7 +100,8 @@ const Home = () => {
             >
               {/* Category 1 */}
               <SwiperSlide>
-                <div className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/sunglasses@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                <div
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/sunglasses@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
                   onClick={() => handleNavigation("/sunglasses/sunglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -111,7 +112,8 @@ const Home = () => {
 
               {/* Category 2 */}
               <SwiperSlide>
-                <div className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/eyeglassimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                <div
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/eyeglassimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
                   onClick={() => handleNavigation("/eyeglasses/eyeglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -122,8 +124,9 @@ const Home = () => {
 
               {/* Category 3 */}
               <SwiperSlide>
-                <div className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/kidsimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
-                onClick={() => handleNavigation("/Kids/Sunglasses")}
+                <div
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/kidsimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                  onClick={() => handleNavigation("/Kids/Sunglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
                     Kid Sunglasses
@@ -133,7 +136,8 @@ const Home = () => {
 
               {/* Category 4 */}
               <SwiperSlide>
-                <div className=" h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/lensimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                <div
+                  className=" h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/lensimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
                   onClick={() => handleNavigation("/contact-lens/bella")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -144,7 +148,8 @@ const Home = () => {
 
               {/* Category 5 */}
               <SwiperSlide>
-                <div className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/category-links3@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                <div
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/category-links3@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
                   onClick={() => handleNavigation("/accessories")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -218,9 +223,11 @@ const Home = () => {
                 </div>
               </SwiperSlide>
               {newArrivals?.map((product) => (
-                <SwiperSlide key={product._id}
-                onClick={() =>
-                  handleNavigationProduct(product?.slug, product?.category)}
+                <SwiperSlide
+                  key={product._id}
+                  onClick={() =>
+                    handleNavigationProduct(product?.slug, product?.category)
+                  }
                 >
                   <ProductCards
                     imgBackgroundImage={

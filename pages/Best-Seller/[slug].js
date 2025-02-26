@@ -8,7 +8,7 @@ import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
 import ProductFaqs from "../../components/product-faqs";
 
-const ProductListing = ({className = ""}) => {
+const ProductListing = ({ className = "" }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,16 +81,18 @@ const ProductListing = ({className = ""}) => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  const bannerImage = slug === "Sunglasses"
-    ? "/bestsellersunglasses.webp"
-    : slug === "EYEGLASSES"
+  const bannerImage =
+    slug === "Sunglasses"
+      ? "/bestsellersunglasses.webp"
+      : slug === "EYEGLASSES"
       ? "/bestsellereyeglasses.webp"
       : "/defaultBanner.jpg";
 
   return (
     <>
       <FrameComponent1 />
-      <div className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32 ${className}`}
+      <div
+        className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32 ${className}`}
         style={{ backgroundImage: `url(${bannerImage})` }}
       />
       <div className="w-full bg-gray-100 flex flex-col items-center">

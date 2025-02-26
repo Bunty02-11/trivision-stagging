@@ -97,7 +97,6 @@ const ProductListing = ({ className = ""}) => {
         style={{ backgroundImage: `url(${bannerImage})` }}
       />
       <div className="w-full bg-gray-100 flex flex-col items-center">
-        <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
         {products?.length == 0 ? (
           <p className="text-gray-200 text-center font-medium text-lg mq480:text-sm pt-[60px]">
             No Product Found!

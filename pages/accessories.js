@@ -34,7 +34,7 @@ export const getServerSideProps = async () => {
   }
 };
 
-const AccessoriesListing = ({ initialProducts }) => {
+const AccessoriesListing = ({ initialProducts, className = "" }) => {
   const [products, setProducts] = useState(initialProducts);
 
   const handleFilter = async (filters) => {

@@ -86,7 +86,8 @@ const Footer = memo(
         >
           <div className="w-full flex flex-row items-start justify-center gap-10 mq480:flex-col">
             <div className="flex-1 flex flex-row items-start justify-start gap-10 mq480:flex-col">
-              <div className="overflow-hidden flex flex-col items-start justify-start"
+              <div
+                className="overflow-hidden flex flex-col items-start justify-start"
                 onClick={() => handleNavigation("/")}
               >
                 <Image
@@ -361,7 +362,8 @@ const Footer = memo(
             </div>
           </div>
           <div className="w-full flex flex-col items-center justify-start text-sm">
-            <div className="self-stretch border-background-color-primary border-t-[1px] border-solid cursor-pointer"
+            <div
+              className="self-stretch border-background-color-primary border-t-[1px] border-solid cursor-pointer"
               onClick={() => setIsOpen(!isOpen)} // Toggle state on click
             >
               <div className="flex flex-row items-start justify-start py-4 px-0">
@@ -370,7 +372,9 @@ const Footer = memo(
                     More information
                   </div>
                   <Image
-                    className={`w-[21px] h-[21px] overflow-hidden shrink-0 object-contain transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    className={`w-[21px] h-[21px] overflow-hidden shrink-0 object-contain transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
                     width={21}
                     height={21}
                     alt=""
@@ -382,7 +386,8 @@ const Footer = memo(
                 <div className="flex flex-row items-start justify-start py-4 px-0">
                   <div className="flex-1 flex flex-row items-center justify-between">
                     <p className="relative leading-[150%] font-medium">
-                      Here are the details you want to show when "More information" is clicked.
+                      Here are the details you want to show when "More
+                      information" is clicked.
                     </p>
                   </div>
                 </div>

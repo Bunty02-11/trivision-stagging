@@ -25,7 +25,7 @@ export const getServerSideProps = async ({ params }) => {
 
     return {
       props: {
-        products: data?.products?.filter((x) => x?.is_featured == true),
+        initialProducts: data?.products?.filter((x) => x?.is_featured == true),
       },
     };
   } catch (error) {
@@ -65,7 +65,9 @@ const FeaturedListing = ({ initialProducts }) => {
       <FrameComponent1 />
       <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-center justify-center px-0 pb-0 box-border gap-[34px] text-center text-base text-background-color-primary font-h4-32 mq750:gap-[17px]">
         {/* Banner Section */}
-        <div className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32 ${className}`} />
+        <div
+          className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32`}
+        />
         {/* Products & Filters */}
         <section className="w-[1440px] flex flex-row items-start justify-start px-20 pb-[26px] pt-[60px] box-border max-w-full mq750:px-10">
           <FiltersAndProducts product={products} handleFilter={handleFilter} />
