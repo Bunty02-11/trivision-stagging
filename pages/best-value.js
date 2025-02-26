@@ -1,3 +1,4 @@
+import { useState } from "react";
 import FrameComponent1 from "../components/frame-component1";
 import FiltersAndProducts from "../components/filters-and-products";
 import JoinWrapper from "../components/join-wrapper";
@@ -33,7 +34,32 @@ export const getServerSideProps = async ({ params }) => {
   }
 };
 
-const BestValueListing = ({ products }) => {
+const BestValueListing = ({ initialProducts }) => {
+  const [products, setProducts] = useState(initialProducts);
+
+  const handleFilter = async (filters) => {
+    try {
+      const response = await fetch(
+        "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filters),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered products");
+      }
+
+      const filteredData = await response.json();
+      setProducts(filteredData?.products || []);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
   return (
     <>
       <FrameComponent1 />
@@ -42,7 +68,7 @@ const BestValueListing = ({ products }) => {
         <div className="w-full bg-[url('/featuredbanner.png')] bg-cover bg-no-repeat bg-center h-[80vh] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5" />
         {/* Products & Filters */}
         <section className="w-[1440px] flex flex-row items-start justify-start px-20 pb-[26px] pt-[60px] box-border max-w-full mq750:px-10">
-          <FiltersAndProducts product={products} />
+          <FiltersAndProducts product={products} handleFilter={handleFilter}/>
         </section>
 
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">

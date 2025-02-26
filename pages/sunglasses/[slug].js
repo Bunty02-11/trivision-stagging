@@ -1,10 +1,10 @@
+import { useState } from "react";
 import FrameComponent1 from "../../components/frame-component1";
 import FiltersAndProducts from "../../components/sunglasses/filter-product";
 import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
 import ProductFaqs from "../../components/product-faqs";
 import Footer from "../../components/footer";
-import { useState } from "react";
 
 export const getServerSideProps = async ({ params }) => {
   try {
