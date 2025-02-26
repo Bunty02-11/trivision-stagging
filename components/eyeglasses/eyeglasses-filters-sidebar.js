@@ -1,10 +1,28 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const EyeglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
+  const [priceRange, setPriceRange] = useState([1, 10000]);
+  const [isPriceExpanded, setIsPriceExpanded] = useState(true);
+
+  const togglePriceExpand = () => {
+    setIsPriceExpanded((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (variants.price_range) {
+      setPriceRange([variants.price_range.min, variants.price_range.max]);
+    }
+  }, [variants.price_range]);
+
+  const handlePriceRangeChange = (value) => {
+    setPriceRange(value); // Update the price range dynamically
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -184,7 +202,10 @@ const EyeglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
                     : Array.isArray(subCategories) &&
                       subCategories.length > 0 && // ✅ Skip empty arrays
                       subCategories.map((item, idx) => (
-                        <label key={idx} className="flex items-center gap-2 capitalize">
+                        <label
+                          key={idx}
+                          className="flex items-center gap-2 capitalize"
+                        >
                           <input
                             type="checkbox"
                             checked={
@@ -201,7 +222,43 @@ const EyeglassesFiltersSidebar = ({ isOpen, onClose, slug }) => {
               )}
             </div>
           ))}
+        {variants.price_range && (
+          <div className="py-2">
+            <div
+              className="flex justify-between items-center text-base font-medium text-black cursor-pointer hover:text-red"
+              onClick={togglePriceExpand}
+            >
+              <span>Price Range</span>
+              <Image
+                src="/arrow-drop.svg"
+                alt="arrow-drop"
+                width={12}
+                height={12}
+                className={isPriceExpanded ? "rotate-180" : ""}
+              />
+            </div>
 
+            {isPriceExpanded && (
+              <div className="pl-4 mt-3 flex flex-col gap-2">
+                <Slider
+                  range
+                  min={variants.price_range.min || 0}
+                  max={variants.price_range.max || 100000}
+                  value={priceRange}
+                  onChange={handlePriceRangeChange}
+                  allowCross={false}
+                />
+                <div className="flex justify-between text-sm font-medium">
+                  <span>AED {variants.price_range.min}</span>
+                  <span>AED {variants.price_range.max}</span>
+                </div>
+                <div className="text-center font-semibold text-gray-200 text-sm">
+                  Selected: AED {priceRange[0]} - AED {priceRange[1]}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
         <div className="mt-auto flex gap-4 pt-10">
           <button
             className="w-1/2 border border-gray-400 text-gray-200 py-3 rounded-md cursor-pointer hover:bg-black hover:text-white transition-all duration-300"
