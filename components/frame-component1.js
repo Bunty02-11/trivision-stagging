@@ -317,6 +317,8 @@ const FrameComponent1 = memo(({ className = "" }) => {
     fetchCategoriesData();
   }, []);
 
+  console.log(categories, "categories");
+
   return (
     <header
       className={`self-stretch relative flex flex-col items-start justify-start max-w-full text-center text-xs text-background-color-primary font-h4-32 ${className}`}

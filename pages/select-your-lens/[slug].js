@@ -3,6 +3,8 @@ import FrameComponent1 from "../../components/frame-component1";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const SelectYourLens = () => {
   const router = useRouter();
@@ -72,8 +74,8 @@ const SelectYourLens = () => {
         lensType === "Single Vision Lenses"
           ? 610
           : lensType === "Computer Lenses"
-          ? 750
-          : 0;
+            ? 750
+            : 0;
 
       // Creating lens data
       const lensData = {
@@ -114,11 +116,11 @@ const SelectYourLens = () => {
 
       // Determine redirection path
 
-            // Determine redirection path
-            const slug = product.product_id.slug;
-            let redirectPath = (lensType === "Single Vision Lenses" || lensType === "Computer Lenses")
-                ? `/prescription/${slug}`
-                : `/review/${slug}`;
+      // Determine redirection path
+      const slug = product.product_id.slug;
+      let redirectPath = (lensType === "Single Vision Lenses" || lensType === "Computer Lenses")
+        ? `/prescription/${slug}`
+        : `/review/${slug}`;
 
       // Perform the redirection with query parameters
       if (redirectPath) {
@@ -134,6 +136,13 @@ const SelectYourLens = () => {
     }
   };
 
+  const handleNavigationToHome = (path) => {
+    router.push(path);
+  };
+
+  const handleNavigationToProduct = (slug) => {
+    router.push(`/product/${slug}`);
+  }
 
 
   return (
@@ -157,12 +166,29 @@ const SelectYourLens = () => {
             </div>
           </div>
         </div>
-        <Image
-          className="absolute top-[calc(50%-_18px)] left-[calc(50%-_640px)] w-[185.6px] h-9 object-cover"
-          width={186}
-          height={36}
-          alt=""
-          src="/logo@2x.png"
+        <div className="absolute top-[calc(50%-_18px)] left-[calc(50%-_740px)] flex flex-row items-center justify-start gap-4">
+          {product && (
+            console.log(product.product_id.slug, ),
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="w-6 h-6 cursor-pointer"
+              onClick={() =>
+                handleNavigationToProduct(product.product_id.slug, product.product_id.category) 
+              }
+            />
+          )}
+          <Image
+            className="w-[185.6px] h-9 object-cover cursor-pointer"
+            width={186}
+            height={36}
+            alt=""
+            src="/logo@2x.png"
+            onClick={() => handleNavigationToHome("/")}
+          />
+        </div>
+        <FontAwesomeIcon
+          icon={faTimes}
+          className="absolute top-[calc(50%-_18px)] right-[20px] w-6 h-6 cursor-pointer"
           onClick={() => handleNavigationToHome("/")}
         />
       </div>

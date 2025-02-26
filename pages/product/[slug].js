@@ -13,6 +13,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import Ideology from "../../components/ideology";
 
 export const getServerSideProps = async ({ params }) => {
   try {
@@ -57,27 +58,7 @@ const ProductDetails = ({ product, error }) => {
     <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-center justify-center">
       <FrameComponent1 />
       <Main1 product={product} category={product?.product?.category?.slug} />
-      <section
-        className="flex items-center justify-center py-20 px-10 bg-cover bg-no-repeat"
-        style={{ backgroundImage: "url('/video1@3x.png')" }}
-      >
-        <Image
-          className="h-16 w-16"
-          width={64}
-          height={64}
-          alt="Play Button"
-          src="/mdiplay1.svg"
-        />
-      </section>
-      <div className="flex flex-wrap justify-center py-10 px-5 gap-5">
-        {product?.product?.product_images?.slice(1, 4).map((img, index) => (
-          <IdeologyBullets
-            key={index}
-            ideologyBulletsMinWidth="160px"
-            emptyBullets={img}
-          />
-        ))}
-      </div>
+      <Ideology />
       <section className="w-[1400px] flex flex-row items-center justify-center pt-0 px-10 pb-[60px] box-border max-w-full text-center text-21xl text-black font-h4-32">
         <div className="flex-1 flex flex-col items-center justify-center gap-10 max-w-full">
           <div className="w-[1279.5px] flex flex-row items-center justify-center">

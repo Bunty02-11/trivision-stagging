@@ -7,11 +7,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa"; // Import icons
+import { useRouter } from "next/router";
 
 const Bestseller = memo(({ className = "" }) => {
   const [bestSellers, setBestSellers] = useState([]);
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchBestSellers = async () => {
@@ -29,6 +31,12 @@ const Bestseller = memo(({ className = "" }) => {
 
     fetchBestSellers();
   }, []);
+
+  const handleNavigation = (slug) => {
+    router.push(`/product/${slug}`);
+  };
+
+  // console.log("bestSellers", bestSellers.slug);
 
   return (
     <div
@@ -79,7 +87,11 @@ const Bestseller = memo(({ className = "" }) => {
             </div>
           </SwiperSlide>
           {bestSellers?.map((product) => (
-            <SwiperSlide key={product._id}>
+            console.log("product", product.slug),
+            <SwiperSlide key={product._id}
+              onClick={() =>
+                handleNavigation(product?.slug, product?.category)
+              }>
               <ProductCards
                 imgBackgroundImage={product.product_images[0] || "default.jpg"}
                 price={product.retail_price}
@@ -89,6 +101,7 @@ const Bestseller = memo(({ className = "" }) => {
                 priceContainerJustifyContent="center"
                 iconamoonheartLight={`/iconamoonheartlight.svg`}
                 sVG={`/svg-1.svg`}
+                className="cursor-pointer"
               />
             </SwiperSlide>
           ))}

@@ -10,6 +10,10 @@ const BrandMenu = memo(({ className = "", brands }) => {
     router.push(`/brand/${slug}`);
   };
 
+  const handleNavigationGlasses = (path) => {
+    router.push(path);
+  };
+
   return (
     <div
       className={`z-[9999] w-[1440px] bg-black-100 max-w-full overflow-hidden flex flex-col items-center justify-center p-10 box-border leading-[normal] tracking-[normal] ${className}`}
@@ -35,20 +39,22 @@ const BrandMenu = memo(({ className = "", brands }) => {
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="flex flex-row items-center justify-center gap-4">
             <Image
-              className="h-[226px] flex-1 relative max-w-full overflow-hidden object-cover min-w-[174px]"
+              className="h-[226px] flex-1 relative max-w-full overflow-hidden object-cover min-w-[174px] cursor-pointer"
               loading="lazy"
               width={268}
               height={226}
               alt=""
               src="/6@2x.png"
+              onClick={() => handleNavigationGlasses("/sunglasses/sunglasses")}
             />
             <Image
-              className="h-[226px] flex-1 relative max-w-full overflow-hidden object-cover min-w-[174px]"
+              className="h-[226px] flex-1 relative max-w-full overflow-hidden object-cover min-w-[174px] cursor-pointer"
               loading="lazy"
               width={268}
               height={226}
               alt=""
               src="/menu2Img.png"
+              onClick={() => handleNavigationGlasses("/eyeglasses/eyeglasses")}
             />
           </div>
         </div>

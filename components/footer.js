@@ -24,6 +24,7 @@ const Footer = memo(
       email: "",
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const router = useRouter();
 
@@ -86,7 +87,7 @@ const Footer = memo(
           <div className="w-full flex flex-row items-start justify-center gap-10 mq480:flex-col">
             <div className="flex-1 flex flex-row items-start justify-start gap-10 mq480:flex-col">
               <div className="overflow-hidden flex flex-col items-start justify-start"
-              onClick={() => handleNavigation("/")}
+                onClick={() => handleNavigation("/")}
               >
                 <Image
                   className="w-[136px] h-10 relative object-cover"
@@ -344,30 +345,48 @@ const Footer = memo(
                 alt=""
                 src="/icon--linkedin.svg"
               /> */}
-                {/* <Image
-                className="w-6 relative h-6 overflow-hidden shrink-0 cursor-pointer"
-                width={24}
-                height={24}
-                alt=""
-                src={iconYoutube}
-              /> */}
+                <Image
+                  className="w-6 relative h-6 overflow-hidden shrink-0 cursor-pointer"
+                  width={24}
+                  height={24}
+                  alt=""
+                  src={iconYoutube}
+                  onClick={() =>
+                    handleSocialIcons(
+                      "https://www.youtube.com/@trivisionopticals"
+                    )
+                  }
+                />
               </div>
             </div>
           </div>
           <div className="w-full flex flex-col items-center justify-start text-sm">
-            <div className="self-stretch border-background-color-primary border-t-[1px] border-solid flex flex-row items-start justify-start py-4 px-0">
-              <div className="flex-1 flex flex-row items-center justify-start">
-                <div className="relative leading-[150%] font-medium">
-                  More information
+            <div className="self-stretch border-background-color-primary border-t-[1px] border-solid cursor-pointer"
+              onClick={() => setIsOpen(!isOpen)} // Toggle state on click
+            >
+              <div className="flex flex-row items-start justify-start py-4 px-0">
+                <div className="flex-1 flex flex-row items-center justify-between">
+                  <div className="relative leading-[150%] font-medium">
+                    More information
+                  </div>
+                  <Image
+                    className={`w-[21px] h-[21px] overflow-hidden shrink-0 object-contain transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    width={21}
+                    height={21}
+                    alt=""
+                    src="/icon@2x.png"
+                  />
                 </div>
               </div>
-              <Image
-                className="w-[21px] relative h-[21px] overflow-hidden shrink-0 object-contain"
-                width={21}
-                height={21}
-                alt=""
-                src="/icon@2x.png"
-              />
+              {isOpen && (
+                <div className="flex flex-row items-start justify-start py-4 px-0">
+                  <div className="flex-1 flex flex-row items-center justify-between">
+                    <p className="relative leading-[150%] font-medium">
+                      Here are the details you want to show when "More information" is clicked.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="self-stretch flex flex-col items-start justify-start gap-6">
               <div className="self-stretch relative bg-background-color-primary border-background-color-primary border-[1px] border-solid box-border h-px" />

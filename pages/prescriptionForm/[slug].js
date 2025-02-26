@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const SelectYourLens = () => {
   const router = useRouter();
@@ -237,13 +239,15 @@ const SelectYourLens = () => {
     router.push(path);
   };
 
+  const handleNavigationToProduct = (slug) => {
+    router.push(`/prescription/${slug}`);
+  };
+
   return (
     <div className="w-full relative flex flex-col items-start justify-start text-left text-base text-black font-p5-12">
       <ToastContainer />
       <div className="self-stretch relative bg-whitesmoke-100 border-gray-200 border-b-[1px] border-solid box-border h-20 overflow-hidden shrink-0">
-        <div className="absolute top-[18px] left-[1316px] flex flex-row items-end justify-center">
-          {/* <Image className="w-11 relative h-11 overflow-hidden shrink-0" width={44} height={44} alt="" src="/basil:cross-outline.svg" /> */}
-        </div>
+        <div className="absolute top-[18px] left-[1316px] flex flex-row items-end justify-center"></div>
         <div className="absolute top-[calc(50%-_12px)] left-[calc(50%+_107.5px)] flex flex-row items-center justify-start gap-6">
           <div className="relative leading-[150%] font-semibold">
             Don’t know your prescription?
@@ -261,12 +265,33 @@ const SelectYourLens = () => {
             </div>
           </div>
         </div>
-        <Image
-          className="absolute top-[calc(50%-_18px)] left-[calc(50%-_640px)] w-[185.6px] h-9 object-cover"
-          width={186}
-          height={36}
-          alt=""
-          src="/logo@2x.png"
+        <div className="absolute top-[calc(50%-_18px)] left-[calc(50%-_740px)] flex flex-row items-center justify-start gap-4">
+          {product &&
+            (console.log(product.product_id.slug),
+            (
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                className="w-6 h-6 cursor-pointer"
+                onClick={() =>
+                  handleNavigationToProduct(
+                    product.product_id.slug,
+                    product.product_id.category
+                  )
+                }
+              />
+            ))}
+          <Image
+            className="w-[185.6px] h-9 object-cover cursor-pointer"
+            width={186}
+            height={36}
+            alt=""
+            src="/logo@2x.png"
+            onClick={() => handleNavigation("/")}
+          />
+        </div>
+        <FontAwesomeIcon
+          icon={faTimes}
+          className="absolute top-[calc(50%-_18px)] right-[20px] w-6 h-6 cursor-pointer"
           onClick={() => handleNavigation("/")}
         />
       </div>
@@ -519,15 +544,8 @@ const SelectYourLens = () => {
                       </label>
                     </div>
                   </div>
-
-                  {formSubmitted && Object.keys(errors).length > 0 && (
-                    <div className="mt-4 text-red text-sm">
-                      Please fill all required fields.
-                    </div>
-                  )}
-
                   <div className="mt-4 flex items-center gap-2 text-sm text-black-600">
-                    <input type="checkbox" className="w-4 h-4 mt-1" required />
+                    <input type="checkbox" className="w-4 h-4 mt-1 " required />
                     <p>
                       By clicking this box, I confirm that the prescription
                       values entered above are taken from a valid (not expired)
@@ -536,6 +554,11 @@ const SelectYourLens = () => {
                     </p>
                   </div>
 
+                  {formSubmitted && Object.keys(errors).length > 0 && (
+                    <div className="mt-4 text-red text-sm">
+                      Please fill all required fields.
+                    </div>
+                  )}
                   <button
                     className="mt-6 bg-black text-white px-6 py-2 md w-250px"
                     onClick={() => addSelectLens("Single Vision Lenses")}

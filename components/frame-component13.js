@@ -8,11 +8,11 @@ import { useRouter } from "next/navigation";
 const FrameComponent13 = memo(({ className = "", product }) => {
   const router = useRouter();
   const [selectedPack, setSelectedPack] = useState(null);
-  const [selectedEye, setSelectedEye] = useState(null);
+  const [selectedEye, setSelectedEye] = useState("right");
   const [rightEyePower, setRightEyePower] = useState("");
   const [leftEyePower, setLeftEyePower] = useState("");
-  const [rightEyeBoxes, setRightEyeBoxes] = useState(0);
-  const [leftEyeBoxes, setLeftEyeBoxes] = useState(0);
+  const [rightEyeBoxes, setRightEyeBoxes] = useState(1);
+  const [leftEyeBoxes, setLeftEyeBoxes] = useState(1);
   const [differentPowers, setDifferentPowers] = useState(false);
 
   const [cart, setCart] = useState([]);
@@ -77,8 +77,7 @@ const FrameComponent13 = memo(({ className = "", product }) => {
       setCart([...cart, newCartItem]); // Update local cart state
     } catch (error) {
       console.error(
-        `There was an error adding the product to the ${
-          itemType === "cart" ? "cart" : "whishlist"
+        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "whishlist"
         }`,
         error
       );
@@ -209,97 +208,78 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                 <div className="self-stretch relative text-base leading-[150%] font-semibold">
                   Select Your Prescription
                 </div>
+                {/* Eye Selection */}
                 <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
                   <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[19px]">
                     Eye
                   </div>
                   <div className="w-[376px] flex flex-row items-center justify-start gap-6 max-w-full mq480:flex-wrap">
-                    <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
-                      <input
-                        type="radio"
-                        name="eye"
-                        value="right"
-                        checked={selectedEye === "right"}
-                        onChange={handleEyeChange}
-                        className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
-                        id="righteye"
-                      />
-                      <div className="relative leading-[150%] font-medium inline-block min-w-[41px]">
-                        Right
-                      </div>
-                    </div>
-                    <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
-                      <input
-                        type="radio"
-                        name="eye"
-                        value="left"
-                        checked={selectedEye === "left"}
-                        onChange={handleEyeChange}
-                        className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
-                        id="lefteye"
-                      />
-                      <div className="relative leading-[150%] font-medium">
-                        Left
-                      </div>
-                    </div>
+                    {differentPowers && (
+                      <>
+                        <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
+                          Left
+                        </div>
+                        <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
+                          Right
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
+                {/* Power Selection */}
                 <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
-                  <div className="relative leading-[150%] font-medium">
-                    Power/Sphere
-                  </div>
+                  <div className="relative leading-[150%] font-medium">Power/Sphere</div>
                   <div className="flex-1 flex flex-row items-center justify-start gap-4 min-w-[244px] max-w-full text-gray-400 mq480:flex-wrap">
+                    {/* Right Eye Power */}
                     <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
                       <select
                         value={rightEyePower}
                         onChange={(e) => setRightEyePower(e.target.value)}
                         className="flex-1 border-none text-center bg-transparent"
                       >
-                        <option className="border-none" value="" disabled>
-                          Select
-                        </option>
-                        {/* Add your power options here */}
-                        <option value="-1.00">-1.00</option>
-                        <option value="-1.50">-1.50</option>
-                        <option value="-2.00">-2.00</option>
-                      </select>
-                    </div>
-                    <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
-                      <select
-                        value={leftEyePower}
-                        onChange={(e) => setLeftEyePower(e.target.value)}
-                        className="flex-1 border-none text-center bg-transparent"
-                      >
                         <option value="" disabled>
                           Select
                         </option>
-                        {/* Add your power options here */}
                         <option value="-1.00">-1.00</option>
                         <option value="-1.50">-1.50</option>
                         <option value="-2.00">-2.00</option>
                       </select>
                     </div>
+
+                    {/* Left Eye Power (Shown Only When Checkbox is Checked) */}
+                    {differentPowers && (
+                      <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
+                        <select
+                          value={leftEyePower}
+                          onChange={(e) => setLeftEyePower(e.target.value)}
+                          className="flex-1 border-none text-center bg-transparent"
+                        >
+                          <option value="" disabled>
+                            Select
+                          </option>
+                          <option value="-1.00">-1.00</option>
+                          <option value="-1.50">-1.50</option>
+                          <option value="-2.00">-2.00</option>
+                        </select>
+                      </div>
+                    )}
                   </div>
                 </div>
+
+                {/* Number of Boxes */}
                 <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
                   <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[66px]">
                     No. of Boxes
                   </div>
                   <div className="w-[376px] flex flex-row items-center justify-start gap-4 max-w-full text-center text-gray-400 mq480:flex-wrap">
+                    {/* Right Eye Boxes */}
                     <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
                       <button
                         type="button"
-                        onClick={() =>
-                          setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))
-                        }
+                        onClick={() => setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))}
                         className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
                       >
-                        <Image
-                          width={12}
-                          height={2}
-                          alt=""
-                          src="/vector-2.svg"
-                        />
+                        <Image width={12} height={12} alt="" src="/vector-2.svg" />
                       </button>
                       <div className="flex-1 relative leading-[150%] font-medium text-center">
                         {rightEyeBoxes}
@@ -309,47 +289,36 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                         onClick={() => setRightEyeBoxes(rightEyeBoxes + 1)}
                         className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
                       >
-                        <Image
-                          width={12}
-                          height={12}
-                          alt=""
-                          src="/vector-3.svg"
-                        />
+                        <Image width={12} height={12} alt="" src="/vector-3.svg" />
                       </button>
                     </div>
-                    <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setLeftEyeBoxes(Math.max(0, leftEyeBoxes - 1))
-                        }
-                        className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
-                      >
-                        <Image
-                          width={12}
-                          height={2}
-                          alt=""
-                          src="/vector-2.svg"
-                        />
-                      </button>
-                      <div className="flex-1 relative leading-[150%] font-medium text-center">
-                        {leftEyeBoxes}
+
+                    {/* Left Eye Boxes (Shown Only When Checkbox is Checked) */}
+                    {differentPowers && (
+                      <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
+                        <button
+                          type="button"
+                          onClick={() => setLeftEyeBoxes(Math.max(0, leftEyeBoxes - 1))}
+                          className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                        >
+                          <Image width={12} height={12} alt="" src="/vector-2.svg" />
+                        </button>
+                        <div className="flex-1 relative leading-[150%] font-medium text-center">
+                          {leftEyeBoxes}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setLeftEyeBoxes(leftEyeBoxes + 1)}
+                          className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                        >
+                          <Image width={12} height={12} alt="" src="/vector-3.svg" />
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => setLeftEyeBoxes(leftEyeBoxes + 1)}
-                        className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
-                      >
-                        <Image
-                          width={12}
-                          height={12}
-                          alt=""
-                          src="/vector-3.svg"
-                        />
-                      </button>
-                    </div>
+                    )}
                   </div>
                 </div>
+
+                {/* Checkbox for Two Different Powers */}
                 <div className="flex flex-row items-start justify-start gap-2">
                   <input
                     type="checkbox"
@@ -359,23 +328,6 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                   />
                   <div className="relative leading-[150%] font-medium">
                     I need two different powers
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-row items-start justify-start gap-[25px] text-base mq480:gap-[19px] mq750:gap-[38px] mq750:flex-wrap">
-                  <div className="relative leading-[150%] font-semibold">
-                    Don’t know your prescription?
-                  </div>
-                  <div className="flex flex-row items-start justify-start gap-3 text-right text-gray-400">
-                    <Image
-                      className="h-6 w-6 relative overflow-hidden shrink-0"
-                      width={24}
-                      height={24}
-                      alt=""
-                      src="/iconoireyesolid.svg"
-                    />
-                    <div className="flex-1 relative leading-[150%] font-medium">
-                      Book an Eye Test
-                    </div>
                   </div>
                 </div>
               </div>
