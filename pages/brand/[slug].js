@@ -45,18 +45,14 @@ const BrandsListing = ({ products, slug }) => {
       <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-center justify-center px-0 pb-0 box-border gap-[60px] mq480:gap-[40px] text-center text-base text-background-color-primary font-h4-32 mq750:gap-[40px]">
         {/* Banner Section */}
         <div
-          className="w-full h-[475px] mq750:pt-[221px] mq750:px-[142px] mq750:pb-[39px] mq480:px-5"
+          className="w-full responsive-banner"
           style={{
-            backgroundImage: `url(${
-              products[0]?.brand?.brand_logo || "/brandBanner.jpg"
-            })`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
+            backgroundImage: `url(${products[0]?.brand?.brand_logo ||
+              "/brandBanner.jpg"})`,
           }}
         />
         {/* Info Section */}
-        <section className="w-[1440px] flex flex-col items-center justify-center px-20 box-border max-w-full mq750:px-10">
+        <section className="w-[1440px] flex flex-col items-center justify-center px-20 box-border max-w-full mq750:px-10 mq480:px-5">
           <div
             className="self-stretch flex flex-col items-center justify-center text-left p-0 m-0 mb-5"
             style={{ color: "black" }}
@@ -75,7 +71,7 @@ const BrandsListing = ({ products, slug }) => {
           </div>
         </section>
         {/* Products & Filters */}
-        <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10">
+        <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10 mq480:px-5">
           <FiltersAndProducts product={products} slug={slug} />
         </section>
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
@@ -100,6 +96,32 @@ const BrandsListing = ({ products, slug }) => {
           itemImg2="/item--img-14.svg"
         />
       </div>
+      <style jsx>{`
+        .responsive-banner {
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          width: 100%;
+          padding-top: 30%; /* 16:9 Aspect Ratio */
+        }
+        @media (max-width: 1050px) {
+          .responsive-banner {
+            padding-top: 25%;
+          }
+        }
+
+        @media (max-width: 750px) {
+          .responsive-banner {
+            padding-top: 20%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .responsive-banner {
+            padding-top: 30%;
+          }
+        }
+      `}</style>
     </>
   );
 };
