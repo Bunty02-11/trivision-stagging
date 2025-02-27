@@ -213,7 +213,7 @@ const Cart = () => {
       ) : (
         <section className="self-stretch flex flex-row justify-between px-20 py-[60px] box-border max-w-full text-left text-base text-black font-h4-32 mq450:pt-[39px] mq450:pb-[39px] mq450:box-border mq750:pl-10 mq750:pr-10 mq750:box-border">
           <div
-            className="w-100 custom-scrollbar"
+            className="w-97 custom-scrollbar"
             style={{
               maxHeight: "55vh",
               overflowY: "auto", // Show scrollbar only when needed

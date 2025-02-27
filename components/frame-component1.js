@@ -699,7 +699,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-[-webkit-fill-available] w-100 mq480:w-[-webkit-fill-available] bg-white shadow-lg p-4 transform transition-transform duration-300 z-50 ${
+        className={`fixed top-0 right-0 h-[-webkit-fill-available] w-97 mq480:w-[-webkit-fill-available] bg-white shadow-lg p-4 transform transition-transform duration-300 z-50 ${
           isCartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
