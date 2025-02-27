@@ -259,6 +259,16 @@ const Cart = () => {
                               item?.additional_info?.[0]?.selectLeftPower}
                           </p>
                         )}
+                        {item?.product?.frame_material && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Material: {item && item?.product?.frame_material}
+                          </p>
+                        )}
+                        {item?.product?.frame_shape && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Shape: {item && item?.product?.frame_shape}
+                          </p>
+                        )}
                         {item?.product?.frame_color && (
                           <p className="text-black text-sm text-start mt-0">
                             Color: {item && item?.product?.frame_color}
@@ -269,10 +279,84 @@ const Cart = () => {
                             Gender: {item && item?.product?.gender}
                           </p>
                         )}
-                        {item?.product?.frame_shape && (
-                          <p className="text-black text-sm text-start mt-0">
-                            Fit: {item && item?.product?.frame_shape}
+                        {item?.additional_info?.[0]?.additional_info?.[0]
+                          ?.lensType && (
+                          <p className="text-black text-sm text-start mt-0 font-bold">
+                            Your lenses:
                           </p>
+                        )}
+                        {item?.additional_info?.[0]?.additional_info?.[0]
+                          ?.lensType && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Lense Type:{" "}
+                            {item &&
+                              item?.additional_info?.[0]?.additional_info?.[0]
+                                ?.lensType}
+                          </p>
+                        )}
+                        {item?.additional_info?.[0]?.additional_info?.[0]
+                          ?.price && (
+                          <p className="text-black text-sm text-start mt-0">
+                            Lense Price: AED{" "}
+                            {item &&
+                              item?.additional_info?.[0]?.additional_info?.[0]
+                                ?.price}
+                          </p>
+                        )}
+                        {item?.additional_info?.[0]?.prescription?.length >
+                          0 && (
+                          <>
+                            <p className="text-black text-sm text-start mt-0 font-bold">
+                              Prescription Details:
+                            </p>
+                            <table className="border-collapse border border-gray-500 border-[1px] border-solid text-xs">
+                              <thead>
+                                <tr>
+                                  <th className="border border-gray-500 border-[1px] border-solid px-4 py-2 ">
+                                    Eye
+                                  </th>
+                                  <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                    SPH
+                                  </th>
+                                  <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                    CYL
+                                  </th>
+                                  <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                    AXIX
+                                  </th>
+                                  <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                    PUP
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {item?.additional_info?.[0]?.prescription
+                                  ?.slice(0, 2)
+                                  .map((data, index) => (
+                                    <tr key={index}>
+                                      <td className="border border-gray-500 border-[1px] border-solid px-4 py-2 font-bold">
+                                        {data?.eye}
+                                      </td>
+                                      <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                        {data?.sphere}
+                                      </td>
+                                      <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                        {data?.cylinder}
+                                      </td>
+                                      <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                        {data?.axis}
+                                      </td>
+                                      <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                        {
+                                          item?.additional_info?.[0]
+                                            ?.prescription?.[2]?.pd
+                                        }
+                                      </td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+                            </table>
+                          </>
                         )}
 
                         {/* Quantity Controls */}
@@ -426,10 +510,32 @@ const Cart = () => {
                                   0) || 1)}
                         </p>
                       ) : (
-                        <p className="text-sm font-semibold text-black p-0">
-                          AED {console.log(item, "item")}
-                          {orders && orders.total * item?.quantity}
-                        </p>
+                        <div>
+                          <p className="text-sm font-semibold text-black p-0">
+                            AED {console.log(item, "item")}
+                            {/* {order && order?.total} */}
+                            {item &&
+                              item?.product?.retail_price * item?.quantity}
+                          </p>
+                          {item?.additional_info?.[0]?.additional_info?.[0]
+                            ?.price && (
+                            <>
+                              <p className="font-semibold text-sm text-black mt-0">
+                                AED{" "}
+                                {item &&
+                                  item?.additional_info?.[0]
+                                    ?.additional_info?.[0]?.price}
+                              </p>
+                              <p className="font-semibold text-sm text-black mt-0">
+                                Total: AED{" "}
+                                {item &&
+                                  item?.product?.retail_price * item?.quantity +
+                                    item?.additional_info?.[0]
+                                      ?.additional_info?.[0]?.price}
+                              </p>
+                            </>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
