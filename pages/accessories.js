@@ -9,7 +9,7 @@ import ProductFaqs from "../components/product-faqs";
 export const getServerSideProps = async () => {
   try {
     const res = await fetch(
-      `https://apitrivsion.prismcloudhosting.com/api/accesories/`
+      `https://apitrivsion.prismcloudhosting.com/api/accesories`
     );
 
     if (!res.ok) {
@@ -41,7 +41,7 @@ const AccessoriesListing = ({ initialProducts, className = "" }) => {
     console.log("filters::", filters);
     try {
       const response = await fetch(
-        "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
+        "https://apitrivsion.prismcloudhosting.com/api/filter/data/accessories/filter",
         {
           method: "POST",
           headers: {
@@ -56,7 +56,7 @@ const AccessoriesListing = ({ initialProducts, className = "" }) => {
       }
 
       const filteredData = await response.json();
-      setProducts(filteredData.products || []);
+      setProducts(filteredData.accessories || []);
     } catch (error) {
       console.error("Error fetching filtered products:", error);
     }

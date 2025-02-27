@@ -38,7 +38,7 @@ const ContactLensListing = ({ initialProducts }) => {
     console.log("filters::", filters);
     try {
       const response = await fetch(
-        "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
+        "https://apitrivsion.prismcloudhosting.com/api/filter/data/contact-lenses/filter",
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ const ContactLensListing = ({ initialProducts }) => {
       }
 
       const filteredData = await response.json();
-      setProducts(filteredData.products || []);
+      setProducts(filteredData.contactLenses || []);
     } catch (error) {
       console.error("Error fetching filtered products:", error);
     }

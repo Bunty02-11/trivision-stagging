@@ -10,9 +10,9 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug, onFilter }) => {
   const [priceRange, setPriceRange] = useState([1, 10000]);
   const [isPriceExpanded, setIsPriceExpanded] = useState(true);
 
-  // {
-  //   console.log("selectedFilters::", selectedFilters);
-  // }
+  {
+    console.log("selectedFilters::", selectedFilters);
+  }
 
   const applyFilters = () => {
     onFilter({
@@ -108,17 +108,56 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug, onFilter }) => {
 
   const handleCheckboxChange = (category, value) => {
     setSelectedFilters((prev) => {
-      const updatedCategory = prev[category] || [];
-      if (updatedCategory.includes(value)) {
-        return {
-          ...prev,
-          [category]: updatedCategory.filter((item) => item !== value),
-        };
+      let updatedFilters = { ...prev };
+
+      // Define categories that should not mix values
+      const frameCategories = ["materials", "types", "shapes", "colors"];
+      const lensCategories = ["colors", "types", "sizes"];
+
+      if (
+        frameCategories.includes(category) ||
+        lensCategories.includes(category)
+      ) {
+        // Ensure each category maintains separate values
+        updatedFilters[category] = updatedFilters[category] || [];
+
+        if (updatedFilters[category].includes(value)) {
+          updatedFilters[category] = updatedFilters[category].filter(
+            (item) => item !== value
+          );
+        } else {
+          updatedFilters[category] = [...updatedFilters[category], value];
+        }
       } else {
-        return { ...prev, [category]: [...updatedCategory, value] };
+        // Default behavior for other categories
+        const updatedCategory = updatedFilters[category] || [];
+
+        if (updatedCategory.includes(value)) {
+          updatedFilters[category] = updatedCategory.filter(
+            (item) => item !== value
+          );
+        } else {
+          updatedFilters[category] = [...updatedCategory, value];
+        }
       }
+
+      return updatedFilters;
     });
   };
+
+  // const handleCheckboxChange = (category, value) => {
+  //   setSelectedFilters((prev) => {
+  //     const updatedCategory = prev[category] || [];
+  //     if (updatedCategory.includes(value)) {
+  //       return {
+  //         ...prev,
+  //         [category]: updatedCategory.filter((item) => item !== value),
+  //       };
+  //     } else {
+  //       return { ...prev, [category]: [...updatedCategory, value] };
+  //     }
+  //   });
+  // };
 
   return (
     <>
