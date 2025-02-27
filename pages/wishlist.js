@@ -90,79 +90,93 @@ const Wishlist = () => {
           </div>
         </div>
       </section>
-      <section className="self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border max-w-full text-left text-base text-black font-h4-32 mq450:pt-[39px] mq450:pb-[39px] mq450:box-border mq750:pl-10 mq750:pr-10 mq750:box-border">
-        {orders.map((order) =>
-          order.cart.map((item) => (
-            <div
-              key={item.product._id}
-              className="self-stretch bg-background-color-primary flex flex-row items-center justify-center flex-wrap content-center py-6 px-4 box-border gap-6 max-w-full"
-            >
-              <Image
-                className="h-[226px] w-[226px] relative overflow-hidden shrink-0 object-cover"
-                loading="lazy"
-                width={226}
-                height={226}
-                alt={item.product.product_name_short}
-                src={item.product.product_images[0]}
-              />
-              <div className="flex-1 flex flex-col items-start justify-start gap-4 min-w-[649px] max-w-full mq1050:min-w-full">
-                <div className="self-stretch flex flex-col items-start justify-start gap-2 max-w-full">
-                  <div className="self-stretch flex flex-row items-start justify-between gap-5 text-gray-200 font-oswald mq450:flex-wrap">
-                    <div className="relative leading-[150%] font-medium">
-                      {item.product.product_name_short}
+      {orders?.filter((x) => x?.cart)?.length == 0 ? (
+        <section className="flex flex-col justify-center items-center w-full h-[50vh]">
+          <p className="text-xl text-black">Your shopping bag is empty!</p>
+          <button
+            className="bg-black p-4 text-white text-base cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+            onClick={() => router.push("/sunglasses/sunglasses")}
+          >
+            START SHOPPING
+          </button>
+        </section>
+      ) : (
+        <section className="self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border max-w-full text-left text-base text-black font-h4-32 mq450:pt-[39px] mq450:pb-[39px] mq450:box-border mq750:pl-10 mq750:pr-10 mq750:box-border">
+          {orders.map((order) =>
+            order.cart.map((item) => (
+              <div
+                key={item.product._id}
+                className="self-stretch bg-background-color-primary flex flex-row items-center justify-center flex-wrap content-center py-6 px-4 box-border gap-6 max-w-full"
+              >
+                <Image
+                  className="h-[226px] w-[226px] relative overflow-hidden shrink-0 object-cover"
+                  loading="lazy"
+                  width={226}
+                  height={226}
+                  alt={item.product.product_name_short}
+                  src={item.product.product_images[0]}
+                />
+                <div className="flex-1 flex flex-col items-start justify-start gap-4 min-w-[649px] max-w-full mq1050:min-w-full">
+                  <div className="self-stretch flex flex-col items-start justify-start gap-2 max-w-full">
+                    <div className="self-stretch flex flex-row items-start justify-between gap-5 text-gray-200 font-oswald mq450:flex-wrap">
+                      <div className="relative leading-[150%] font-medium">
+                        {item.product.product_name_short}
+                      </div>
+                      <div className="relative leading-[150%] font-medium font-h4-32 text-right">
+                        Remove
+                      </div>
                     </div>
-                    <div className="relative leading-[150%] font-medium font-h4-32 text-right">
-                      Remove
+                    <div className="self-stretch relative leading-[150%] font-medium">
+                      Quantity: {item.quantity}
+                    </div>
+                    <div className="self-stretch flex flex-row items-center justify-center max-w-full">
+                      <div className="flex-1 relative leading-[150%] inline-block max-w-full">
+                        <span className="font-semibold">Color:</span>
+                        <span className="font-medium">
+                          {" "}
+                          {item.product.frame_color}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="self-stretch flex flex-row items-center justify-center max-w-full">
+                      <div className="flex-1 relative leading-[150%] inline-block max-w-full">
+                        <span className="font-semibold">{`Gender: `}</span>
+                        <span className="font-medium">
+                          {item.product.gender}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="self-stretch flex flex-row items-center justify-center max-w-full">
+                      <div className="flex-1 relative leading-[150%] inline-block max-w-full">
+                        <span className="font-semibold">{`Fit: `}</span>
+                        <span className="font-medium">
+                          {item.product.frame_shape}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="self-stretch relative leading-[150%] font-medium">
-                    Quantity: {item.quantity}
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-center max-w-full">
-                    <div className="flex-1 relative leading-[150%] inline-block max-w-full">
-                      <span className="font-semibold">Color:</span>
-                      <span className="font-medium">
-                        {" "}
-                        {item.product.frame_color}
-                      </span>
+                  <div className="self-stretch border-gray-800 border-t-[1px] border-solid flex flex-row items-center justify-between pt-3.5 px-0 pb-0 gap-5 text-right mq450:flex-wrap">
+                    <div className="relative leading-[150%] font-semibold inline-block min-w-[66px]">
+                      Aed {item.product.retail_price}
                     </div>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-center max-w-full">
-                    <div className="flex-1 relative leading-[150%] inline-block max-w-full">
-                      <span className="font-semibold">{`Gender: `}</span>
-                      <span className="font-medium">{item.product.gender}</span>
-                    </div>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-center max-w-full">
-                    <div className="flex-1 relative leading-[150%] inline-block max-w-full">
-                      <span className="font-semibold">{`Fit: `}</span>
-                      <span className="font-medium">
-                        {item.product.frame_shape}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch border-gray-800 border-t-[1px] border-solid flex flex-row items-center justify-between pt-3.5 px-0 pb-0 gap-5 text-right mq450:flex-wrap">
-                  <div className="relative leading-[150%] font-semibold inline-block min-w-[66px]">
-                    Aed {item.product.retail_price}
-                  </div>
-                  <div
-                    className="bg-black overflow-hidden flex flex-row items-center justify-center py-2.5 px-[35px] text-center text-sm text-background-color-primary cursor-pointer"
-                    onClick={() => handleAddToBag(order._id)}
-                  >
                     <div
-                      className="flex-1 relative leading-[150%] font-medium inline-block min-w-[94px]"
+                      className="bg-black overflow-hidden flex flex-row items-center justify-center py-2.5 px-[35px] text-center text-sm text-background-color-primary cursor-pointer"
                       onClick={() => handleAddToBag(order._id)}
                     >
-                      ADD TO BAG
+                      <div
+                        className="flex-1 relative leading-[150%] font-medium inline-block min-w-[94px]"
+                        onClick={() => handleAddToBag(order._id)}
+                      >
+                        ADD TO BAG
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
-      </section>
+            ))
+          )}
+        </section>
+      )}
       <Footer
         maskGroup="/mask-group@2x.png"
         formMargin="0"
