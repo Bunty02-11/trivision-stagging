@@ -53,7 +53,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
             },
           }
         );
-        const cartOrders = response.data.orders.filter(
+        const cartOrders = response?.data?.filter(
           (order) => order.shipping_info === "cart"
         );
 

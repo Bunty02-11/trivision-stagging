@@ -29,7 +29,7 @@ const Cart = () => {
             },
           }
         );
-        const cartOrders = response.data.orders.filter(
+        const cartOrders = response?.data?.filter(
           (order) => order.shipping_info === "cart"
         );
 
@@ -427,8 +427,7 @@ const Cart = () => {
                         </p>
                       ) : (
                         <p className="text-sm font-semibold text-black p-0">
-                          AED{" "}
-                          {console.log(item, "item")}
+                          AED {console.log(item, "item")}
                           {orders && orders.total * item?.quantity}
                         </p>
                       )}
