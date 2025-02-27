@@ -69,9 +69,18 @@ const FeaturedListing = ({ initialProducts }) => {
           className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32`}
         />
         {/* Products & Filters */}
-        <section className="w-[1440px] flex flex-row items-start justify-start px-20 pb-[26px] pt-[60px] box-border max-w-full mq750:px-10">
-          <FiltersAndProducts product={products} handleFilter={handleFilter} />
-        </section>
+        {products?.length == 0 ? (
+          <p className="text-gray-200 text-center font-medium text-lg mq480:text-sm">
+            No Product Found!
+          </p>
+        ) : (
+          <section className="w-[1440px] flex flex-row items-start justify-start px-20 pb-[26px] pt-[60px] box-border max-w-full mq750:px-10">
+            <FiltersAndProducts
+              product={products}
+              handleFilter={handleFilter}
+            />
+          </section>
+        )}
 
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper
