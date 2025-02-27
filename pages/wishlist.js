@@ -4,43 +4,44 @@ import Footer from "../components/footer";
 import FrameComponent1 from "../components/frame-component1";
 import axios from "axios";
 import Loader from "../components/Loader/Loader";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Wishlist = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [id, setId] = useState([]);
+
+  const fetchOrders = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      const response = await axios.get(
+        "https://apitrivsion.prismcloudhosting.com/api/order",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const wishlistOrders = response.data.orders.filter(
+        (order) => order.shipping_info === "whishlist"
+      );
+      console.log(wishlistOrders, "wishlistOrders");
+
+      setOrders(wishlistOrders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-
-        const response = await axios.get(
-          "https://apitrivsion.prismcloudhosting.com/api/order",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        // let data
-        const wishlistOrders = response.data.orders.filter(
-          (order) => order.shipping_info === "whishlist"
-        );
-
-        setOrders(wishlistOrders);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchOrders();
   }, []);
 
@@ -63,8 +64,40 @@ const Wishlist = () => {
           },
         }
       );
+
+      toast.success("Item added to bag!");
+      fetchOrders(); // Re-fetch the orders after updating
     } catch (error) {
       console.error("Error updating order:", error);
+      toast.error("Error adding item to bag.");
+    }
+  };
+
+  const handleRemoveOrder = async (orderId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      await axios.delete(
+        `https://apitrivsion.prismcloudhosting.com/api/orders/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Update state after successful deletion
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order._id !== orderId)
+      );
+      toast.success("Item deleted from Wishlist!");
+    } catch (error) {
+      console.error("Error removing order:", error);
+      toast.error("Error removing item from wishlist.");
     }
   };
 
@@ -90,9 +123,9 @@ const Wishlist = () => {
           </div>
         </div>
       </section>
-      {orders?.filter((x) => x?.cart)?.length == 0 ? (
+      {orders.filter((order) => order.shipping_info === "whishlist").length === 0 ? (
         <section className="flex flex-col justify-center items-center w-full h-[50vh]">
-          <p className="text-xl text-black">Your shopping bag is empty!</p>
+          <p className="text-xl text-black">Your wishlist is empty!</p>
           <button
             className="bg-black p-4 text-white text-base cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
             onClick={() => router.push("/sunglasses/sunglasses")}
@@ -108,21 +141,26 @@ const Wishlist = () => {
                 key={item.product._id}
                 className="self-stretch bg-background-color-primary flex flex-row items-center justify-center flex-wrap content-center py-6 px-4 box-border gap-6 max-w-full"
               >
-                <Image
-                  className="h-[226px] w-[226px] relative overflow-hidden shrink-0 object-cover"
-                  loading="lazy"
-                  width={226}
-                  height={226}
-                  alt={item.product.product_name_short}
-                  src={item.product.product_images[0]}
-                />
+                {item.product.product_images.length > 0 && (
+                  <Image
+                    className="h-[226px] w-[226px] relative overflow-hidden shrink-0 object-cover"
+                    loading="lazy"
+                    width={226}
+                    height={226}
+                    alt={item.product.product_name_short}
+                    src={item.product.product_images[0]}
+                  />
+                )}
                 <div className="flex-1 flex flex-col items-start justify-start gap-4 min-w-[649px] max-w-full mq1050:min-w-full">
                   <div className="self-stretch flex flex-col items-start justify-start gap-2 max-w-full">
                     <div className="self-stretch flex flex-row items-start justify-between gap-5 text-gray-200 font-oswald mq450:flex-wrap">
                       <div className="relative leading-[150%] font-medium">
                         {item.product.product_name_short}
                       </div>
-                      <div className="relative leading-[150%] font-medium font-h4-32 text-right">
+                      <div
+                        className="relative leading-[150%] font-medium font-h4-32 text-right cursor-pointer"
+                        onClick={() => handleRemoveOrder(order._id)}
+                      >
                         Remove
                       </div>
                     </div>
@@ -141,9 +179,7 @@ const Wishlist = () => {
                     <div className="self-stretch flex flex-row items-center justify-center max-w-full">
                       <div className="flex-1 relative leading-[150%] inline-block max-w-full">
                         <span className="font-semibold">{`Gender: `}</span>
-                        <span className="font-medium">
-                          {item.product.gender}
-                        </span>
+                        <span className="font-medium">{item.product.gender}</span>
                       </div>
                     </div>
                     <div className="self-stretch flex flex-row items-center justify-center max-w-full">
@@ -165,7 +201,6 @@ const Wishlist = () => {
                     >
                       <div
                         className="flex-1 relative leading-[150%] font-medium inline-block min-w-[94px]"
-                        onClick={() => handleAddToBag(order._id)}
                       >
                         ADD TO BAG
                       </div>

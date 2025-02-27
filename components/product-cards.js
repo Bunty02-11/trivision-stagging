@@ -37,6 +37,8 @@ const ProductCards = memo(
       };
     }, [priceContainerJustifyContent]);
 
+    console.log("productItem", product_id);
+
     const addItem = async (product, itemType, e) => {
       e.stopPropagation(); // Stop the click event from propagating
       const token = localStorage.getItem("token"); // Retrieve the token

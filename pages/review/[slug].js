@@ -72,7 +72,10 @@ const SelectYourLens = () => {
     const newCartItem = {
       product: product.product_id._id,
       quantity: 1,
-      shipping_info: "cart",
+      additional_info: [
+        product._id,
+      ],
+
     };
 
     try {
@@ -81,13 +84,13 @@ const SelectYourLens = () => {
         {
           user: userId,
           cart: [...cart, newCartItem],
-          subTotal: calculateSubTotal([...cart, newCartItem]),
+          subTotal: product?.total,
+          total: product?.total,
           shippingCost: 0, // Replace with actual shipping cost
           discount: 0, // Replace with actual discount
-          total: calculateTotal([...cart, newCartItem]),
           paymentMethod: "YOUR_PAYMENT_METHOD", // Replace with actual payment method
           shipping_info: "cart",
-          additional_info: product._id,
+          // additional_info: product._id,
         },
         {
           headers: {
@@ -149,18 +152,20 @@ const SelectYourLens = () => {
           </div>
         </div>
         <div className="absolute top-[calc(50%-_18px)] left-[calc(50%-_740px)] flex flex-row items-center justify-start gap-4">
-          {product && (
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              className="w-6 h-6 cursor-pointer"
-              onClick={() =>
-                handleNavigationToProduct(
-                  product.product_id.slug,
-                  product.product_id.category
-                )
-              }
-            />
-          )}
+          {product &&
+            (console.log(product.product_id.slug),
+              (
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  className="w-6 h-6 cursor-pointer"
+                  onClick={() =>
+                    handleNavigationToProduct(
+                      product.product_id.slug,
+                      product.product_id.category
+                    )
+                  }
+                />
+              ))}
           <Image
             className="w-[185.6px] h-9 object-cover cursor-pointer"
             width={186}
@@ -186,82 +191,85 @@ const SelectYourLens = () => {
             Review
           </div>
         </div>
-        {product && product.product_id.product_images.length > 0 && (
-          <div className="w-[1280px] flex flex-col items-center justify-center text-left text-base text-black">
-            <div className="self-stretch flex flex-row items-start justify-start gap-10">
-              <div className="self-stretch w-[482px] flex flex-row items-start justify-start">
-                <Image
-                  className="w-[482px] relative h-[382px] object-contain"
-                  width={482}
-                  height={382}
-                  alt={product?.product_id.product_name_long}
-                  src={product.product_id.product_images[3]}
-                />
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-end gap-6">
-                <div className="self-stretch flex flex-col items-start justify-start gap-4">
-                  <div className="self-stretch flex flex-col items-start justify-center gap-2">
-                    <div className="self-stretch flex flex-row items-start justify-start gap-2">
-                      <div className="flex-1 relative leading-[150%] font-semibold">
-                        {product?.product_id.product_name_long}
-                      </div>
-                      <div className="relative leading-[150%] font-semibold">
-                        AED {product?.total}
-                      </div>
-                    </div>
-                    <div className="relative text-sm leading-[150%] font-medium">
-                      {product?.product_id.product_name_long}
-                    </div>
+        {product &&
+          product.product_id.product_images.length > 0 &&
+          (console.log(product.product_id._id, "product"),
+            (
+              <div className="w-[1280px] flex flex-col items-center justify-center text-left text-base text-black">
+                <div className="self-stretch flex flex-row items-start justify-start gap-10">
+                  <div className="self-stretch w-[482px] flex flex-row items-start justify-start">
+                    <Image
+                      className="w-[482px] relative h-[382px] object-contain"
+                      width={482}
+                      height={382}
+                      alt={product?.product_id.product_name_long}
+                      src={product.product_id.product_images[3]}
+                    />
                   </div>
-                  <div className="self-stretch flex flex-col items-start justify-center gap-2">
-                    <div className="self-stretch flex flex-row items-start justify-start gap-2">
-                      <div className="flex-1 relative leading-[150%] font-semibold">
-                        Lens Type
+                  <div className="flex-1 flex flex-col items-start justify-end gap-6">
+                    <div className="self-stretch flex flex-col items-start justify-start gap-4">
+                      <div className="self-stretch flex flex-col items-start justify-center gap-2">
+                        <div className="self-stretch flex flex-row items-start justify-start gap-2">
+                          <div className="flex-1 relative leading-[150%] font-semibold">
+                            {product?.product_id.product_name_long}
+                          </div>
+                          <div className="relative leading-[150%] font-semibold">
+                            AED {product?.total}
+                          </div>
+                        </div>
+                        <div className="relative text-sm leading-[150%] font-medium">
+                          {product?.product_id.product_name_long}
+                        </div>
                       </div>
-                      <div className="relative leading-[150%] font-semibold">
-                        AED {product.additional_info[0].price}
+                      <div className="self-stretch flex flex-col items-start justify-center gap-2">
+                        <div className="self-stretch flex flex-row items-start justify-start gap-2">
+                          <div className="flex-1 relative leading-[150%] font-semibold">
+                            Lens Type
+                          </div>
+                          <div className="relative leading-[150%] font-semibold">
+                            AED {product.additional_info[0].price}
+                          </div>
+                        </div>
+                        <div className="relative text-sm leading-[150%] font-medium">
+                          {" "}
+                          {product.additional_info[0].lensType}
+                        </div>
                       </div>
-                    </div>
-                    <div className="relative text-sm leading-[150%] font-medium">
-                      {" "}
-                      {product.additional_info[0].lensType}
-                    </div>
-                  </div>
-                  <div className="self-stretch flex flex-col items-start justify-center gap-2">
-                    <div className="self-stretch relative leading-[150%] font-semibold">
-                      Prescription
-                    </div>
-                    <div className="self-stretch relative text-sm leading-[150%] font-medium">
-                      {getPrescriptionDetails()}
-                    </div>
-                  </div>
-                  <div className="self-stretch flex flex-col items-start justify-center gap-2">
-                    <div className="self-stretch flex flex-row items-start justify-start gap-2">
-                      <div className="flex-1 relative leading-[150%] font-semibold">
-                        Total
+                      <div className="self-stretch flex flex-col items-start justify-center gap-2">
+                        <div className="self-stretch relative leading-[150%] font-semibold">
+                          Prescription
+                        </div>
+                        <div className="self-stretch relative text-sm leading-[150%] font-medium">
+                          {getPrescriptionDetails()}
+                        </div>
                       </div>
-                      <div className="relative leading-[150%] font-semibold">
-                        AED {product?.total}
-                      </div>
-                    </div>
-                    {/* <div className="self-stretch flex flex-row items-start justify-start gap-2.5 text-sm">
+                      <div className="self-stretch flex flex-col items-start justify-center gap-2">
+                        <div className="self-stretch flex flex-row items-start justify-start gap-2">
+                          <div className="flex-1 relative leading-[150%] font-semibold">
+                            Total
+                          </div>
+                          <div className="relative leading-[150%] font-semibold">
+                            AED {product?.total}
+                          </div>
+                        </div>
+                        {/* <div className="self-stretch flex flex-row items-start justify-start gap-2.5 text-sm">
                                             <div className="flex-1 relative leading-[150%] font-medium">Include VAT</div>
                                             <div className="relative leading-[150%] font-medium text-right">AED{product.total * 0.05}</div>
                                         </div> */}
-                  </div>
-                </div>
-                <div
-                  className="w-[379px] bg-black h-10 overflow-hidden shrink-0 flex flex-row items-center justify-center py-2 px-10 box-border text-center text-white cursor-pointer"
-                  onClick={addItemToCart}
-                >
-                  <div className="relative leading-[150%] font-medium">
-                    ADD TO BAG
+                      </div>
+                    </div>
+                    <div
+                      className="w-[379px] bg-black h-10 overflow-hidden shrink-0 flex flex-row items-center justify-center py-2 px-10 box-border text-center text-white cursor-pointer"
+                      onClick={addItemToCart}
+                    >
+                      <div className="relative leading-[150%] font-medium">
+                        ADD TO BAG
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            ))}
       </div>
     </div>
   );

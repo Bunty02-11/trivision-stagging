@@ -140,32 +140,6 @@ const ProductListing = ({ className = "" }) => {
           itemImg2="/item--img-14.svg"
         />
       </div>
-      <style jsx>{`
-        .responsive-banner {
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          width: 100%;
-          padding-top: 30%; /* 16:9 Aspect Ratio */
-        }
-        @media (max-width: 1050px) {
-          .responsive-banner {
-            padding-top: 25%;
-          }
-        }
-
-        @media (max-width: 750px) {
-          .responsive-banner {
-            padding-top: 20%;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .responsive-banner {
-            padding-top: 30%;
-          }
-        }
-      `}</style>
     </>
   );
 };
