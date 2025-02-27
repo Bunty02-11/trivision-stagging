@@ -113,7 +113,7 @@ const ProductCards = memo(
           style={{
             backgroundImage: `url(${imgBackgroundImage || "1.png"})`,
             mixBlendMode: "multiply", // Apply blending
-          }}          
+          }}
         >
           <div className="absolute top-[12px] left-[calc(50%_-_57px)] flex flex-row items-center justify-center py-1 px-4">
             <div className="relative leading-[150%] font-medium">
@@ -140,7 +140,7 @@ const ProductCards = memo(
             />
           </div>
         </div>
-        <div className="w-[290px] flex flex-col items-center justify-center gap-3 text-sm mq480:w-[240px]">
+        <div className="w-full px-3 flex flex-col items-center justify-center gap-3 text-sm mq480:w-[240px]">
           <div className="self-stretch flex flex-row items-center justify-center text-base text-gray-400 font-oswald">
             <div className="self-stretch flex flex-row items-center justify-start text-base text-gray-400 font-oswald flex-1 relative leading-[150%] font-semibold">
               {brand_name}

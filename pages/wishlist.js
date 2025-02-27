@@ -4,10 +4,12 @@ import Footer from "../components/footer";
 import FrameComponent1 from "../components/frame-component1";
 import axios from "axios";
 import Loader from "../components/Loader/Loader";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const Wishlist = () => {
+  const router = useRouter();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -123,11 +125,12 @@ const Wishlist = () => {
           </div>
         </div>
       </section>
-      {orders.filter((order) => order.shipping_info === "whishlist").length === 0 ? (
+      {orders.filter((order) => order.shipping_info === "whishlist").length ===
+      0 ? (
         <section className="flex flex-col justify-center items-center w-full h-[50vh]">
           <p className="text-xl text-black">Your wishlist is empty!</p>
           <button
-            className="bg-black p-4 text-white text-base cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+            className="bg-black py-3 px-4 text-white text-base cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
             onClick={() => router.push("/sunglasses/sunglasses")}
           >
             START SHOPPING
@@ -179,7 +182,9 @@ const Wishlist = () => {
                     <div className="self-stretch flex flex-row items-center justify-center max-w-full">
                       <div className="flex-1 relative leading-[150%] inline-block max-w-full">
                         <span className="font-semibold">{`Gender: `}</span>
-                        <span className="font-medium">{item.product.gender}</span>
+                        <span className="font-medium">
+                          {item.product.gender}
+                        </span>
                       </div>
                     </div>
                     <div className="self-stretch flex flex-row items-center justify-center max-w-full">
@@ -199,9 +204,7 @@ const Wishlist = () => {
                       className="bg-black overflow-hidden flex flex-row items-center justify-center py-2.5 px-[35px] text-center text-sm text-background-color-primary cursor-pointer"
                       onClick={() => handleAddToBag(order._id)}
                     >
-                      <div
-                        className="flex-1 relative leading-[150%] font-medium inline-block min-w-[94px]"
-                      >
+                      <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[94px]">
                         ADD TO BAG
                       </div>
                     </div>
