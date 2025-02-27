@@ -797,6 +797,85 @@ const FrameComponent1 = memo(({ className = "" }) => {
                               {item && item?.product?.frame_shape}
                             </p>
                           )}
+                          {item?.additional_info?.[0]?.additional_info?.[0]
+                            ?.lensType && (
+                            <p className="text-black text-sm text-start mt-0 font-bold">
+                              Your lenses:
+                            </p>
+                          )}
+                          {item?.additional_info?.[0]?.additional_info?.[0]
+                            ?.lensType && (
+                            <p className="text-black text-sm text-start mt-0">
+                              Lense Type:{" "}
+                              {item &&
+                                item?.additional_info?.[0]?.additional_info?.[0]
+                                  ?.lensType}
+                            </p>
+                          )}
+                          {item?.additional_info?.[0]?.additional_info?.[0]
+                            ?.price && (
+                            <p className="text-black text-sm text-start mt-0">
+                              Lense Price: AED{" "}
+                              {item &&
+                                item?.additional_info?.[0]?.additional_info?.[0]
+                                  ?.price}
+                            </p>
+                          )}
+                          {item?.additional_info?.[0]?.prescription?.length >
+                            0 && (
+                            <>
+                              <p className="text-black text-sm text-start mt-0 font-bold">
+                                Prescription Details:
+                              </p>
+                              <table className="border-collapse border border-gray-500 border-[1px] border-solid text-xs text-black">
+                                <thead>
+                                  <tr>
+                                    <th className="border border-gray-500 border-[1px] border-solid px-4 py-2 ">
+                                      Eye
+                                    </th>
+                                    <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                      SPH
+                                    </th>
+                                    <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                      CYL
+                                    </th>
+                                    <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                      AXIX
+                                    </th>
+                                    <th className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                      PUP
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {item?.additional_info?.[0]?.prescription
+                                    ?.slice(0, 2)
+                                    .map((data, index) => (
+                                      <tr key={index}>
+                                        <td className="border border-gray-500 border-[1px] border-solid px-4 py-2 font-bold">
+                                          {data?.eye}
+                                        </td>
+                                        <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                          {data?.sphere}
+                                        </td>
+                                        <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                          {data?.cylinder}
+                                        </td>
+                                        <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                          {data?.axis}
+                                        </td>
+                                        <td className="border border-gray-500 border-[1px] border-solid px-4 py-2">
+                                          {
+                                            item?.additional_info?.[0]
+                                              ?.prescription?.[2]?.pd
+                                          }
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                            </>
+                          )}
                           {item?.data == "pack" && (
                             <div className="flex items-center gap-x-4 mt-4">
                               <p className="text-black text-sm text-start mt-0">
@@ -950,6 +1029,28 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                 {item &&
                                   item?.product?.retail_price * item?.quantity}
                               </p>
+                            )}
+                            {item?.additional_info?.[0]?.additional_info?.[0]
+                              ?.price && (
+                              <>
+                                <p className="font-semibold text-sm text-black m-0">
+                                  {"+"}
+                                </p>
+                                <p className="font-semibold text-sm text-black m-0">
+                                  AED{" "}
+                                  {item &&
+                                    item?.additional_info?.[0]
+                                      ?.additional_info?.[0]?.price}
+                                </p>
+                                <p className="font-semibold text-sm text-black m-0">
+                                  Total: AED{" "}
+                                  {item &&
+                                    item?.product?.retail_price *
+                                      item?.quantity +
+                                      item?.additional_info?.[0]
+                                        ?.additional_info?.[0]?.price}
+                                </p>
+                              </>
                             )}
                           </div>
                         </div>

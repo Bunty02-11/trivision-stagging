@@ -309,7 +309,7 @@ const Cart = () => {
                             <p className="text-black text-sm text-start mt-0 font-bold">
                               Prescription Details:
                             </p>
-                            <table className="border-collapse border border-gray-500 border-[1px] border-solid text-xs">
+                            <table className="border-collapse border border-gray-500 border-[1px] border-solid text-xs text-black">
                               <thead>
                                 <tr>
                                   <th className="border border-gray-500 border-[1px] border-solid px-4 py-2 ">
