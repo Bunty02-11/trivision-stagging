@@ -3,26 +3,12 @@ import Image from "next/image";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
+const AccessoriesFiltersSidebar = ({ isOpen, onClose, slug, onFilter }) => {
   const [variants, setVariants] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({});
   const [priceRange, setPriceRange] = useState([1, 10000]);
   const [isPriceExpanded, setIsPriceExpanded] = useState(true);
-
-  const applyFilters = () => {
-    onFilter({
-      ...selectedFilters,
-      price_min: priceRange[0],
-      price_max: priceRange[1],
-      // brand: slug,
-    });
-    onClose(); // Close sidebar after applying filters
-  };
-
-  const togglePriceExpand = () => {
-    setIsPriceExpanded((prev) => !prev);
-  };
 
   useEffect(() => {
     if (variants.retail_price_range) {
@@ -32,10 +18,6 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
       ]);
     }
   }, [variants.retail_price_range]);
-
-  const handlePriceRangeChange = (value) => {
-    setPriceRange(value); // Update the price range dynamically
-  };
 
   useEffect(() => {
     if (isOpen) {
@@ -56,50 +38,70 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
         );
         const data = await response.json();
 
-        const sortedVariants = Object.fromEntries(
-          Object.entries(data.variants || {}).map(
-            ([category, subCategories]) => {
-              if (Array.isArray(subCategories)) {
-                return [
-                  category,
-                  [...subCategories].sort((a, b) =>
-                    isNaN(a) || isNaN(b) ? a.localeCompare(b) : a - b
-                  ),
-                ];
-              } else if (
-                typeof subCategories === "object" &&
-                subCategories !== null
-              ) {
-                return [
-                  category,
-                  Object.fromEntries(
-                    Object.entries(subCategories).map(
-                      ([subCategory, items]) => [
-                        subCategory,
-                        Array.isArray(items)
-                          ? [...items].sort((a, b) =>
-                              isNaN(a) || isNaN(b) ? a.localeCompare(b) : a - b
-                            )
-                          : items,
-                      ]
-                    )
-                  ),
-                ];
-              }
-              return [category, subCategories];
+        // ✅ Extract retail_price_range separately
+        const { retail_price_range, ...otherVariants } = data.variants || {};
+
+        // ✅ Sort and clean the data
+        const cleanedVariants = Object.fromEntries(
+          Object.entries(otherVariants).filter(([_, subCategories]) => {
+            if (Array.isArray(subCategories)) {
+              return subCategories.length > 0;
+            } else if (
+              typeof subCategories === "object" &&
+              subCategories !== null
+            ) {
+              return Object.values(subCategories).some(
+                (items) => Array.isArray(items) && items.length > 0
+              );
             }
-          )
+            return false;
+          })
         );
-        setVariants(sortedVariants);
-        // const data = await response.json();
-        // setVariants(data.variants || {});
+
+        // ✅ Sort numbers and text within each category
+        const sortedVariants = Object.fromEntries(
+          Object.entries(cleanedVariants).map(([key, value]) => {
+            if (Array.isArray(value)) {
+              const sortedValues = value.every((v) => typeof v === "number")
+                ? value.sort((a, b) => a - b) // Sort numbers
+                : value.sort(); // Sort alphabetically
+              return [key, sortedValues];
+            } else if (typeof value === "object" && value !== null) {
+              return [
+                key,
+                Object.fromEntries(
+                  Object.entries(value).map(([subKey, subValue]) => [
+                    subKey,
+                    Array.isArray(subValue)
+                      ? subValue.every((v) => typeof v === "number")
+                        ? subValue.sort((a, b) => a - b) // Sort numbers
+                        : subValue.sort() // Sort alphabetically
+                      : subValue,
+                  ])
+                ),
+              ];
+            }
+            return [key, value];
+          })
+        );
+
+        setVariants({ ...sortedVariants, retail_price_range }); // ✅ Keep retail_price_range separate
       } catch (error) {
         console.error("Error fetching variants:", error);
       }
     };
 
     fetchVariations();
-  }, []);
+  }, [slug]);
+
+  const applyFilters = () => {
+    onFilter({
+      ...selectedFilters,
+      price_min: priceRange[0],
+      price_max: priceRange[1],
+    });
+    onClose();
+  };
 
   const toggleExpand = (category) => {
     setExpandedCategories((prev) => ({
@@ -108,17 +110,29 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
     }));
   };
 
-  const handleCheckboxChange = (category, value) => {
+  const handleCheckboxChange = (category, value, parentCategory = null) => {
     setSelectedFilters((prev) => {
-      const updatedCategory = prev[category] || [];
-      if (updatedCategory.includes(value)) {
-        return {
-          ...prev,
-          [category]: updatedCategory.filter((item) => item !== value),
-        };
-      } else {
-        return { ...prev, [category]: [...updatedCategory, value] };
+      let updatedFilters = { ...prev };
+      const categoryKey = parentCategory
+        ? `${parentCategory}_${category}`
+        : category;
+
+      if (!updatedFilters[categoryKey]) {
+        updatedFilters[categoryKey] = [];
       }
+
+      if (updatedFilters[categoryKey].includes(value)) {
+        updatedFilters[categoryKey] = updatedFilters[categoryKey].filter(
+          (item) => item !== value
+        );
+        if (updatedFilters[categoryKey].length === 0) {
+          delete updatedFilters[categoryKey];
+        }
+      } else {
+        updatedFilters[categoryKey] = [...updatedFilters[categoryKey], value];
+      }
+
+      return updatedFilters;
     });
   };
 
@@ -146,19 +160,9 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
           </button>
         </div>
 
-        {/* Map through all valid categories dynamically */}
+        {/* Dynamic filter mapping (excluding empty categories) */}
         {Object.entries(variants)
-          .filter(([_, subCategories]) => {
-            if (!subCategories || typeof subCategories !== "object")
-              return false;
-
-            // Check if all subcategories are empty (if object) or if the main category is empty (if array)
-            return Array.isArray(subCategories)
-              ? subCategories.length > 0 // Skip if main category array is empty
-              : Object.values(subCategories).some(
-                  (items) => Array.isArray(items) && items.length > 0
-                ); // Skip if all subcategory arrays are empty
-          })
+          .filter(([category]) => category !== "retail_price_range") // ✅ Exclude retail_price_range
           .map(([category, subCategories]) => (
             <div key={category} className="border-b py-2">
               <div
@@ -182,10 +186,7 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
                   {typeof subCategories === "object" &&
                   !Array.isArray(subCategories)
                     ? Object.entries(subCategories)
-                        .filter(
-                          ([_, items]) =>
-                            Array.isArray(items) && items.length > 0
-                        ) // ✅ Skip empty arrays
+                        .filter(([_, items]) => items.length > 0) // ✅ Hide empty subcategories
                         .map(([subCategory, items]) => (
                           <div key={subCategory} className="ml-2">
                             <p className="font-semibold capitalize">
@@ -199,12 +200,16 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
                                 <input
                                   type="checkbox"
                                   checked={
-                                    selectedFilters[subCategory]?.includes(
-                                      item
-                                    ) || false
+                                    selectedFilters[
+                                      `${category}_${subCategory}`
+                                    ]?.includes(item) || false
                                   }
                                   onChange={() =>
-                                    handleCheckboxChange(subCategory, item)
+                                    handleCheckboxChange(
+                                      subCategory,
+                                      item,
+                                      category
+                                    )
                                   }
                                 />
                                 {item}
@@ -213,7 +218,7 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
                           </div>
                         ))
                     : Array.isArray(subCategories) &&
-                      subCategories.length > 0 && // ✅ Skip empty arrays
+                      subCategories.length > 0 && // ✅ Hide empty categories
                       subCategories.map((item, idx) => (
                         <label
                           key={idx}
@@ -235,11 +240,13 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
               )}
             </div>
           ))}
+
+        {/* Price range slider */}
         {variants.retail_price_range && (
           <div className="py-2">
             <div
               className="flex justify-between items-center text-base font-medium text-black cursor-pointer hover:text-red"
-              onClick={togglePriceExpand}
+              onClick={() => setIsPriceExpanded((prev) => !prev)}
             >
               <span>Price Range</span>
               <Image
@@ -258,38 +265,36 @@ const AccessoriesFiltersSidebar = ({ isOpen, onClose, onFilter }) => {
                   min={variants.retail_price_range.min || 0}
                   max={variants.retail_price_range.max || 100000}
                   value={priceRange}
-                  onChange={handlePriceRangeChange}
+                  onChange={setPriceRange}
                   allowCross={false}
                 />
                 <div className="flex justify-between text-sm font-medium">
                   <span>AED {variants.retail_price_range.min}</span>
                   <span>AED {variants.retail_price_range.max}</span>
                 </div>
-                <div className="text-center font-semibold text-gray-200 text-sm">
-                  Selected: AED {priceRange[0]} - AED {priceRange[1]}
-                </div>
               </div>
             )}
           </div>
         )}
+
         <div className="mt-auto flex gap-4 pt-10">
           <button
-            className="w-1/2 border border-gray-400 text-gray-200 py-3 rounded-md cursor-pointer hover:bg-black hover:text-white transition-all duration-300"
             onClick={() => {
               setSelectedFilters({});
               setPriceRange([
-                variants?.price_range?.min || 0,
-                variants?.price_range?.max || 10000,
+                variants?.retail_price_range?.min || 0,
+                variants?.retail_price_range?.max || 10000,
               ]);
               onFilter({}); // Pass an empty filter object to show all products
               onClose();
             }}
+            className="w-1/2 border border-gray-400 text-gray-200 py-3 rounded-md cursor-pointer hover:bg-black hover:text-white transition-all duration-300"
           >
             CLEAR
           </button>
           <button
-            className="w-1/2 bg-black text-white py-3 rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
             onClick={applyFilters}
+            className="w-1/2 bg-black text-white py-3 rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
           >
             APPLY FILTERS
           </button>
