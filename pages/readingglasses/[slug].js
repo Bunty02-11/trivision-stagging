@@ -48,7 +48,7 @@ const EyeglassesListing = ({ products, className = "" }) => {
         />
         {/* Products & Filters */}
         <section className="w-[1440px] flex flex-row items-start justify-start px-20 box-border max-w-full mq750:px-10">
-          <FiltersAndProducts product={products} />
+          {/* <FiltersAndProducts product={products} /> */}
         </section>
         <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 gap-[60px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
           <JoinWrapper
@@ -60,7 +60,7 @@ const EyeglassesListing = ({ products, className = "" }) => {
             emptyPlaceholders2="/6@2x.png"
             emptyPlaceholders3="/5@2x.png"
           />
-          <ProductFaqs faqs={products?.[0]?.brand?.faqs} />
+          {/* <ProductFaqs faqs={products?.[0]?.brand?.faqs} /> */}
           <InstaPosts />
         </section>
         {/* Footer */}

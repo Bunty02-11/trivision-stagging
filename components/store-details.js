@@ -3,11 +3,16 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 
 const StoreDetails = memo(
-  ({ className = "", headingLinkFlowerHeartBra, heading3MinWidth }) => {
+  ({
+    className = "",
+    headingLinkFlowerHeartBra,
+    heading3MinWidth,
+    phone,
+    email,
+    mapLink
+  }) => {
     const heading3Style = useMemo(() => {
-      return {
-        minWidth: heading3MinWidth,
-      };
+      return { minWidth: heading3MinWidth };
     }, [heading3MinWidth]);
 
     return (
@@ -20,28 +25,40 @@ const StoreDetails = memo(
         >
           {headingLinkFlowerHeartBra}
         </div>
-        <Image
-          className="h-[27px] w-[27px] relative overflow-hidden shrink-0"
-          loading="lazy"
-          width={27}
-          height={27}
-          alt=""
-          src="/fluentlocation12filled.svg"
-        />
-        <Image
-          className="h-[27px] w-[27px] relative overflow-hidden shrink-0"
-          width={27}
-          height={27}
-          alt=""
-          src="/mdicall.svg"
-        />
-        <Image
-          className="h-[27px] w-[27px] relative overflow-hidden shrink-0"
-          width={27}
-          height={27}
-          alt=""
-          src="/antdesignmailfilled.svg"
-        />
+
+        {/* Map Link */}
+        <a href={mapLink} target="_blank" rel="noopener noreferrer">
+          <Image
+            className="h-[27px] w-[27px] relative overflow-hidden shrink-0"
+            loading="lazy"
+            width={27}
+            height={27}
+            alt="Location"
+            src="/fluentlocation12filled.svg"
+          />
+        </a>
+
+        {/* Call Link */}
+        <a href={`tel:${phone}`}>
+          <Image
+            className="h-[27px] w-[27px] relative overflow-hidden shrink-0"
+            width={27}
+            height={27}
+            alt="Call"
+            src="/mdicall.svg"
+          />
+        </a>
+
+        {/* Mail Link */}
+        <a href={`mailto:${email}`}>
+          <Image
+            className="h-[27px] w-[27px] relative overflow-hidden shrink-0"
+            width={27}
+            height={27}
+            alt="Mail"
+            src="/antdesignmailfilled.svg"
+          />
+        </a>
       </div>
     );
   }
@@ -50,9 +67,10 @@ const StoreDetails = memo(
 StoreDetails.propTypes = {
   className: PropTypes.string,
   headingLinkFlowerHeartBra: PropTypes.string,
-
-  /** Style props */
   heading3MinWidth: PropTypes.string,
+  phone: PropTypes.string,
+  email: PropTypes.string,
+  mapLink: PropTypes.string,
 };
 
 export default StoreDetails;

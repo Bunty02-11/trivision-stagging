@@ -428,7 +428,8 @@ const Cart = () => {
                       ) : (
                         <p className="text-sm font-semibold text-black p-0">
                           AED{" "}
-                          {item && item?.product?.retail_price * item?.quantity}
+                          {console.log(item, "item")}
+                          {orders && orders.total * item?.quantity}
                         </p>
                       )}
                     </div>

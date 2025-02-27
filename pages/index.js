@@ -51,6 +51,25 @@ const Home = () => {
     router.push(`/product/${slug}`);
   };
 
+  const faqsData = [
+    {
+      "question": "What range of eyewear do you provide?",
+      "answer": "We offer an extensive collection of luxury eyewear, including prescription glasses, designer sunglasses, and high-quality contact lenses.",
+    },
+    {
+      "question": "Do you offer eye testing services?",
+      "answer": "Yes, we provide professional eye testing services at our Dubai Hills Mall optical center, equipped with advanced diagnostic tools.",
+    },
+    {
+      "question": "Can you customize lenses for specific needs?",
+      "answer": "Certainly! We specialize in customizing lenses for various requirements, including prescription, progressive, and blue-light filtering options.",
+    },
+    {
+      "question": "Where are your stores located?",
+      "answer": "Our stores are conveniently located in Dubai Hills Mall, Dubai Mall, and Dubai Festival City, catering to customers across the UAE.",
+    }
+  ];
+
   return (
     // <>
     //   <First />
@@ -123,7 +142,7 @@ const Home = () => {
               {/* Category 3 */}
               <SwiperSlide>
                 <div className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/kidsimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
-                onClick={() => handleNavigation("/Kids/Sunglasses")}
+                  onClick={() => handleNavigation("/Kids/Sunglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
                     Kid Sunglasses
@@ -169,7 +188,8 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 pb-[60px] mq480:pb-[40px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border">
+      <section className="self-stretch flex flex-col items-center justify-center pt-0 px-10 pb-[60px] mq480:pb-[40px] mq480:px-3 box-border relative max-w-full text-center text-21xl text-black font-h4-32 mq750:pb-[39px] mq750:box-border cursour-pointer"
+      >
         <div className="w-[1320px] flex flex-col items-center justify-center gap-10 max-w-full mq750:gap-5">
           <div className="w-[1279.5px] flex flex-row items-center justify-center py-0 pl-[479px] pr-[480px] box-border max-w-full mq480:pl-5 mq480:pr-5 mq480:box-border mq750:pl-[119px] mq750:pr-[120px] mq750:box-border mq1250:pl-[239px] mq1250:pr-60 mq1250:box-border">
             <h1 className="m-0 flex-1 relative text-inherit leading-[120%] font-medium font-[inherit] mq480:text-5xl mq480:leading-[29px] mq750:text-13xl mq750:leading-[38px]">
@@ -205,7 +225,9 @@ const Home = () => {
               className="w-full max-w-full"
             >
               <SwiperSlide>
-                <div className="h-[374px] flex-1 flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-4 bg-[url('/1@3x.png')] bg-cover bg-no-repeat bg-[top]">
+                <div className="h-[374px] flex-1 flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-4 bg-[url('/1@3x.png')] bg-cover bg-no-repeat bg-[top]"
+                  onClick={() => handleNavigation("/eyeglasses/eyeglasses")}
+                >
                   <div className="self-stretch flex-1 relative overflow-hidden" />
                   <div className="self-stretch flex flex-row items-start justify-start py-0 pl-4 pr-[7px]">
                     <h3 className="m-0 flex-1 relative text-5xl text-white leading-[120%] font-medium font-[inherit] mq480:leading-[29px] mq750:text-13xl mq750:leading-[38px] mq480:text-base">
@@ -219,8 +241,8 @@ const Home = () => {
               </SwiperSlide>
               {newArrivals?.map((product) => (
                 <SwiperSlide key={product._id}
-                onClick={() =>
-                  handleNavigationProduct(product?.slug, product?.category)}
+                  onClick={() =>
+                    handleNavigationProduct(product?.slug, product?.category)}
                 >
                   <ProductCards
                     imgBackgroundImage={
@@ -234,6 +256,7 @@ const Home = () => {
                     iconamoonheartLight={`/iconamoonheartlight.svg`}
                     sVG={`/svg-1.svg`}
                     className="cursor-pointer"
+                    product_id={product._id}
                   />
                 </SwiperSlide>
               ))}
@@ -258,7 +281,7 @@ const Home = () => {
           emptyPlaceholders2="/6@2x.png"
           emptyPlaceholders3="/5@2x.png"
         />
-        <FaqComponentHome />
+        <FaqComponentHome faqs={faqsData} />
         <InstaPosts />
       </section>
       <Footer

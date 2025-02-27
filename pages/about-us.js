@@ -8,6 +8,26 @@ import InstaPosts from "../components/insta-posts";
 import Footer from "../components/footer";
 
 const About = () => {
+
+  const faqsData = [
+    {
+      "question": "What brands does Trivision Opticals offer?",
+      "answer": "We provide a curated collection of high-end fashion, sports, and luxury brands, ensuring something for every style.",
+    },
+    {
+      "question": "What services does your optical center provide?",
+      "answer": "Our Dubai Hills Mall optical center features advanced facilities for eye examinations, expert consultations, and personalized eyewear solutions.",
+    },
+    {
+      "question": "How do you ensure quality in your eyewear products?",
+      "answer": "All our eyewear products undergo stringent quality checks and are sourced from trusted manufacturers with a focus on craftsmanship.",
+    },
+    {
+      "question": "Where can I find Trivision Opticals outlets?",
+      "answer": "You can visit our outlets in premium shopping malls across the UAE, including our flagship center at Dubai Hills Mall.",
+    }
+  ];
+
   return (
     <div className="w-full relative bg-gray-100 overflow-hidden flex flex-col items-start justify-start px-0 pb-0 box-border leading-[normal] tracking-[normal] mq750:gap-[17px]">
       <FrameComponent1 />
@@ -75,7 +95,7 @@ const About = () => {
           emptyPlaceholders2="/6@2x.png"
           emptyPlaceholders3="/5@2x.png"
         />
-        <FaqComponentHome />
+        <FaqComponentHome faqs={faqsData} />
         <InstaPosts />
       </section>
       <Footer

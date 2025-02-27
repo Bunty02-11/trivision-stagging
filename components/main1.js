@@ -14,6 +14,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Main1 = memo(({ className = "", product, category }) => {
   const [quantity, setQuantity] = useState(1);
   const [cart, setCart] = useState([]);
+  const [isInCart, setIsInCart] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const router = useRouter();
   let token = null;
   let userId = null;
@@ -41,38 +43,41 @@ const Main1 = memo(({ className = "", product, category }) => {
     const newCartItem = {
       product: product.product._id,
       quantity: quantity,
-      shipping_info: itemType,
     };
 
     try {
       const response = await axios.post(
         "https://apitrivsion.prismcloudhosting.com/api/order/add",
         {
-          user: userId, // Replace with actual user ID
+          user: userId,
           cart: [...cart, newCartItem],
           subTotal: calculateSubTotal(cart, newCartItem),
-          shippingCost: 0, // Replace with actual shipping cost
-          discount: 0, // Replace with actual discount
+          shippingCost: 0,
+          discount: 0,
           total: calculateTotal(cart, newCartItem),
-          paymentMethod: "YOUR_PAYMENT_METHOD", // Replace with actual payment method
+          paymentMethod: "YOUR_PAYMENT_METHOD",
           shipping_info: itemType,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Set the Bearer token in headers
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
-
-      toast.success(`Product added to ${itemType === "cart" ? "cart" : "wishlist"}!`);
-      setCart([...cart, newCartItem]); // Update local cart state
+      toast.success(`Product added to ${itemType === "cart" ? "cart" : "whishlist"}!`);
+      setCart([...cart, newCartItem]);
+      if (itemType === "cart") {
+        setIsInCart(true);
+      } else {
+        setIsInWishlist(true);
+      }
     } catch (error) {
       console.error(
-        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "wishlist"}`,
+        `There was an error adding the product to the ${itemType === "cart" ? "cart" : "whishlist"}`,
         error
       );
-      toast.error(`Error adding product to ${itemType === "cart" ? "cart" : "wishlist"}`);
+      toast.error(`Error adding product to ${itemType === "cart" ? "cart" : "whishlist"}`);
     }
   };
 
@@ -81,16 +86,36 @@ const Main1 = memo(({ className = "", product, category }) => {
       (total, item) => total + item.quantity * product.product.retail_price,
       0
     );
-    return (
-      currentSubTotal + newCartItem.quantity * product.product.retail_price
-    );
+    return currentSubTotal + newCartItem.quantity * product.product.retail_price;
   };
 
   const calculateTotal = (cart, newCartItem) => {
     const subTotal = calculateSubTotal(cart, newCartItem);
-    const shippingCost = 0; // Replace with actual shipping cost
+    const shippingCost = 0;
     const discount = 0;
     return subTotal + shippingCost - discount;
+  };
+
+  const handleAddToCart = () => {
+    if (isInCart) {
+      // Navigate to the cart page
+      router.push('/cart');
+    } else {
+      addItem(product, 'cart');
+    }
+  };
+
+  const handleAddToWishlist = () => {
+    if (isInWishlist) {
+      // Navigate to the wishlist page
+      router.push('/wishlist');
+    } else {
+      addItem(product, 'whishlist');
+    }
+  };
+  const handlebuyItNow = () => {
+    addItem(product, 'cart');
+    router.push('/cart');
   };
 
   const addSelectLens = async (data) => {
@@ -103,7 +128,7 @@ const Main1 = memo(({ className = "", product, category }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5055/api/selectlens",
+        "https://apitrivsion.prismcloudhosting.com/api/selectlens",
         data,
         {
           headers: {
@@ -147,7 +172,6 @@ const Main1 = memo(({ className = "", product, category }) => {
     <section
       className={`self-stretch overflow-hidden flex flex-col items-center justify-start py-[60px] px-20 box-border gap-6 max-w-full text-left text-xs text-gray-400 font-h4-32 mq480:pt-5 mq480:pb-5 mq480:box-border mq825:py-[25px] mq825:px-10 mq825:box-border mq1410:pt-[39px] mq1410:pb-[39px] mq1410:box-border ${className}`}
     >
-      <ToastContainer />
       <div className="self-stretch flex flex-row items-center justify-start">
         <div className="relative leading-[150%] font-medium">{`Home > ${product.product?.category?.name} > ${product.product?.brand?.name} > ${product.product.product_name_short}`}</div>
       </div>
@@ -304,7 +328,9 @@ const Main1 = memo(({ className = "", product, category }) => {
                       SELECT YOUR LENS
                     </div>
                   </div>
-                  <div className="self-stretch bg-black overflow-hidden flex flex-row items-center justify-center py-2 px-[140px] text-base text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq825:pl-[70px] mq825:pr-[70px] mq825:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300">
+                  <div className="self-stretch bg-black overflow-hidden flex flex-row items-center justify-center py-2 px-[140px] text-base text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq825:pl-[70px] mq825:pr-[70px] mq825:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+                    onClick={handlebuyItNow}
+                  >
                     <div className="flex-1 relative leading-[150%] font-medium">
                       FRAME ONLY, BUY IT NOW
                     </div>
@@ -315,22 +341,24 @@ const Main1 = memo(({ className = "", product, category }) => {
                   <div className="self-stretch flex flex-row items-start justify-center gap-4 text-center mq825:flex-wrap">
                     <div
                       className="flex-[0.72] border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-[66px] min-w-[157px] min-h-[40px] mq480:flex-1 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
-                      onClick={() => addItem(product, "cart")}
+                      onClick={handleAddToCart}
                     >
                       <div className="flex-1 relative leading-[150%] font-medium">
-                        ADD TO BAG
+                        {isInCart ? 'GO TO BAG' : 'ADD TO BAG'}
                       </div>
                     </div>
                     <div
                       className="flex-1 border-black border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-[45px] min-w-[157px] min-h-[40px] cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
-                      onClick={() => addItem(product, "whishlist")}
+                      onClick={handleAddToWishlist}
                     >
                       <div className="flex-1 relative leading-[150%] font-medium">
-                        ADD TO WISHLIST
+                        {isInWishlist ? 'GO TO WISHLIST' : 'ADD TO WISHLIST'}
                       </div>
                     </div>
                   </div>
-                  <div className="self-stretch bg-black overflow-hidden flex flex-row items-center justify-center py-2 px-[140px] text-base text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq825:pl-[70px] mq825:pr-[70px] mq825:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300">
+                  <div className="self-stretch bg-black overflow-hidden flex flex-row items-center justify-center py-2 px-[140px] text-base text-background-color-primary mq480:pl-5 mq480:pr-5 mq480:box-border mq825:pl-[70px] mq825:pr-[70px] mq825:box-border cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+                    onClick={handlebuyItNow}
+                  >
                     <div className="flex-1 relative leading-[150%] font-medium">
                       BUY IT NOW
                     </div>

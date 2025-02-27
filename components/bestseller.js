@@ -36,6 +36,10 @@ const Bestseller = memo(({ className = "" }) => {
     router.push(`/product/${slug}`);
   };
 
+  const handleNavigationToSunglasses = (path) => {
+    router.push(path);
+  };
+
   // console.log("bestSellers", bestSellers.slug);
 
   return (
@@ -77,7 +81,9 @@ const Bestseller = memo(({ className = "" }) => {
           className="w-full max-w-full"
         >
           <SwiperSlide>
-            <div className="h-[374px] flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-4 bg-[url('/2@3x.png')] bg-cover bg-no-repeat bg-[top]">
+            <div className="h-[374px] flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-4 bg-[url('/2@3x.png')] bg-cover bg-no-repeat bg-[top] cursor-pointer"
+              onClick={() => handleNavigationToSunglasses("/sunglasses/sunglasses")}
+            >
               <div className="self-stretch flex-1 relative overflow-hidden" />
               <div className="self-stretch flex flex-row items-start justify-start py-0 pl-4 pr-[7px]">
                 <h3 className="m-0 flex-1 relative leading-[140%] text-white text-5xl font-medium font-[inherit] mq480:text-base">
@@ -102,6 +108,7 @@ const Bestseller = memo(({ className = "" }) => {
                 iconamoonheartLight={`/iconamoonheartlight.svg`}
                 sVG={`/svg-1.svg`}
                 className="cursor-pointer"
+                product_id={product._id}
               />
             </SwiperSlide>
           ))}

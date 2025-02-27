@@ -52,7 +52,7 @@ const Contact = () => {
           emptyPlaceholders2="/6@2x.png"
           emptyPlaceholders3="/5@2x.png"
         />
-        <FaqComponentHome />
+        {/* <FaqComponentHome /> */}
         <InstaPosts />
       </section>
       <Footer
