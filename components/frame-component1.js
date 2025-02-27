@@ -1024,7 +1024,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
                                         ?.selectLeftBox || 0) || 1)}
                               </p>
                             ) : (
-                              <p className="text-sm font-semibold text-black p-0">
+                              <p className="text-sm font-semibold text-black p-0 m-0">
                                 AED{" "}
                                 {item &&
                                   item?.product?.retail_price * item?.quantity}
