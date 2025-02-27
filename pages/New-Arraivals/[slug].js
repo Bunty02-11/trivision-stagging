@@ -8,8 +8,9 @@ import JoinWrapper from "../../components/join-wrapper";
 import InstaPosts from "../../components/insta-posts";
 import ProductFaqs from "../../components/product-faqs";
 
-const ProductListing = ({className = ""}) => {
+const ProductListing = ({ className = "" }) => {
   const [products, setProducts] = useState([]);
+  const [initialProducts, setInitialProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -38,6 +39,7 @@ const ProductListing = ({className = ""}) => {
         }
 
         setProducts(data.newArrivals);
+        setInitialProducts(data.newArrivals);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -49,8 +51,12 @@ const ProductListing = ({className = ""}) => {
   }, [slug]); // Run the effect when slug changes
 
   const handleFilter = async (filters) => {
-    console.log("filters::", filters);
     try {
+      // If filters are empty, reset to initial products
+      if (Object.keys(filters).length === 0) {
+        setProducts(initialProducts);
+        return;
+      }
       const response = await fetch(
         "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
         {
@@ -81,16 +87,18 @@ const ProductListing = ({className = ""}) => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  const bannerImage = slug === "Sunglasses"
-    ? "/newarrivalsunglasses.webp"
-    : slug === "EYEGLASSES"
+  const bannerImage =
+    slug === "Sunglasses"
+      ? "/newarrivalsunglasses.webp"
+      : slug === "EYEGLASSES"
       ? "/newarraivalseyeglasses.webp"
       : "/defaultBanner.jpg";
 
   return (
     <>
       <FrameComponent1 />
-      <div className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32 ${className}`}
+      <div
+        className={`self-stretch h-[670px] mq750:h-[450px] overflow-hidden shrink-0 flex flex-col items-center justify-center pt-[498px] mq750:pt-[298px] px-10 pb-[60px] box-border bg-[url('/banner@3x.png')] bg-cover bg-no-repeat bg-[top] z-[1] text-center text-21xl text-background-color-primary font-h4-32 ${className}`}
         style={{ backgroundImage: `url(${bannerImage})` }}
       />
       <div className="w-full bg-gray-100 flex flex-col items-center">

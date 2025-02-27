@@ -11,6 +11,7 @@ import ProductFaqs from "../../components/product-faqs";
 
 const ProductListing = ({ className = "" }) => {
   const [products, setProducts] = useState([]);
+  const [initialProducts, setInitialProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -41,6 +42,7 @@ const ProductListing = ({ className = "" }) => {
         }
 
         setProducts(data.products);
+        setInitialProducts(data.products);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -52,8 +54,12 @@ const ProductListing = ({ className = "" }) => {
   }, [slug, gender]); // Run the effect when slug or gender changes
 
   const handleFilter = async (filters) => {
-    console.log("filters::", filters);
     try {
+      // If filters are empty, reset to initial products
+      if (Object.keys(filters).length === 0) {
+        setProducts(initialProducts);
+        return;
+      }
       const response = await fetch(
         "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
         {

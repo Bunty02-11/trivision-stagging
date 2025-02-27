@@ -38,8 +38,12 @@ const AccessoriesListing = ({ initialProducts, className = "" }) => {
   const [products, setProducts] = useState(initialProducts);
 
   const handleFilter = async (filters) => {
-    console.log("filters::", filters);
     try {
+      // If filters are empty, reset to initial products
+      if (Object.keys(filters).length === 0) {
+        setProducts(initialProducts);
+        return;
+      }
       const response = await fetch(
         "https://apitrivsion.prismcloudhosting.com/api/filter/data/accessories/filter",
         {

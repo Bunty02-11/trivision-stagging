@@ -566,7 +566,6 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug, onFilter }) => {
 
         <div className="mt-auto flex gap-4 pt-10">
           <button
-            // onClick={() => setSelectedFilters({})}
             onClick={() => {
               setSelectedFilters({});
               setPriceRange([

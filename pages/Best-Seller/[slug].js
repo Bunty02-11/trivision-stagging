@@ -10,6 +10,7 @@ import ProductFaqs from "../../components/product-faqs";
 
 const ProductListing = ({ className = "" }) => {
   const [products, setProducts] = useState([]);
+  const [initialProducts, setInitialProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -37,7 +38,8 @@ const ProductListing = ({ className = "" }) => {
           throw new Error(`No products found for ${slug}`);
         }
 
-        setProducts(data.bestSellers);
+        setProducts(data?.bestSellers);
+        setInitialProducts(data?.bestSellers);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -49,8 +51,12 @@ const ProductListing = ({ className = "" }) => {
   }, [slug]); // Run the effect when slug changes
 
   const handleFilter = async (filters) => {
-    console.log("filters::", filters);
     try {
+      // If filters are empty, reset to initial products
+      if (Object.keys(filters).length === 0) {
+        setProducts(initialProducts);
+        return;
+      }
       const response = await fetch(
         "https://apitrivsion.prismcloudhosting.com/api/filter/data/products/filter",
         {

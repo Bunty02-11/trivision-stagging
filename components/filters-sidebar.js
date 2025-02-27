@@ -284,14 +284,14 @@ const FiltersSidebar = ({ isOpen, onClose, onFilter }) => {
         <div className="mt-auto flex gap-4 pt-10">
           <button
             className="w-1/2 border border-gray-400 text-gray-200 py-3 rounded-md cursor-pointer hover:bg-black hover:text-white transition-all duration-300"
-            // onClick={() => setSelectedFilters({})}
             onClick={() => {
               setSelectedFilters({});
-              setPriceRange(
-                variants.retail_price_range.min,
-                variants.retail_price_range.max
-              ); // Reset price range to default
+              setPriceRange([
+                variants?.retail_price_range?.min || 0,
+                variants?.retail_price_range?.max || 10000,
+              ]);
               onFilter({}); // Pass an empty filter object to show all products
+              onClose();
             }}
           >
             CLEAR
