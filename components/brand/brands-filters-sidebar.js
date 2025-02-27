@@ -570,8 +570,8 @@ const BrandsFiltersSidebar = ({ isOpen, onClose, slug, onFilter }) => {
             onClick={() => {
               setSelectedFilters({});
               setPriceRange([
-                variants?.price_range?.min,
-                variants?.price_range?.max,
+                variants?.price_range?.min || 0,
+                variants?.price_range?.max || 10000,
               ]);
               onFilter({}); // Pass an empty filter object to show all products
               onClose();
