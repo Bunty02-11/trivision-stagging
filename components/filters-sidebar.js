@@ -14,12 +14,19 @@ const FiltersSidebar = ({ isOpen, onClose, onFilter }) => {
   const [isPriceExpanded, setIsPriceExpanded] = useState(true);
 
   const applyFilters = () => {
-    onFilter({
+    const filters = {
       ...selectedFilters,
       price_min: priceRange[0],
       price_max: priceRange[1],
-      // category: slug,
-    });
+    };
+
+    if (route === "featured") {
+      filters.is_featured = true;
+    } else if (route === "best-value") {
+      filters.is_bestvalue = true;
+    }
+
+    onFilter(filters);
     onClose(); // Close sidebar after applying filters
   };
 
