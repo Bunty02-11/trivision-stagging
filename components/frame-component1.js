@@ -20,18 +20,8 @@ const FrameComponent1 = memo(({ className = "" }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMblSubMenuOpen, setIsMblSubMenuOpen] = useState(false);
-  const [isMblBrandSubMenuOpen, setIsMblBrandSubMenuOpen] = useState(false);
-  const [isMblEyeGlassesSubMenuOpen, setIsMblEyeGlassesSubMenuOpen] =
-    useState(false);
-  const [isMblContactLensSubMenuOpen, setIsMblContactLensSubMenuOpen] =
-    useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isBrandMenuOpen, setIsBrandMenuOpen] = useState(false);
-  const [isContactLensMenuOpen, setIsContactLensMenuOpen] = useState(false);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [isEyeglassesMenuOpen, setIsEyeglassesMenuOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCentralizedSidebarOpen, setIsCentralizedSidebarOpen] =
@@ -540,25 +530,25 @@ const FrameComponent1 = memo(({ className = "" }) => {
           </div>
           <div
             className="cursor-pointer p-2 mb-2 text-xs uppercase text-black text-start bg-gray-600 font-600 hover:font-bold hover:text-red"
-            onClick={() => toggleMenu(setIsMblBrandSubMenuOpen)}
+            onClick={() => toggleSidebar("brands-mbl")}
           >
             Brands
           </div>
           <div
             className="cursor-pointer p-2 mb-2 text-xs uppercase text-black text-start bg-gray-600 font-600 hover:font-bold hover:text-red"
-            onClick={() => toggleMenu(setIsMblSubMenuOpen)}
+            onClick={() => toggleSidebar("sunglasses-mbl")}
           >
             Sunglasses
           </div>
           <div
             className="cursor-pointer p-2 mb-2 text-xs uppercase text-black text-start bg-gray-600 font-600 hover:font-bold hover:text-red"
-            onClick={() => toggleMenu(setIsMblEyeGlassesSubMenuOpen)}
+            onClick={() => toggleSidebar("eyeglasses-mbl")}
           >
             Eyeglasses
           </div>
           <div
             className="cursor-pointer p-2 mb-2 text-xs uppercase text-black text-start bg-gray-600 font-600 hover:font-bold hover:text-red"
-            onClick={() => toggleMenu(setIsMblContactLensSubMenuOpen)}
+            onClick={() => toggleSidebar("contact-lens-mbl")}
           >
             Contact Lens
           </div>
@@ -579,13 +569,15 @@ const FrameComponent1 = memo(({ className = "" }) => {
       {/* mobile submenu */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-[30] transform ${
-          isMblBrandSubMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isCentralizedSidebarOpen === "brands-mbl"
+            ? "translate-x-0"
+            : "-translate-x-full"
         } transition-transform duration-300`}
       >
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-200 hover:text-black"
-            onClick={() => setIsMblBrandSubMenuOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
@@ -594,13 +586,15 @@ const FrameComponent1 = memo(({ className = "" }) => {
       </div>
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-[30] transform ${
-          isMblSubMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isCentralizedSidebarOpen === "sunglasses-mbl"
+            ? "translate-x-0"
+            : "-translate-x-full"
         } transition-transform duration-300`}
       >
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-200 hover:text-black"
-            onClick={() => setIsMblSubMenuOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
@@ -609,13 +603,15 @@ const FrameComponent1 = memo(({ className = "" }) => {
       </div>
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-[30] transform ${
-          isMblEyeGlassesSubMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isCentralizedSidebarOpen === "eyeglasses-mbl"
+            ? "translate-x-0"
+            : "-translate-x-full"
         } transition-transform duration-300`}
       >
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-200 hover:text-black"
-            onClick={() => setIsMblEyeGlassesSubMenuOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
@@ -624,13 +620,15 @@ const FrameComponent1 = memo(({ className = "" }) => {
       </div>
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-[30] transform ${
-          isMblContactLensSubMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isCentralizedSidebarOpen === "contact-lens-mbl"
+            ? "translate-x-0"
+            : "-translate-x-full"
         } transition-transform duration-300`}
       >
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-200 hover:text-black"
-            onClick={() => setIsMblContactLensSubMenuOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
