@@ -124,7 +124,9 @@ const Home = () => {
               {/* Category 1 */}
               <SwiperSlide>
                 <div
-                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/sunglasses@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/sunglasses@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer
+                  transition-all duration-300 hover:bg-[url('/sunglasses-cat.png')]
+                  "
                   onClick={() => handleNavigation("/sunglasses/sunglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -136,7 +138,9 @@ const Home = () => {
               {/* Category 2 */}
               <SwiperSlide>
                 <div
-                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/eyeglassimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/eyeglassimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer
+                  transition-all duration-300 hover:bg-[url('/eyeglasses-cat.jpg')]
+                  "
                   onClick={() => handleNavigation("/eyeglasses/eyeglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -148,7 +152,9 @@ const Home = () => {
               {/* Category 3 */}
               <SwiperSlide>
                 <div
-                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/kidsimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/kidsimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer
+                   transition-all duration-300 hover:bg-[url('/kids-cat.jpg')]
+                  "
                   onClick={() => handleNavigation("/Kids/Sunglasses")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -160,7 +166,9 @@ const Home = () => {
               {/* Category 4 */}
               <SwiperSlide>
                 <div
-                  className=" h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/lensimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                  className=" h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/lensimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer
+                   transition-all duration-300 hover:bg-[url('/contact-lens-cat.jpg')]
+                  "
                   onClick={() => handleNavigation("/contact-lens/bella")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
@@ -172,7 +180,9 @@ const Home = () => {
               {/* Category 5 */}
               <SwiperSlide>
                 <div
-                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/category-links3@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer"
+                  className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/category-links3@3x.png')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer
+                  transition-all duration-300 hover:bg-[url('/accesssories-cat.jpg')]
+                  "
                   onClick={() => handleNavigation("/accessories")}
                 >
                   <h2 className="m-0 relative text-xl leading-[120%] font-medium font-[inherit] mq480:text-base">
