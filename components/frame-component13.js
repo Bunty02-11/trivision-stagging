@@ -626,7 +626,7 @@ const FrameComponent13 = memo(
                 <div className="flex-1 flex flex-col items-start justify-start pt-[1.5px] px-0 pb-0 box-border min-w-[304px] max-w-full">
                   <div className="self-stretch flex flex-col items-start justify-start gap-[11px]">
                     <div className="relative leading-[150%] font-medium">
-                      Free shipping on all orders
+                      Free shipping on all orders within the UAE.
                     </div>
                     <div className="self-stretch relative leading-[150%] font-medium">
                       Guaranteed delivery within 48 hours in Dubai.
