@@ -139,7 +139,7 @@ const Home = () => {
               <SwiperSlide>
                 <div
                   className="h-[314px] w-full overflow-hidden flex flex-row items-end justify-center p-6 box-border bg-[url('/eyeglassimg.jpeg')] bg-cover bg-no-repeat bg-[top] text-left text-5xl text-background-color-primary font-h4-32 cursor-pointer
-                  transition-all duration-300 hover:bg-[url('/eyeglasses-cat.jpg')]
+                  transition-all duration-300 hover:bg-[url('/eyeglasses-cat.webp')]
                   "
                   onClick={() => handleNavigation("/eyeglasses/eyeglasses")}
                 >
