@@ -1,5 +1,8 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Right = memo(({ className = "", subTotalAmount }) => {
   const tax = subTotalAmount * 0.05; // Assuming 5% tax
@@ -14,9 +17,67 @@ const Right = memo(({ className = "", subTotalAmount }) => {
     window.open(tabbyUrl, "_blank");
   };
 
+  const handleCheckOutTabby = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      toast.error("User ID not found in localStorage");
+      return;
+    }
+
+    const body = {
+      user: userId,
+      payment_method: "tabby",
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5055/api/proceed/proceed-order", body, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      toast.success("Order proceeded successfully");
+      // console.log("Order proceeded successfully:", response.data.configuration.available_products.installments[0].web_url);
+      window.location.href = response.data.configuration.available_products.installments[0].web_url;
+      // You can handle the response data as needed
+    } catch (error) {
+      toast.error("There was a problem with the order");
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  };
+
+  const handleCheckOutStrable = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      toast.error("User ID not found in localStorage");
+      return;
+    }
+
+    const body = {
+      user: userId,
+      payment_method: "strabl",
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5055/api/proceed/proceed-order", body, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      toast.success("Order proceeded successfully");
+      console.log("Order proceeded successfully:", response.data.data.cartId);
+      window.location.href = `https://dev-checkout.strabl.io/en/?token=${response.data.data.cartId}`
+      // You can handle the response data as needed
+    } catch (error) {
+      toast.error("There was a problem with the order");
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  };
+
   return (
     <div
-      className={`border-gray-800 border-[1px] border-solid box-border flex flex-col items-start justify-start p-5 gap-6 max-w-full text-left text-base text-black font-h4-32  ${className}`}
+      className={`border-gray-800 border-[1px] border-solid box-border flex flex-col items-start justify-start p-5 gap-6 max-w-full text-left text-base text-black font-h4-32 ${className}`}
     >
       <div className="self-stretch flex flex-row items-center justify-between gap-3">
         <div className="flex-1 relative leading-[150%] font-medium text-lg">
@@ -34,7 +95,7 @@ const Right = memo(({ className = "", subTotalAmount }) => {
           {tax?.toFixed(2)} AED
         </div>
       </div>
-      <div className="self-stretch  flex flex-row items-center justify-between gap-3 pb-5 border-b-[1px] border-gray-800 border-solid border-box">
+      <div className="self-stretch flex flex-row items-center justify-between gap-3 pb-5 border-b-[1px] border-gray-800 border-solid border-box">
         <div className="flex-1 relative leading-[150%] font-medium text-lg">
           Order Total
         </div>
@@ -43,26 +104,45 @@ const Right = memo(({ className = "", subTotalAmount }) => {
         </div>
       </div>
       <div
-        className="self-stretch bg-black text-background-color-primary flex flex-row items-center justify-center py-2 px-3 cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
-        onClick={handleCheckoutClick}
+        className="self-stretch border-[1px] border-solid border-black bg-white text-background-color-black flex flex-row items-center justify-center py-2 px-3 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+        onClick={handleCheckOutTabby}
       >
-        <div className="flex-1 relative leading-[150%] font-medium text-center">
+        <div className="flex-1 relative leading-[150%] font-medium text-center flex items-center justify-center">
           Pay By
+          <img
+            src="/tabby-logo-1.png"
+            alt="Payment Method"
+            className="ml-2 w-12 h-5"
+          />
         </div>
-        <img
-          src="/tabby.png"
-          alt="Payment Method"
-          className="ml-2 w-6 h-6"
-        />
       </div>
       <div
-        className="self-stretch bg-black text-background-color-primary flex flex-row items-center justify-center py-2 px-3 cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+        className="self-stretch border-[1px] border-solid border-black bg-white text-background-color-black flex flex-row items-center justify-center py-2 px-3 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
         onClick={handleCheckoutClick}
       >
-        <div className="flex-1 relative leading-[150%] font-medium text-center">
-          CHECK OUT
+        <div className="flex-1 relative leading-[150%] font-medium text-center flex items-center justify-center">
+          Pay By
+          <img
+            src="/tamara.png"
+            alt="Payment Method"
+            className="ml-2 w-12 h-5"
+          />
         </div>
       </div>
+      <div
+        className="self-stretch border-[1px] border-solid border-black bg-white text-background-color-black flex flex-row items-center justify-center py-2 px-3 cursor-pointer hover:bg-black hover:text-white hover:border-[1px] hover:border-solid transition-all duration-300"
+        onClick={handleCheckOutStrable}
+      >
+        <div className="flex-1 relative leading-[150%] font-medium text-center flex items-center justify-center">
+          Pay By
+          <img
+            src="/strabl.png"
+            alt="Payment Method"
+            className="ml-2 w-12 h-5"
+          />
+        </div>
+      </div>
+      {/* <ToastContainer /> */}
     </div>
   );
 });
