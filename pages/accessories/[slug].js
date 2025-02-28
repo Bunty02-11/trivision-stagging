@@ -115,6 +115,7 @@ const SunglassesProductDetails = () => {
                     key={index}
                     product_id={relatedProduct._id}
                     imgBackgroundImage={relatedProduct.product_images[0]}
+                    imageHover={relatedProduct.product_images[1]}
                     colorOptionJustifyContent="space-between"
                     next="/pending_I807:4280;491:5147"
                     next1="/pending_I807:4280;491:5150"

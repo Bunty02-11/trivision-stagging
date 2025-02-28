@@ -98,6 +98,7 @@ const ProductDetails = ({ product, error }) => {
                     key={index}
                     product_id={relatedProduct._id}
                     imgBackgroundImage={relatedProduct.product_images[0]}
+                    imageHover={relatedProduct.product_images[1]}
                     productItem={relatedProduct}
                     name={relatedProduct.product_name_short}
                     brand_name={relatedProduct.brand.name}

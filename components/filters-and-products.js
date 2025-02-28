@@ -114,6 +114,7 @@ const FiltersAndProducts = memo(
                     name={productItem.product_name_short}
                     price={productItem.retail_price}
                     imgBackgroundImage={firstImageUrl} // ✅ Dynamically passed image URL
+                    imageHover={productItem.product_images[1]}
                     colorOptionJustifyContent="center"
                     priceContainerJustifyContent="center"
                     iconamoonheartLight="/iconamoonheartlight-2.svg"

@@ -103,6 +103,7 @@ const Bestseller = memo(({ className = "" }) => {
             >
               <ProductCards
                 imgBackgroundImage={product.product_images[0] || "default.jpg"}
+                imageHover={product.product_images[1]}
                 price={product.retail_price}
                 name={product.product_name_short}
                 brand_name={product?.brand?.name}
