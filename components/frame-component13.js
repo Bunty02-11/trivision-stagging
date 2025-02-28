@@ -417,6 +417,23 @@ const FrameComponent13 = memo(
                         I need two different powers
                       </div>
                     </div>
+                    <div className="flex items-center justify-between gap-6 w-full">
+                      <div className="relative leading-[150%] font-semibold">
+                        Don’t know your prescription?
+                      </div>
+                      <div className="flex flex-row items-center justify-center gap-3 text-right">
+                        <Image
+                          src="/iconoir_eye-solid.png"
+                          className="h-6 w-6 relative overflow-hidden shrink-0"
+                          width={24}
+                          height={24}
+                          alt="eye"
+                        />
+                        <div className="relative leading-[150%] font-medium opacity-[0.6]">
+                          Book an Eye Test
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
