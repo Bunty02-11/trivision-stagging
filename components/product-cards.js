@@ -106,10 +106,10 @@ const ProductCards = memo(
 
     return (
       <div
-        className={`h-full bg-gray-600 flex flex-col items-center justify-start pt-0 px-0 pb-4 gap-4 text-left text-xs text-black font-h4-32 ${className}`}
+        className={`h-full bg-gray-600 flex flex-col items-center justify-start pt-0 px-3 pb-4 gap-4 text-left text-xs text-black font-h4-32 ${className}`}
       >
         <div
-          className="w-[314px] relative h-[250px] overflow-hidden shrink-0 bg-contain bg-center bg-no-repeat"
+          className="w-[290px] relative h-[250px] overflow-hidden shrink-0 bg-contain bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${imgBackgroundImage || "1.png"})`,
             mixBlendMode: "multiply", // Apply blending
@@ -140,7 +140,7 @@ const ProductCards = memo(
             />
           </div>
         </div>
-        <div className="w-full px-3 flex flex-col items-center justify-center gap-3 text-sm mq480:w-[240px]">
+        <div className="w-full flex flex-col items-center justify-center gap-3 text-sm mq480:w-[240px]">
           <div className="self-stretch flex flex-row items-center justify-center text-base text-gray-400 font-oswald">
             <div className="self-stretch flex flex-row items-center justify-start text-base text-gray-400 font-oswald flex-1 relative leading-[150%] font-semibold">
               {brand_name}

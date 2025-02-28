@@ -63,7 +63,7 @@ const Bestseller = memo(({ className = "" }) => {
 
         <Swiper
           modules={[Navigation]}
-          spaceBetween={20}
+          spaceBetween={10}
           slidesPerView={1}
           navigation={{
             prevEl: prevButtonRef.current,
