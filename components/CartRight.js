@@ -47,6 +47,19 @@ const Right = memo(({ className = "", subTotalAmount }) => {
         onClick={handleCheckoutClick}
       >
         <div className="flex-1 relative leading-[150%] font-medium text-center">
+          Pay By
+        </div>
+        <img
+          src="/tabby.png"
+          alt="Payment Method"
+          className="ml-2 w-6 h-6"
+        />
+      </div>
+      <div
+        className="self-stretch bg-black text-background-color-primary flex flex-row items-center justify-center py-2 px-3 cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-solid transition-all duration-300"
+        onClick={handleCheckoutClick}
+      >
+        <div className="flex-1 relative leading-[150%] font-medium text-center">
           CHECK OUT
         </div>
       </div>

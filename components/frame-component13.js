@@ -26,8 +26,11 @@ const FrameComponent13 = memo(({ className = "", product }) => {
     setSelectedPack(event.target.value);
   };
 
-  const handlePowerChange = (value) => {
-    setSelectedPower(value);
+  const handlePowerChange = (power) => {
+    setSelectedPower(power);
+    if (power === "withoutPower") {
+      setDifferentPowers(false);
+    }
   };
 
   const addItem = async (product, itemType) => {
@@ -224,10 +227,8 @@ const FrameComponent13 = memo(({ className = "", product }) => {
               <div className="w-[500px] flex flex-row items-start justify-start gap-4 max-w-full text-center mq750:flex-wrap">
                 {/* Without Power Button */}
                 <div
-                  onClick={() => handlePowerChange("withoutPower")}
-                  className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${selectedPower === "withoutPower"
-                    ? "bg-black text-white border-black"
-                    : "border-black text-black"
+                  onClick={() => handlePowerChange('withoutPower')}
+                  className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${selectedPower === 'withoutPower' ? 'bg-black text-white border-black' : 'border-black text-black'
                     }`}
                 >
                   <div className="relative leading-[150%] font-medium">Without Power</div>
@@ -235,65 +236,42 @@ const FrameComponent13 = memo(({ className = "", product }) => {
 
                 {/* With Power Button */}
                 <div
-                  onClick={() => handlePowerChange("withPower")}
-                  className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${selectedPower === "withPower"
-                    ? "bg-black text-white border-black"
-                    : "border-black text-black"
+                  onClick={() => handlePowerChange('withPower')}
+                  className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${selectedPower === 'withPower' ? 'bg-black text-white border-black' : 'border-black text-black'
                     }`}
                 >
                   <div className="relative leading-[150%] font-medium">With Power</div>
                 </div>
               </div>
-              <div className="self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-4 max-w-full">
-                <div className="self-stretch relative text-base leading-[150%] font-semibold">
-                  Select Your Prescription
-                </div>
-                {/* Eye Selection */}
-                <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
-                  <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[19px]">
-                    Eye
+              {selectedPower === 'withPower' && (
+                <div className="self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-4 max-w-full">
+                  <div className="self-stretch relative text-base leading-[150%] font-semibold">
+                    Select Your Prescription
                   </div>
-                  <div className="w-[376px] flex flex-row items-center justify-start gap-6 max-w-full mq480:flex-wrap">
-                    {differentPowers && (
-                      <>
-                        <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
-                          Left
-                        </div>
-                        <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
-                          Right
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-                {/* Power Selection */}
-                <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
-                  <div className="relative leading-[150%] font-medium">
-                    Power/Sphere
-                  </div>
-                  <div className="flex-1 flex flex-row items-center justify-start gap-4 min-w-[244px] max-w-full text-gray-400 mq480:flex-wrap">
-                    {/* Right Eye Power */}
-                    <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
-                      <select
-                        value={rightEyePower}
-                        onChange={(e) => setRightEyePower(e.target.value)}
-                        className="flex-1 border-none text-center bg-transparent"
-                      >
-                        <option value="" disabled>
-                          Select
-                        </option>
-                        <option value="-1.00">-1.00</option>
-                        <option value="-1.50">-1.50</option>
-                        <option value="-2.00">-2.00</option>
-                      </select>
+                  <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
+                    <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[19px]">
+                      Eye
                     </div>
-
-                    {/* Left Eye Power (Shown Only When Checkbox is Checked) */}
-                    {differentPowers && (
+                    <div className="w-[376px] flex flex-row items-center justify-start gap-6 max-w-full mq480:flex-wrap">
+                      {differentPowers && (
+                        <>
+                          <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
+                            Left
+                          </div>
+                          <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
+                            Right
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
+                    <div className="relative leading-[150%] font-medium">Power/Sphere</div>
+                    <div className="flex-1 flex flex-row items-center justify-start gap-4 min-w-[244px] max-w-full text-gray-400 mq480:flex-wrap">
                       <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
                         <select
-                          value={leftEyePower}
-                          onChange={(e) => setLeftEyePower(e.target.value)}
+                          value={rightEyePower}
+                          onChange={(e) => setRightEyePower(e.target.value)}
                           className="flex-1 border-none text-center bg-transparent"
                         >
                           <option value="" disabled>
@@ -304,100 +282,119 @@ const FrameComponent13 = memo(({ className = "", product }) => {
                           <option value="-2.00">-2.00</option>
                         </select>
                       </div>
-                    )}
-                  </div>
-                </div>
 
-                {/* Number of Boxes */}
-                <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
-                  <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[66px]">
-                    No. of Boxes
-                  </div>
-                  <div className="w-[376px] flex flex-row items-center justify-start gap-4 max-w-full text-center text-gray-400 mq480:flex-wrap">
-                    {/* Right Eye Boxes */}
-                    <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))
-                        }
-                        className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
-                      >
-                        <Image
-                          width={12}
-                          height={12}
-                          alt=""
-                          src="/vector-2.svg"
-                        />
-                      </button>
-                      <div className="flex-1 relative leading-[150%] font-medium text-center">
-                        {rightEyeBoxes}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setRightEyeBoxes(rightEyeBoxes + 1)}
-                        className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
-                      >
-                        <Image
-                          width={12}
-                          height={12}
-                          alt=""
-                          src="/vector-3.svg"
-                        />
-                      </button>
+                      {differentPowers && (
+                        <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 px-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
+                          <select
+                            value={leftEyePower}
+                            onChange={(e) => setLeftEyePower(e.target.value)}
+                            className="flex-1 border-none text-center bg-transparent"
+                          >
+                            <option value="" disabled>
+                              Select
+                            </option>
+                            <option value="-1.00">-1.00</option>
+                            <option value="-1.50">-1.50</option>
+                            <option value="-2.00">-2.00</option>
+                          </select>
+                        </div>
+                      )}
                     </div>
-
-                    {/* Left Eye Boxes (Shown Only When Checkbox is Checked) */}
-                    {differentPowers && (
+                  </div>
+                  <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
+                    <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[66px]">
+                      No. of Boxes
+                    </div>
+                    <div className="w-[376px] flex flex-row items-center justify-start gap-4 max-w-full text-center text-gray-400 mq480:flex-wrap">
                       <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
                         <button
                           type="button"
-                          onClick={() =>
-                            setLeftEyeBoxes(Math.max(0, leftEyeBoxes - 1))
-                          }
+                          onClick={() => setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))}
                           className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
                         >
-                          <Image
-                            width={12}
-                            height={12}
-                            alt=""
-                            src="/vector-2.svg"
-                          />
+                          <Image width={12} height={12} alt="" src="/vector-2.svg" />
                         </button>
                         <div className="flex-1 relative leading-[150%] font-medium text-center">
-                          {leftEyeBoxes}
+                          {rightEyeBoxes}
                         </div>
                         <button
                           type="button"
-                          onClick={() => setLeftEyeBoxes(leftEyeBoxes + 1)}
+                          onClick={() => setRightEyeBoxes(rightEyeBoxes + 1)}
                           className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
                         >
-                          <Image
-                            width={12}
-                            height={12}
-                            alt=""
-                            src="/vector-3.svg"
-                          />
+                          <Image width={12} height={12} alt="" src="/vector-3.svg" />
                         </button>
                       </div>
-                    )}
-                  </div>
-                </div>
 
-                {/* Checkbox for Two Different Powers */}
-                <div className="flex flex-row items-start justify-start gap-2">
-                  <input
-                    type="checkbox"
-                    checked={differentPowers}
-                    onChange={(e) => setDifferentPowers(e.target.checked)}
-                    className="w-4 h-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
-                  />
-                  <div className="relative leading-[150%] font-medium">
-                    I need two different powers
+                      {differentPowers && (
+                        <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
+                          <button
+                            type="button"
+                            onClick={() => setLeftEyeBoxes(Math.max(0, leftEyeBoxes - 1))}
+                            className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                          >
+                            <Image width={12} height={12} alt="" src="/vector-2.svg" />
+                          </button>
+                          <div className="flex-1 relative leading-[150%] font-medium text-center">
+                            {leftEyeBoxes}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setLeftEyeBoxes(leftEyeBoxes + 1)}
+                            className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                          >
+                            <Image width={12} height={12} alt="" src="/vector-3.svg" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-row items-start justify-start gap-2">
+                    <input
+                      type="checkbox"
+                      checked={differentPowers}
+                      onChange={(e) => setDifferentPowers(e.target.checked)}
+                      className="w-4 h-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
+                    />
+                    <div className="relative leading-[150%] font-medium">
+                      I need two different powers
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {selectedPower === 'withoutPower' && (
+                <div className="self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-4 max-w-full">
+                  <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
+                    <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[66px]">
+                      No. of Boxes
+                    </div>
+                    <div className="w-[376px] flex flex-row items-center justify-start gap-4 max-w-full text-center text-gray-400 mq480:flex-wrap">
+                      <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
+                        <button
+                          type="button"
+                          onClick={() => setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))}
+                          className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                        >
+                          <Image width={12} height={12} alt="" src="/vector-2.svg" />
+                        </button>
+                        <div className="flex-1 relative leading-[150%] font-medium text-center">
+                          {rightEyeBoxes}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setRightEyeBoxes(rightEyeBoxes + 1)}
+                          className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                        >
+                          <Image width={12} height={12} alt="" src="/vector-3.svg" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-2 box-border gap-4 max-w-full text-center">
               <div className="self-stretch border-gray-800 border-[1px] border-solid box-border flex flex-row items-start justify-start py-1.5 px-[7px] gap-3 min-h-[56px] max-w-full text-left text-xs text-gray-200 mq750:flex-wrap">
                 <Image
