@@ -32,9 +32,22 @@ const FrameComponent1 = memo(({ className = "" }) => {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isEyeglassesMenuOpen, setIsEyeglassesMenuOpen] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isCentralizedSidebarOpen, setIsCentralizedSidebarOpen] =
+    useState(null); // Centralized state for sidebars
+
+  // Function to toggle sidebars
+  const toggleSidebar = (sidebarName) => {
+    setIsCentralizedSidebarOpen((prev) =>
+      prev === sidebarName ? null : sidebarName
+    );
+  };
+
+  // Close all sidebars
+  const closeAllSidebars = () => {
+    setIsCentralizedSidebarOpen(null);
+  };
 
   useEffect(() => {
     const fetchCartList = async () => {
@@ -260,16 +273,14 @@ const FrameComponent1 = memo(({ className = "" }) => {
     return <div>Loading...</div>;
   }
 
+  // Close sidebars when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isBrandMenuOpen && !event.target.closest(".brand-menu")) {
-        setIsBrandMenuOpen(false);
-      }
       if (
-        isContactLensMenuOpen &&
+        !event.target.closest(".brand-menu") &&
         !event.target.closest(".contact-lens-menu")
       ) {
-        setIsContactLensMenuOpen(false);
+        closeAllSidebars();
       }
     };
 
@@ -277,7 +288,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isBrandMenuOpen, isContactLensMenuOpen]);
+  }, []);
 
   useEffect(() => {
     const fetchBrandsData = async () => {
@@ -366,25 +377,25 @@ const FrameComponent1 = memo(({ className = "" }) => {
               </div>
               <div
                 className="relative leading-[150%] uppercase font-medium cursor-pointer"
-                onClick={() => toggleMenu(setIsBrandMenuOpen)}
+                onClick={() => toggleSidebar("brands")}
               >
                 Brands
               </div>
               <div
                 className="relative leading-[150%] uppercase font-medium cursor-pointer"
-                onClick={() => toggleMenu(setIsSidebarOpen)}
+                onClick={() => toggleSidebar("sunglasses")}
               >
                 Sunglasses
               </div>
               <div
                 className="relative leading-[150%] uppercase font-medium cursor-pointer"
-                onClick={() => toggleMenu(setIsEyeglassesMenuOpen)}
+                onClick={() => toggleSidebar("eyeglasses")}
               >
                 Eyeglasses
               </div>
               <div
                 className="flex-1 relative leading-[150%] uppercase font-medium inline-block cursor-pointer min-w-[112px]"
-                onClick={() => toggleMenu(setIsContactLensMenuOpen)}
+                onClick={() => toggleSidebar("contact-lens")}
               >
                 Contact Lens
               </div>
@@ -628,14 +639,35 @@ const FrameComponent1 = memo(({ className = "" }) => {
       </div>
       {/* Desktop Menus */}
       <div
+        className={`fixed top-0 left-0 w-full bg-white shadow-lg z-10 transform ${
+          isCentralizedSidebarOpen === "brands"
+            ? "translate-y-20"
+            : "-translate-y-full"
+        } transition-transform duration-300 brand-menu`}
+      >
+        <div className="flex flex-col p-4">
+          <button
+            className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
+            // onClick={() => setIsBrandMenuOpen(false)}
+            onClick={closeAllSidebars}
+          >
+            Close
+          </button>
+          <BrandMenu brands={brands} />
+        </div>
+      </div>
+      <div
         className={`fixed top-0 left-0 h-full w-[40%] bg-white shadow-lg z-[30] transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          isCentralizedSidebarOpen === "sunglasses"
+            ? "translate-x-0"
+            : "-translate-x-full"
         } transition-transform duration-300`}
       >
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            onClick={() => setIsSidebarOpen(false)}
+            // onClick={() => setIsSidebarOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
@@ -644,43 +676,35 @@ const FrameComponent1 = memo(({ className = "" }) => {
       </div>
       <div
         className={`fixed top-0 left-0 h-full w-[40%] bg-white shadow-lg z-[30] transform ${
-          isEyeglassesMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isCentralizedSidebarOpen === "eyeglasses"
+            ? "translate-x-0"
+            : "-translate-x-full"
         } transition-transform duration-300`}
       >
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            onClick={() => setIsEyeglassesMenuOpen(false)}
+            // onClick={() => setIsEyeglassesMenuOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
           <EyeglassesMenu category={categories} />
         </div>
       </div>
+
       <div
         className={`fixed top-0 left-0 w-full bg-white shadow-lg z-10 transform ${
-          isBrandMenuOpen ? "translate-y-20" : "-translate-y-full"
-        } transition-transform duration-300 brand-menu`}
-      >
-        <div className="flex flex-col p-4">
-          <button
-            className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            onClick={() => setIsBrandMenuOpen(false)}
-          >
-            Close
-          </button>
-          <BrandMenu brands={brands} />
-        </div>
-      </div>
-      <div
-        className={`fixed top-0 left-0 w-full bg-white shadow-lg z-10 transform ${
-          isContactLensMenuOpen ? "translate-y-20" : "-translate-y-full"
+          isCentralizedSidebarOpen === "contact-lens"
+            ? "translate-y-20"
+            : "-translate-y-full"
         } transition-transform duration-300 overflow-auto contact-lens-menu`}
       >
         <div className="flex flex-col p-4 h-full">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            onClick={() => setIsContactLensMenuOpen(false)}
+            // onClick={() => setIsContactLensMenuOpen(false)}
+            onClick={closeAllSidebars}
           >
             Close
           </button>
