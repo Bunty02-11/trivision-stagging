@@ -45,13 +45,13 @@ const Menu = memo(({ className = "", category }) => {
               ALL Eyeglasses
             </div>
           </div>
-          <div className="self-stretch flex flex-row items-center justify-start py-1.5 px-0">
+          {/* <div className="self-stretch flex flex-row items-center justify-start py-1.5 px-0">
             <div
               className="relative leading-[150%] uppercase font-medium inline-block min-w-[105px] cursor-pointer"
             >
               READING GLASSES
             </div>
-          </div>
+          </div> */}
           <div className="self-stretch flex flex-row items-center justify-start py-1.5 px-0">
             <div
               className="relative leading-[150%] uppercase font-medium inline-block min-w-[105px] cursor-pointer"

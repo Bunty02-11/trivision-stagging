@@ -383,10 +383,10 @@ const FrameComponent1 = memo(({ className = "" }) => {
                 Eyeglasses
               </div>
               <div
-                className="flex-1 relative leading-[150%] uppercase font-medium inline-block cursor-pointer min-w-[112px]"
+                className="flex-1 relative leading-[150%] uppercase font-medium inline-block cursor-pointer min-w-[130px]"
                 onClick={() => toggleMenu(setIsContactLensMenuOpen)}
               >
-                Contact Lens
+                Contact Lenses
               </div>
               <div
                 className="flex-1 relative leading-[150%] uppercase font-medium inline-block min-w-[103px] cursor-pointer"

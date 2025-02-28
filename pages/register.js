@@ -12,6 +12,7 @@ const CustomerAccount = () => {
     phone: "",
     email: "",
     password: "",
+    verify_password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [referrer, setReferrer] = useState("/");
@@ -29,10 +30,15 @@ const CustomerAccount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, phone, name } = formData;
+    const { name, phone, email, password, verify_password } = formData;
 
-    if (!name || !phone || !email || !password) {
+    if (!name || !phone || !email || !password || !verify_password) {
       toast.error("Please fill in all fields.");
+      return;
+    }
+
+    if (password !== verify_password) {
+      toast.error("Passwords do not match.");
       return;
     }
 
@@ -40,7 +46,7 @@ const CustomerAccount = () => {
     try {
       const response = await axios.post(
         "https://apitrivsion.prismcloudhosting.com/api/customer/register",
-        formData,
+        { name, phone, email, password }, // Only send the necessary fields
         {
           headers: {
             "Content-Type": "application/json",
@@ -61,6 +67,7 @@ const CustomerAccount = () => {
         phone: "",
         email: "",
         password: "",
+        verify_password: "",
       });
       // Redirect to the referrer page or default to home page
       router.push(referrer || "/");

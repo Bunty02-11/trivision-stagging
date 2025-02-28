@@ -91,8 +91,8 @@ const FrameComponent2 = memo(({ className = "" }) => {
                 alt="next arrow"
               />
             </div>
-            <div className="h-[25px] w-px relative border-gray-700 border-r-[1px] border-solid box-border" />
-            <div className="relative leading-[150%] font-medium">View More</div>
+            {/* <div className="h-[25px] w-px relative border-gray-700 border-r-[1px] border-solid box-border" />
+            <div className="relative leading-[150%] font-medium">View More</div> */}
           </div>
         </div>
       </div>

@@ -1,17 +1,7 @@
-import { useCallback } from "react";
-import Image from "next/image";
 import FrameComponent1 from "../components/frame-component1";
-import GetInTouchContainer from "../components/get-in-touch-container";
-import Content1 from "../components/content1";
-import FrameComponent8 from "../components/frame-component8";
-import JoinWrapper from "../components/join-wrapper";
-import AccordionItem from "../components/accordion-item";
-import AccordionItem1 from "../components/accordion-item1";
-import ImagePlaceholders from "../components/image-placeholders";
 import Footer from "../components/footer";
 
 const Contact = () => {
-  const onAccordionHeaderClick = useCallback((event) => {}, []);
 
   return (
     <>
