@@ -648,7 +648,6 @@ const FrameComponent1 = memo(({ className = "" }) => {
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            // onClick={() => setIsBrandMenuOpen(false)}
             onClick={closeAllSidebars}
           >
             Close
@@ -666,7 +665,6 @@ const FrameComponent1 = memo(({ className = "" }) => {
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            // onClick={() => setIsSidebarOpen(false)}
             onClick={closeAllSidebars}
           >
             Close
@@ -684,7 +682,6 @@ const FrameComponent1 = memo(({ className = "" }) => {
         <div className="flex flex-col p-4">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            // onClick={() => setIsEyeglassesMenuOpen(false)}
             onClick={closeAllSidebars}
           >
             Close
@@ -692,7 +689,6 @@ const FrameComponent1 = memo(({ className = "" }) => {
           <EyeglassesMenu category={categories} />
         </div>
       </div>
-
       <div
         className={`fixed top-0 left-0 w-full bg-white shadow-lg z-10 transform ${
           isCentralizedSidebarOpen === "contact-lens"
@@ -703,7 +699,6 @@ const FrameComponent1 = memo(({ className = "" }) => {
         <div className="flex flex-col p-4 h-full">
           <button
             className="self-end mb-4 p-2 text-sm text-gray-500 hover:text-black"
-            // onClick={() => setIsContactLensMenuOpen(false)}
             onClick={closeAllSidebars}
           >
             Close
