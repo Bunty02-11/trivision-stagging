@@ -197,79 +197,84 @@ const FrameComponent13 = memo(
                     relatedProductsClr={relatedProducts}
                   />
                 )}
-                <div className="self-stretch h-[53px] border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border overflow-x-auto shrink-0 flex flex-row items-center justify-start py-3.5 px-0 gap-6 mq480:gap-2">
-                  <div className="w-[101px] mq480:w-[60px] relative leading-[150%] font-medium inline-block">
-                    Pack
-                  </div>
-                  <div className="flex flex-row items-center justify-start py-0 pl-0 pr-[77px] mq480:pr-0 gap-2">
-                    <div className="flex flex-row items-center">
-                      <input
-                        type="radio"
-                        name="pack"
-                        value="30"
-                        checked={selectedPack === "30"}
-                        onChange={handleRadioChange}
-                        className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
-                        id="pack30"
-                      />
-                      <label
-                        htmlFor="pack30"
-                        className="ml-2 relative leading-[150%] font-medium"
-                      >
-                        Pack of 30
-                      </label>
+                {product?.category?.slug == "CLEAR-CONTACT-LENSES" && (
+                  <div className="self-stretch h-[53px] border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border overflow-x-auto shrink-0 flex flex-row items-center justify-start py-3.5 px-0 gap-6 mq480:gap-2">
+                    <div className="w-[101px] mq480:w-[60px] relative leading-[150%] font-medium inline-block">
+                      Pack
+                    </div>
+                    <div className="flex flex-row items-center justify-start py-0 pl-0 pr-[77px] mq480:pr-0 gap-2">
+                      <div className="flex flex-row items-center">
+                        <input
+                          type="radio"
+                          name="pack"
+                          value="30"
+                          checked={selectedPack === "30"}
+                          onChange={handleRadioChange}
+                          className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
+                          id="pack30"
+                        />
+                        <label
+                          htmlFor="pack30"
+                          className="ml-2 relative leading-[150%] font-medium"
+                        >
+                          Pack of 30
+                        </label>
+                      </div>
+                    </div>
+                    <div className="flex flex-row items-center justify-start gap-2">
+                      <div className="flex flex-row items-center">
+                        <input
+                          type="radio"
+                          name="pack"
+                          value="90"
+                          checked={selectedPack === "90"}
+                          onChange={handleRadioChange}
+                          className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
+                          id="pack90"
+                        />
+                        <label
+                          htmlFor="pack90"
+                          className="ml-2 relative leading-[150%] font-medium inline-block min-w-[76px]"
+                        >
+                          Pack of 90
+                        </label>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-row items-center justify-start gap-2">
-                    <div className="flex flex-row items-center">
-                      <input
-                        type="radio"
-                        name="pack"
-                        value="90"
-                        checked={selectedPack === "90"}
-                        onChange={handleRadioChange}
-                        className="h-4 w-4 relative rounded-81xl border-black border-[1px] border-solid box-border"
-                        id="pack90"
-                      />
-                      <label
-                        htmlFor="pack90"
-                        className="ml-2 relative leading-[150%] font-medium inline-block min-w-[76px]"
-                      >
-                        Pack of 90
-                      </label>
+                )}
+                {product?.category?.slug == "COLORED-CONTACT-LENSES" && (
+                  <div className="w-[500px] flex flex-row items-start justify-start gap-4 max-w-full text-center mq750:flex-wrap">
+                    {/* Without Power Button */}
+                    <div
+                      onClick={() => handlePowerChange("withoutPower")}
+                      className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${
+                        selectedPower === "withoutPower"
+                          ? "bg-black text-white border-black"
+                          : "border-black text-black"
+                      }`}
+                    >
+                      <div className="relative leading-[150%] font-medium">
+                        Without Power
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="w-[500px] flex flex-row items-start justify-start gap-4 max-w-full text-center mq750:flex-wrap">
-                  {/* Without Power Button */}
-                  <div
-                    onClick={() => handlePowerChange("withoutPower")}
-                    className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${
-                      selectedPower === "withoutPower"
-                        ? "bg-black text-white border-black"
-                        : "border-black text-black"
-                    }`}
-                  >
-                    <div className="relative leading-[150%] font-medium">
-                      Without Power
-                    </div>
-                  </div>
 
-                  {/* With Power Button */}
-                  <div
-                    onClick={() => handlePowerChange("withPower")}
-                    className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${
-                      selectedPower === "withPower"
-                        ? "bg-black text-white border-black"
-                        : "border-black text-black"
-                    }`}
-                  >
-                    <div className="relative leading-[150%] font-medium">
-                      With Power
+                    {/* With Power Button */}
+                    <div
+                      onClick={() => handlePowerChange("withPower")}
+                      className={`flex-1 border-[1px] border-solid box-border overflow-hidden flex flex-row items-center justify-center py-1.5 px-10 min-w-[157px] cursor-pointer ${
+                        selectedPower === "withPower"
+                          ? "bg-black text-white border-black"
+                          : "border-black text-black"
+                      }`}
+                    >
+                      <div className="relative leading-[150%] font-medium">
+                        With Power
+                      </div>
                     </div>
                   </div>
-                </div>
-                {selectedPower === "withPower" && (
+                )}
+                {(selectedPower === "withPower" ||
+                  product?.category?.slug == "CLEAR-CONTACT-LENSES") && (
                   <div className="self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-4 max-w-full">
                     <div className="self-stretch relative text-base leading-[150%] font-semibold">
                       Select Your Prescription
@@ -415,48 +420,51 @@ const FrameComponent13 = memo(
                   </div>
                 )}
 
-                {selectedPower === "withoutPower" && (
-                  <div className="self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-4 max-w-full">
-                    <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
-                      <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[66px]">
-                        No. of Boxes
-                      </div>
-                      <div className="w-[376px] flex flex-row items-center justify-start gap-4 max-w-full text-center text-gray-400 mq480:flex-wrap">
-                        <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))
-                            }
-                            className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
-                          >
-                            <Image
-                              width={12}
-                              height={12}
-                              alt=""
-                              src="/vector-2.svg"
-                            />
-                          </button>
-                          <div className="flex-1 relative leading-[150%] font-medium text-center">
-                            {rightEyeBoxes}
+                {selectedPower == "withoutPower" &&
+                  product?.category?.slug == "COLORED-CONTACT-LENSES" && (
+                    <div className="self-stretch border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border flex flex-col items-start justify-start py-3.5 px-0 gap-4 max-w-full">
+                      <div className="self-stretch flex flex-row items-center justify-start gap-6 max-w-full mq750:flex-wrap">
+                        <div className="flex-1 relative leading-[150%] font-medium inline-block min-w-[66px]">
+                          No. of Boxes
+                        </div>
+                        <div className="w-[376px] flex flex-row items-center justify-start gap-4 max-w-full text-center text-gray-400 mq480:flex-wrap">
+                          <div className="flex-1 border-gray-800 border-[1px] border-solid box-border flex flex-row items-center justify-center py-0.5 pl-[15px] pr-3.5 gap-2.5 min-w-[117px] min-h-[29px]">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setRightEyeBoxes(Math.max(0, rightEyeBoxes - 1))
+                              }
+                              className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                            >
+                              <Image
+                                width={12}
+                                height={12}
+                                alt=""
+                                src="/vector-2.svg"
+                              />
+                            </button>
+                            <div className="flex-1 relative leading-[150%] font-medium text-center">
+                              {rightEyeBoxes}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setRightEyeBoxes(rightEyeBoxes + 1)
+                              }
+                              className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
+                            >
+                              <Image
+                                width={12}
+                                height={12}
+                                alt=""
+                                src="/vector-3.svg"
+                              />
+                            </button>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => setRightEyeBoxes(rightEyeBoxes + 1)}
-                            className="h-[12px] w-[12px] relative shrink-0 flex items-center justify-center"
-                          >
-                            <Image
-                              width={12}
-                              height={12}
-                              alt=""
-                              src="/vector-3.svg"
-                            />
-                          </button>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-2 box-border gap-4 max-w-full text-center">
