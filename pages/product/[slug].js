@@ -59,7 +59,7 @@ const ProductDetails = ({ product, error }) => {
       <FrameComponent1 />
       <Main1 product={product} category={product?.product?.category?.slug} />
       <Ideology />
-      <section className="w-[1400px] flex flex-row items-center justify-center pt-0 px-10 pb-[60px] box-border max-w-full text-center text-21xl text-black font-h4-32">
+      <section className="self-stretch flex flex-row items-center justify-center pt-0 px-10 pb-[60px] box-border max-w-full text-center text-21xl text-black font-h4-32">
         <div className="flex-1 flex flex-col items-center justify-center gap-10 max-w-full">
           <div className="w-[1279.5px] flex flex-row items-center justify-center">
             <h1 className="m-0 flex-1 text-inherit leading-[120%] font-medium">
@@ -89,6 +89,7 @@ const ProductDetails = ({ product, error }) => {
                 640: { slidesPerView: 1 },
                 768: { slidesPerView: 2 },
                 1024: { slidesPerView: 3 },
+                1600: { slidesPerView: 4 },
               }}
               className="w-full max-w-full"
             >
