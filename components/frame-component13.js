@@ -192,7 +192,10 @@ const FrameComponent13 = memo(
               </div>
               <div className="self-stretch flex flex-col items-start justify-start gap-4 max-w-full text-sm">
                 {product?.category?.slug == "COLORED-CONTACT-LENSES" && (
-                  <Color product={product} relatedProductsClr={relatedProducts} />
+                  <Color
+                    product={product}
+                    relatedProductsClr={relatedProducts}
+                  />
                 )}
                 <div className="self-stretch h-[53px] border-gray-500 border-t-[1px] border-solid border-gray-500 border-b-[1px] border-solid box-border overflow-x-auto shrink-0 flex flex-row items-center justify-start py-3.5 px-0 gap-6 mq480:gap-2">
                   <div className="w-[101px] mq480:w-[60px] relative leading-[150%] font-medium inline-block">
