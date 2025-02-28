@@ -287,10 +287,10 @@ const FrameComponent13 = memo(
                         {differentPowers && (
                           <>
                             <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
-                              Left
+                              Right
                             </div>
                             <div className="flex-1 flex flex-row items-center justify-start gap-2 min-w-[114px]">
-                              Right
+                              Left
                             </div>
                           </>
                         )}

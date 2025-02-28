@@ -385,9 +385,9 @@ const FrameComponent1 = memo(({ className = "" }) => {
               </div>
               <div
                 className="flex-1 relative leading-[150%] uppercase font-medium inline-block cursor-pointer min-w-[112px]"
-                onClick={() => toggleSidebar("contact-lens")}
+                onClick={() => toggleSidebar("contact-lenses")}
               >
-                Contact Lens
+                Contact Lenses
               </div>
               <div
                 className="flex-1 relative leading-[150%] uppercase font-medium inline-block min-w-[103px] cursor-pointer"

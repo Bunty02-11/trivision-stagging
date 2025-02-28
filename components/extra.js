@@ -16,7 +16,7 @@ const Extra = memo(({ className = "" }) => {
           src="/img-11@2x.png"
         />
         <div className="flex-1 relative leading-[150%] font-medium inline-block max-w-[calc(100%-32px)] whitespace-nowrap">
-          Free shipping on all orders in Dubai
+          Free shipping on all orders within the UAE
         </div>
       </div>
       <div className="self-stretch overflow-hidden flex flex-row items-center justify-start gap-2 max-w-full">
