@@ -106,7 +106,7 @@ const ClearContactLensDetails = ({ product, error, relatedProducts }) => {
                     brand_name={relatedProduct?.brand.name}
                     price={relatedProduct?.retail_price}
                     slug={relatedProduct?.slug}
-                      iconamoonheartLight="/iconamoonheartlight1.svg"
+                    iconamoonheartLight="/iconamoonheartlight1.svg"
                     sVG="/svg-11.svg"
                   />
                 </SwiperSlide>
