@@ -23,6 +23,10 @@ const SunglassesProductDetails = () => {
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);
 
+  const handleNavigation = (slug) => {
+    router.push(`/accessories/${slug}`);
+  };
+
   useEffect(() => {
     if (!slug) return;
 
@@ -111,7 +115,11 @@ const SunglassesProductDetails = () => {
               className="w-full max-w-full"
             >
               {product?.relatedProducts?.map((relatedProduct, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide
+                  key={index}
+                  onClick={() => handleNavigation(relatedProduct?.slug)}
+                  className="cursor-pointer"
+                >
                   <ProductCards
                     key={index}
                     product_id={relatedProduct._id}

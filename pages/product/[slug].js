@@ -14,6 +14,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Ideology from "../../components/ideology";
+import { useRouter } from "next/navigation";
 
 export const getServerSideProps = async ({ params }) => {
   try {
@@ -48,8 +49,13 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 const ProductDetails = ({ product, error }) => {
+  const router = useRouter();
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);
+
+  const handleNavigation = (slug) => {
+    router.push(`/product/${slug}`);
+  };
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Product not found</p>;
@@ -94,7 +100,11 @@ const ProductDetails = ({ product, error }) => {
               className="w-full max-w-full"
             >
               {product?.relatedProducts?.map((relatedProduct, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide
+                  key={index}
+                  onClick={() => handleNavigation(relatedProduct?.slug)}
+                  className="cursor-pointer"
+                >
                   <ProductCards
                     key={index}
                     product_id={relatedProduct._id}

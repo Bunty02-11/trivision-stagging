@@ -12,6 +12,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export const getServerSideProps = async ({ params }) => {
   try {
@@ -47,8 +48,13 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 const ClearContactLensDetails = ({ product, error, relatedProducts }) => {
+  const router = useRouter();
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);
+
+  const handleNavigation = (slug) => {
+    router.push(`/ContactLensesDetails/${slug}`);
+  };
 
   if (error) return <p>{error}</p>;
   if (!product) return <p>Product not found</p>;
@@ -95,7 +101,11 @@ const ClearContactLensDetails = ({ product, error, relatedProducts }) => {
               className="w-full max-w-full"
             >
               {relatedProducts?.map((relatedProduct, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide
+                  key={index}
+                  onClick={() => handleNavigation(relatedProduct?.slug)}
+                  className="cursor-pointer"
+                >
                   <ProductCards
                     key={index}
                     product_id={relatedProduct?._id}

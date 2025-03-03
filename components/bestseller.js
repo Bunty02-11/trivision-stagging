@@ -100,6 +100,7 @@ const Bestseller = memo(({ className = "" }) => {
             <SwiperSlide
               key={product._id}
               onClick={() => handleNavigation(product?.slug, product?.category)}
+              className="cursor-pointer"
             >
               <ProductCards
                 imgBackgroundImage={product.product_images[0] || "default.jpg"}
@@ -111,7 +112,6 @@ const Bestseller = memo(({ className = "" }) => {
                 priceContainerJustifyContent="center"
                 iconamoonheartLight={`/iconamoonheartlight.svg`}
                 sVG={`/svg-1.svg`}
-                className="cursor-pointer"
                 product_id={product._id}
               />
             </SwiperSlide>
