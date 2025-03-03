@@ -509,14 +509,14 @@ const FrameComponent1 = memo(({ className = "" }) => {
       {searchSuggestions?.length > 0 && (
         <div
           ref={searchSuggestionsRef}
-          className="absolute w-[30%] right-0 top-[100%] bg-white border border-gray-300 shadow-md rounded-md"
+          className="absolute w-[30%] right-0 top-[100%] bg-white text-black border border-gray-300 shadow-md rounded-md"
           style={{ zIndex: 2 }}
         >
           <ul className="max-h-60 overflow-y-auto p-0">
             {searchSuggestions?.map((product) => (
               <li
                 key={product?._id}
-                className="p-3 mb-2 mx-2 cursor-pointer text-sm text-black bg-gray-500"
+                className="p-3 mb-2 mx-2 cursor-pointer text-sm bg-gray-500 hover:text-red"
                 onClick={() => handleNavigation(`/product/${product?.slug}`)} // Navigate to product detail page
               >
                 {product?.product_name_short}
