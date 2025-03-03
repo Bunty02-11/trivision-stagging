@@ -25,6 +25,9 @@ body {
     display: block;
   }
 }
+.swiper-wrapper {
+  align-items: center;
+}
 
 .custom-scrollbar {
   scrollbar-width: thin; /* For Firefox */

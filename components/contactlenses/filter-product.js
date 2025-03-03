@@ -98,7 +98,7 @@ const FiltersAndProducts = memo(
           <div className="self-stretch flex flex-row items-center justify-center flex-wrap content-start gap-x-2 gap-y-6">
             {sortedProducts?.slice(0, visibleProducts).map((productItem) => {
               const firstImageUrl =
-                productItem?.product_images[0] || "52@2x.png";
+                productItem?.product_images[0] || "/lenseClrImg.png";
               return (
                 <div
                   key={productItem._id}
@@ -112,7 +112,9 @@ const FiltersAndProducts = memo(
                     name={productItem.product_name_short}
                     price={productItem.retail_price}
                     imgBackgroundImage={firstImageUrl}
-                    imageHover={productItem.product_images[1]}
+                    imageHover={
+                      productItem.product_images[1] || "/lenseClrImg.png"
+                    }
                     colorOptionJustifyContent="center"
                     priceContainerJustifyContent="center"
                     iconamoonheartLight="/iconamoonheartlight-2.svg"
