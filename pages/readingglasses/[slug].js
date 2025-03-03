@@ -10,7 +10,6 @@ export const getServerSideProps = async ({ params }) => {
     if (!params?.slug) {
       return { notFound: true };
     }
-
     const res = await fetch(
       `https://apitrivsion.prismcloudhosting.com/api/products/category/${params?.slug?.toUpperCase()}`
     );
