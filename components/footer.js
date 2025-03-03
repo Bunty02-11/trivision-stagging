@@ -141,7 +141,7 @@ const Footer = memo(
                       className="flex-1 relative leading-[150%] font-medium cursor-pointer"
                       onClick={() => handleNavigation("/contact-lens/bella")}
                     >
-                      Contact Lens
+                      Contact Lenses
                     </div>
                   </div>
                   <div className="self-stretch flex flex-row items-start justify-start py-1 px-0">
