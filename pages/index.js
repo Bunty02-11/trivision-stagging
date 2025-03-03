@@ -17,17 +17,6 @@ import { Navigation } from "swiper/modules";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa"; // Import icons
 import BrandItems from "../components/brand-items";
 import { useRouter } from "next/router";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 4,
-};
 
 const Home = () => {
   const [newArrivals, setNewArrivals] = useState([]);

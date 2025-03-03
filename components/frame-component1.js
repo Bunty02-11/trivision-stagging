@@ -1,5 +1,5 @@
 "use client";
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
@@ -15,6 +15,8 @@ import axios from "axios";
 
 const FrameComponent1 = memo(({ className = "" }) => {
   const router = useRouter();
+  const searchRef = useRef(null);
+  const searchSuggestionsRef = useRef(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -225,7 +227,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
 
     try {
       const response = await fetch(
-        `https://apitrivsion.prismcloudhosting.com/api/products?search=${query}`
+        `https://apitrivsion.prismcloudhosting.com/api/products?title=${query}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -247,12 +249,13 @@ const FrameComponent1 = memo(({ className = "" }) => {
   // Use debounce for the API request
   const debouncedFetchSuggestions = debounce((query) => {
     fetchSuggestions(query);
-  }, 500);
+  }, 300);
 
   // Function to navigate to a specific route
   const handleNavigation = (path) => {
     router.push(path);
     setIsMobileMenuOpen(false);
+    setIsSearchOpen(false);
   };
 
   const toggleMenu = (setMenuState) => {
@@ -271,6 +274,15 @@ const FrameComponent1 = memo(({ className = "" }) => {
         !event.target.closest(".contact-lens-menu")
       ) {
         closeAllSidebars();
+      }
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsSearchOpen(false);
+      }
+      if (
+        searchSuggestionsRef.current &&
+        !searchSuggestionsRef.current.contains(event.target)
+      ) {
+        setSearchSuggestions([]);
       }
     };
 
@@ -403,7 +415,10 @@ const FrameComponent1 = memo(({ className = "" }) => {
               </div>
             </nav>
           </div>
-          <div className="w-44 flex flex-row items-start justify-start relative">
+          <div
+            className="w-44 flex flex-row items-start justify-start relative"
+            ref={searchRef}
+          >
             {isSearchOpen && (
               <input
                 type="text"
@@ -493,6 +508,7 @@ const FrameComponent1 = memo(({ className = "" }) => {
       {/* Suggestions Dropdown */}
       {searchSuggestions?.length > 0 && (
         <div
+          ref={searchSuggestionsRef}
           className="absolute w-[30%] right-0 top-[100%] bg-white border border-gray-300 shadow-md rounded-md"
           style={{ zIndex: 2 }}
         >
